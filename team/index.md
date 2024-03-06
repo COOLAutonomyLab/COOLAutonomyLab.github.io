@@ -20,6 +20,12 @@ Our lab is made up of a collaborative and diverse team of scientists. We value a
   include list.html
   data="members"
   component="portrait"
+  filters="role: researcher, group: current"
+%}
+{%
+  include list.html
+  data="members"
+  component="portrait"
   filters="role: postdoc, group: current"
 %}
 {%
@@ -27,12 +33,6 @@ Our lab is made up of a collaborative and diverse team of scientists. We value a
   data="members"
   component="portrait"
   filters="role: grad, group: current"
-%}
-{%
-  include list.html
-  data="members"
-  component="portrait"
-  filters="role: researcher, group: current"
 %}
 {%
   include list.html

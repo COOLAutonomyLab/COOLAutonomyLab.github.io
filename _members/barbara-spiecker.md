@@ -1,9 +1,9 @@
 ---
 name: Barbara Spiecker
 image: images/headshots/barbara-spiecker.jpg
-role: postdoc
+role: researcher
 group: current
-description: Postdoctoral Scholar
+description: Research Scientist
 aliases:
   - B Spiecker
   - B. Spiecker

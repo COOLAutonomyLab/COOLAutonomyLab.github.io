@@ -2,7 +2,7 @@
 name: Madeleine Wenger
 image: images/headshots/madeleine-wenger.jpg
 role: undergrad
-group: current
+group: alumni
 description: Undergraduate Researcher
 aliases: 
   - Madeleine Wenger
