@@ -43,7 +43,7 @@ I will likely accept 1-2 students in 2025. Students could work on a variety of p
 
 Our [lab handbook](https://github.com/QuantMarineEcoLab/lab-onboarding/blob/main/qmel-onboarding.md) is a living document and lays out expectations of lab members. 
 
-I can accept students through [UNH's Biological Sciences MS and PhD programs.](https://colsa.unh.edu/biological-sciences) There are specific programs in Integrative Biology (IB) and Marine Biology (MB). The priority deadline for Fall admission is January 15th each year. Although less common, I can also accept student through the [Oceanography](https://ceps.unh.edu/earth-sciences/academics) and [Integrated Applied Mathematics](https://ceps.unh.edu/integrated-applied-mathematics/academics) programs at UNH. If you are interested in working with me, I strongly recommended that you reach out to me before applying for graduate study. Graduate work is typically funded through a combination of fellowships, research positions, and teaching assistantships. Currently, the minimum yearly salary for a graduate student in QMEL is $30,996 per year (including summer). The salary increases each year and is higher if you already have a MS degree. Health insurance and tuition are also covered by the lab/university. When we make an offer to a graduate student, their funding  is described in detail in an offer letter. 
+I can accept students through [UNH's Biological Sciences MS and PhD programs.](https://colsa.unh.edu/biological-sciences) There are specific programs in Integrative Biology (IB) and Marine Biology (MB). The priority deadline for Fall admission is January 15th each year. Although less common, I can also accept student through the [Oceanography](https://ceps.unh.edu/earth-sciences/academics), [Natural Resources & Earth Systems Science](https://gradschool.unh.edu/natural-resources-earth-systems-science-phd), and [Integrated Applied Mathematics](https://ceps.unh.edu/integrated-applied-mathematics/academics) programs at UNH. If you are interested in working with me, I strongly recommended that you reach out to me before applying for graduate study. Graduate work is typically funded through a combination of fellowships, research positions, and teaching assistantships. Currently, the minimum yearly salary for a graduate student in QMEL is $30,996 per year (including summer). The salary increases each year and is higher if you already have a MS degree. Health insurance and tuition are also covered by the lab/university. When we make an offer to a graduate student, their funding  is described in detail in an offer letter. 
 
 I encourage my own students and applicants to apply for various grants and fellowships. I can help applicants apply for these opportunities. 
 - [Fulbright Program](https://us.fulbrightonline.org/) - this is for non-US residents to study and work in the US - due in October (depends a bit on the country) each year
@@ -59,6 +59,18 @@ I encourage my own students and applicants to apply for various grants and fello
 - [Another fellowship database](https://www.pathwaystoscience.org/grad.aspx)
 - [And yet another database](https://apps.grad.illinois.edu/fellowship-finder/SearchResult/selectedValues=11&31&28&SearchBy=)
 
+The curriculum in the biology graduate programs is flexible. Graduate students work with their advisor and committee to choose a set of courses. In my lab, it is common for students to take a mix of the following courses in their first two years. All incoming students take BIOL 901: Introductory Graduate Seminar. BIOL 901 is designed for you to build community within your cohort and learn about UNH.
+
+- BIOL 806: Data Science with R for the Life Sciences
+- BIOL 895: Theoretical Ecology
+- OE 895: Marine Ecosystem Modeling
+- NR 807: Environmental Modeling
+- BIOL 902: Scientific Writing
+- NR 905: Grant Writing
+- NR 909: Multivariate Statistics
+- NR 913: Hierarchical modeling and Bayesian Statistics
+- ANFS 933: Design, Analysis, and Interpretation of Experiments
+
 
 Depending on your specific interests, I might not be the best advisor for you at UNH. You may also want to reach out to [Dr. Melissa Aikens (plants, biology education)](https://colsa.unh.edu/person/melissa-aikens), [Dr. Elizabeth Fairchild (fish, fisheries)](https://colsa.unh.edu/person/elizabeth-fairchild), [Dr. Nathan Furey (fishes, sharks, animal movement)](https://colsa.unh.edu/person/nathan-furey), [Dr. Elizabeth Harvey (phytoplankton, harmful algal blooms)](https://colsa.unh.edu/person/elizabeth-harvey), [Dr. Brittany Jellison (marine invertebrates, intertidal systems, climate change)](https://colsa.unh.edu/person/brittany-jellison), [Dr. Gregg Moore (marine plants, restoration)](https://colsa.unh.edu/person/gregg-moore), and others in the [Biology Department](https://colsa.unh.edu/biological-sciences/people) or within the [College of Life Science And Agriculture](https://colsa.unh.edu/). 
 
@@ -67,7 +79,7 @@ Depending on your specific interests, I might not be the best advisor for you at
 
 ## Postdoctoral fellows
 
-In 2024, I may recruit for a postdoctoral fellow. The applicant would be expected to have a strong data science or mathematical background. There is a lot of flexibility for a postdoc to choose their own specific projects. Projects will revolve around small-scale and industrial fisheries questions, especially in relation to our [ongoing work in Madagascar](https://www.nsf.gov/awardsearch/showAward?AWD_ID=1923707&HistoricalAwards=false).  I will begin reviewing applications on Oct 25, 2023. The position start date is flexible, but January 2024 is ideal. Applicants must have a desire to mentor and promote an inclusive environment. If you are interested, please send an email and CV to Easton White (<Easton.White@unh.edu>). 
+In Fall 2024, I may recruit for a postdoctoral fellow. The applicant would be expected to have a strong data science or mathematical background. There is a lot of flexibility for a postdoc to choose their own specific projects. Projects will revolve around small-scale and industrial fisheries questions, especially in relation to our [ongoing work in Madagascar](https://www.nsf.gov/awardsearch/showAward?AWD_ID=1923707&HistoricalAwards=false).  I will begin reviewing applications on Oct 25, 2023. The position start date is flexible, but January 2024 is ideal. Applicants must have a desire to mentor and promote an inclusive environment. If you are interested, please send an email and CV to Easton White (<Easton.White@unh.edu>). 
 
 
 
