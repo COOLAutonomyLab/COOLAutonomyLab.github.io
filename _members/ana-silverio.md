@@ -2,7 +2,7 @@
 name: Ana Silverio
 image: images/Ana-Silverio.JPG
 role: grad
-group: current
+group: alumni
 description: Graduate student
 aliases:
   - A. Silverio

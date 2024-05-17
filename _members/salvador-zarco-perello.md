@@ -2,7 +2,7 @@
 name: Salvador Zarco-Perello
 image: images/headshots/salvador-zarco-perello.png
 role: postdoc
-group: current
+group: alumni
 description: Postdoctoral Scholar
 aliases:
   - S. Zarco-Perello
