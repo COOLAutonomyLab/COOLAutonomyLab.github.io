@@ -7,8 +7,6 @@
     - type: source
       link: https://github.com/swulfing/OCyanea
       text: Code
-    - type: preprint
-      link: https://doi.org/10.1101/2023.04.28.537864 
   tags:
     - fisheries
     - Madagascar
