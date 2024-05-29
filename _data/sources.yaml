@@ -1,4 +1,26 @@
 
+- id: 10.1016/j.fishres.2024.107045
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_Wulfing_etal_FishRes.jpg
+  extra-links:
+    - type: pdf
+      link: pdfs/2024_Wulfing_etal_FishRes.pdf
+    - type: source
+      link: https://github.com/swulfing/OCyanea
+      text: Code
+    - type: preprint
+      link: https://doi.org/10.1101/2023.04.28.537864 
+  tags:
+    - fisheries
+    - Madagascar
+    - mathematical model
+
+
+
+
+
+
+
+
 - id: 10.32942/X29W4W
   image: https://quantmarineecolab.github.io/images/journal_covers/ecoevorxiv.jpg
   extra-links:
