@@ -23,7 +23,7 @@ nav:
 
 
 # base directory where site is hosted
-logo: 
+logo: QMEL_Lab_logo2.png
 header: images/background.png
 footer: images/background.png
 baseurl: /
@@ -31,7 +31,7 @@ baseurl: /
 # site social media and other links
 links:
   email: Easton.White@unh.edu 
-  google-scholar: A_g_ydoAAAAJ&hl
+  google-scholar: ImCoyF0AAAAJ&hl
   github: quantmarineecolab
   twitter: eastonrwhite
   instagram: quantmarineecolab
