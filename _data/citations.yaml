@@ -1,5 +1,27 @@
 # GENERATED AUTOMATICALLY, DO NOT EDIT
 
+- id: 10.1016/j.fishres.2024.107045
+  title: Assessing the need for temporary fishing closures to support sustainability
+    for a small-scale octopus fishery
+  authors:
+  - Sophie Wulfing
+  - Ahilya Kadba
+  - "Mez Baker-M\xE9dard"
+  - Easton R. White
+  publisher: Fisheries Research
+  date: '2024-08-01'
+  link: https://doi.org/gtwxpk
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_Wulfing_etal_FishRes.jpg
+  extra-links:
+  - type: pdf
+    link: pdfs/2024_Wulfing_etal_FishRes.pdf
+  - type: source
+    link: https://github.com/swulfing/OCyanea
+    text: Code
+  tags:
+  - fisheries
+  - Madagascar
+  - mathematical model
 - id: 10.32942/X29W4W
   title: Predicting organismal response to marine heatwaves using mechanistic thermal
     landscape models
