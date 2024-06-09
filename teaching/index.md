@@ -17,7 +17,6 @@ I view teaching as a highly scientific enterprise. I read literature on pedagogy
 
 {%
   include gallery.html
-  style="square"
 
   image1="images/teaching/r_by_the_sea_hex.png"
   link1="https://quantmarineecolab.github.io/r-by-the-sea/"
