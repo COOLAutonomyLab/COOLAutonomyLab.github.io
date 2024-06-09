@@ -1,5 +1,27 @@
 # GENERATED AUTOMATICALLY, DO NOT EDIT
 
+- id: 10.1111/1365-2656.14120
+  title: Predicting organismal response to marine heatwaves using dynamic thermal
+    tolerance landscape models
+  authors:
+  - Andrew R. Villeneuve
+  - Easton R. White
+  publisher: Journal of Animal Ecology
+  date: '2024-06-08'
+  link: https://doi.org/gtxzmg
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_VilleneuveWhite_JAnimEco.jpg
+  extra-links:
+  - type: pdf
+    link: pdfs/2024_VilleneuveWhite_JAnimEco.pdf
+  - type: source
+    link: https://doi.org/10.5061/dryad.8w9ghx3tx
+    text: Code
+  tags:
+  - shellfish
+  - climate change
+  - mechanistic model
+  - extreme events
+  - heatwaves
 - id: 10.1016/j.fishres.2024.107045
   title: Assessing the need for temporary fishing closures to support sustainability
     for a small-scale octopus fishery
