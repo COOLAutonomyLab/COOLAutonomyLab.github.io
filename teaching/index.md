@@ -9,7 +9,35 @@ nav:
 
 
 
-I (Easton White) view teaching as a highly scientific enterprise. I read literature on pedagogy and form hypotheses about teaching, conduct experiments in the classroom to test these hypotheses, examine the results, and adjust my teaching approach accordingly. In my teaching, I use a mix of active learning techniques (e.g. flipped classes, think-pair-share, Jigsaws) in line with evidence-based pedagogy. I believe it is important for students to work on important, real-life case studies throughout the curriculum. In each of my courses, I teach more than only the specific course content. I also teach transferable skills, connections to other disciplines, and the interaction between science and culture, especially related to systemic racism and sexism. 
+I view teaching as a highly scientific enterprise. I read literature on pedagogy and form hypotheses about teaching, conduct experiments in the classroom to test these hypotheses, examine the results, and adjust my teaching approach accordingly. In my teaching, I use a mix of active learning techniques (e.g. flipped classes, think-pair-share, Jigsaws) in line with evidence-based pedagogy. I believe it is important for students to work on important, real-life case studies throughout the curriculum. In each of my courses, I teach more than only the specific course content. I also teach transferable skills, connections to other disciplines, and the interaction between science and culture, especially related to systemic racism and sexism. 
+
+
+{% include section.html %}
+
+
+{%
+  include gallery.html
+  style="square"
+
+  image1="images/teaching/r_by_the_sea_hex.png"
+  link1="https://quantmarineecolab.github.io/r-by-the-sea/"
+  tooltip1="R by the Sea"
+
+  image2="images/teaching/r_by_the_sea_hex.png"
+  link2="https://quantmarineecolab.github.io/r-by-the-sea/"
+  tooltip2="R by the Sea"
+
+  image3="images/teaching/r_by_the_sea_hex.png"
+  link3="https://quantmarineecolab.github.io/r-by-the-sea/"
+  tooltip3="R by the Sea"
+
+  image4="images/teaching/r_by_the_sea_hex.png"
+  link4="https://quantmarineecolab.github.io/r-by-the-sea/"
+  tooltip4="R by the Sea"
+  
+
+%}
+
 
 {% include section.html %}
 
