@@ -1,4 +1,23 @@
 
+
+- id: 10.1111/1365-2656.14120
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_VilleneuveWhite_JAnimEco.jpg
+  extra-links:
+    - type: pdf
+      link: pdfs/2024_VilleneuveWhite_JAnimEco.pdf
+    - type: source
+      link: https://doi.org/10.5061/dryad.8w9ghx3tx
+      text: Code
+  tags:
+    - shellfish
+    - climate change
+    - mechanistic model
+    - extreme events
+    - heatwaves
+
+
+
+
 - id: 10.1016/j.fishres.2024.107045
   image: https://quantmarineecolab.github.io/images/journal_covers/2024_Wulfing_etal_FishRes.jpg
   extra-links:
