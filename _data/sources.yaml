@@ -26,6 +26,9 @@
     - type: source
       link: https://doi.org/10.5061/dryad.8w9ghx3tx
       text: Code
+    - type: preprint
+      link: https://ecoevorxiv.org/repository/view/6604/
+      text: Preprint
   tags:
     - shellfish
     - climate change
@@ -52,18 +55,7 @@
 
 
 
-- id: 10.32942/X29W4W
-  image: https://quantmarineecolab.github.io/images/journal_covers/ecoevorxiv.jpg
-  extra-links:
-    - type: pdf
-      link: pdfs/2024_VilleneuveWhite_ecoevorxiv.pdf
-    - type: source
-      link: https://github.com/villesci/mhw_simulation_manuscript
-      text: Code
-  tags:
-    - extreme events
-    - oysters
-    - heatwaves
+
 
 
 
