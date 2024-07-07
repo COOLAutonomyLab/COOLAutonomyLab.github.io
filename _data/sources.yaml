@@ -9,6 +9,9 @@
     - type: source
       link: https://github.com/QuantMarineEcoLab/socio-eco-shocks
       text: Code
+    - type: preprint
+      link: https://doi.org/10.32942/X29G7W
+      text: Preprint
   tags:
     - socio-ecological
     - mechanistic model
@@ -99,16 +102,6 @@
 
 
 
-
-
-- id: 10.32942/X29G7W
-  image: https://quantmarineecolab.github.io/images/journal_covers/ecoevorxiv.jpg
-  extra-links:
-    - type: pdf
-      link: pdfs/2023_WhiteWulfing_ecoevorxiv.pdf
-  tags:
-    - socio-ecological
-    - fisheries
 
 
 
