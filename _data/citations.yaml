@@ -1,5 +1,28 @@
 # GENERATED AUTOMATICALLY, DO NOT EDIT
 
+- id: 10.1016/j.ecolmodel.2024.110786
+  title: Extreme events and coupled socio-ecological systems
+  authors:
+  - Easton R. White
+  - Sophie Wulfing
+  publisher: Ecological Modelling
+  date: '2024-09-01'
+  link: https://doi.org/gt3rp5
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_WhiteWulfing_EcoMod.png
+  extra-links:
+  - type: pdf
+    link: pdfs/2024_WhiteWulfing_EcoMod.pdf
+  - type: source
+    link: https://github.com/QuantMarineEcoLab/socio-eco-shocks
+    text: Code
+  - type: preprint
+    link: https://doi.org/10.32942/X29G7W
+    text: Preprint
+  tags:
+  - socio-ecological
+  - mechanistic model
+  - extreme events
+  - heatwaves
 - id: 10.1111/1365-2656.14120
   title: Predicting organismal response to marine heatwaves using dynamic thermal
     tolerance landscape models
@@ -16,6 +39,9 @@
   - type: source
     link: https://doi.org/10.5061/dryad.8w9ghx3tx
     text: Code
+  - type: preprint
+    link: https://ecoevorxiv.org/repository/view/6604/
+    text: Preprint
   tags:
   - shellfish
   - climate change
@@ -44,26 +70,6 @@
   - fisheries
   - Madagascar
   - mathematical model
-- id: 10.32942/X29W4W
-  title: Predicting organismal response to marine heatwaves using mechanistic thermal
-    landscape models
-  authors:
-  - Andrew Villeneuve
-  - Easton White
-  publisher: California Digital Library (CDL)
-  date: '2024-01-23'
-  link: https://doi.org/gtg9gs
-  image: https://quantmarineecolab.github.io/images/journal_covers/ecoevorxiv.jpg
-  extra-links:
-  - type: pdf
-    link: pdfs/2024_VilleneuveWhite_ecoevorxiv.pdf
-  - type: source
-    link: https://github.com/villesci/mhw_simulation_manuscript
-    text: Code
-  tags:
-  - extreme events
-  - oysters
-  - heatwaves
 - id: 10.1186/s44263-023-00028-z
   title: The unintended consequences of inconsistent closure policies and mobility
     restrictions during epidemics
@@ -125,21 +131,6 @@
   tags:
   - ecological networks
   - monitoring
-- id: 10.32942/X29G7W
-  title: Extreme events and coupled socio-ecological systems
-  authors:
-  - Easton White
-  - Sophie Wulfing
-  publisher: California Digital Library (CDL)
-  date: '2023-11-20'
-  link: https://doi.org/gs52pj
-  image: https://quantmarineecolab.github.io/images/journal_covers/ecoevorxiv.jpg
-  extra-links:
-  - type: pdf
-    link: pdfs/2023_WhiteWulfing_ecoevorxiv.pdf
-  tags:
-  - socio-ecological
-  - fisheries
 - id: 10.32942/X2J60N
   title: Industrial fishing compliance with a new marine corridor near the Galapagos
     Islands
