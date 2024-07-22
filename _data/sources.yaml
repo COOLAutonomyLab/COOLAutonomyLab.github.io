@@ -1,6 +1,40 @@
 
 
 
+- id: 10.3390/su16146078
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_BakerMedard_etal_Sustainability.jpg
+  extra-links:
+    - type: pdf
+      link: pdfs/2024_BakerMedard_etal_Sustainability.pdf
+  tags:
+    - socio-ecological
+    - marine conservation
+
+
+
+
+
+
+- id: 10.1016/j.ecolmodel.2024.110786
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_WhiteWulfing_EcoMod.png
+  extra-links:
+    - type: pdf
+      link: pdfs/2024_WhiteWulfing_EcoMod.pdf
+    - type: source
+      link: https://github.com/QuantMarineEcoLab/socio-eco-shocks
+      text: Code
+    - type: preprint
+      link: https://doi.org/10.32942/X29G7W
+      text: Preprint
+  tags:
+    - socio-ecological
+    - mechanistic model
+    - extreme events
+    - heatwaves
+
+
+
+
 - id: 10.1016/j.ecolmodel.2024.110786
   image: https://quantmarineecolab.github.io/images/journal_covers/2024_WhiteWulfing_EcoMod.png
   extra-links:
@@ -32,6 +66,8 @@
     - type: preprint
       link: https://ecoevorxiv.org/repository/view/6604/
       text: Preprint
+    - type: blog 
+      link: https://animalecologyinfocus.com/2024/06/12/an-organismal-crystal-ball-during-marine-heatwaves-predicting-death-across-heat-doses/
   tags:
     - shellfish
     - climate change
