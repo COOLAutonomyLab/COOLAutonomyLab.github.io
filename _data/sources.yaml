@@ -36,25 +36,6 @@
 
 
 
-- id: 10.1016/j.ecolmodel.2024.110786
-  image: https://quantmarineecolab.github.io/images/journal_covers/2024_WhiteWulfing_EcoMod.png
-  extra-links:
-    - type: pdf
-      link: pdfs/2024_WhiteWulfing_EcoMod.pdf
-    - type: source
-      link: https://github.com/QuantMarineEcoLab/socio-eco-shocks
-      text: Code
-    - type: preprint
-      link: https://doi.org/10.32942/X29G7W
-      text: Preprint
-  tags:
-    - socio-ecological
-    - mechanistic model
-    - extreme events
-    - heatwaves
-
-
-
 
 - id: 10.1111/1365-2656.14120
   image: https://quantmarineecolab.github.io/images/journal_covers/2024_VilleneuveWhite_JAnimEco.jpg
