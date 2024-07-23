@@ -1,5 +1,25 @@
 # GENERATED AUTOMATICALLY, DO NOT EDIT
 
+- id: 10.3390/su16146078
+  title: 'Socialscape Ecology: Integrating Social Features and Processes into Spatially
+    Explicit Marine Conservation Planning'
+  authors:
+  - "Merrill Baker-M\xE9dard"
+  - Katherine Concannon
+  - Courtney Gantt
+  - Sierra Moen
+  - Easton R. White
+  publisher: Sustainability
+  date: '2024-07-16'
+  link: https://doi.org/gt43f9
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_BakerMedard_etal_Sustainability.jpg
+  extra-links:
+  - type: pdf
+    link: pdfs/2024_BakerMedard_etal_Sustainability.pdf
+  tags:
+  - socio-ecological
+  - marine conservation
+  - fisheries
 - id: 10.1016/j.ecolmodel.2024.110786
   title: Extreme events and coupled socio-ecological systems
   authors:
@@ -42,6 +62,8 @@
   - type: preprint
     link: https://ecoevorxiv.org/repository/view/6604/
     text: Preprint
+  - type: blog
+    link: https://animalecologyinfocus.com/2024/06/12/an-organismal-crystal-ball-during-marine-heatwaves-predicting-death-across-heat-doses/
   tags:
   - shellfish
   - climate change
