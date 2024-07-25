@@ -25,6 +25,19 @@ One of my main commitments as a faculty member is promoting and supporting diver
 
 
 
+## Lab opening - research scientist 
+
+The lab is currently hiring a masters or PhD level research scientist (which could be a postdoc if at the PhD level). The scientist will also work closely with the Jellison Lab at UNH.
+
+We are currently accepting applications for someone to start in Fall 2024. The scientist will help lead our oyster research program. The work involves using big data and sensors to understand how oysters are [affected by stressors in the lab and the field](https://quantmarineecolab.github.io/research/seafood/#shellfish-aquaculture).
+
+Applicants that will be the most competitive for a position will have expertise using R and quantitative tools (e.g., mathematical modeling, statistics), some animal husbandry or field work, mentoring, and project management. 
+
+After completing this [form](https://forms.gle/j9r2GEvEMHmgBSZQA), please send <Easton.White@unh.edu> a CV and brief introduction, including details of your prior research experience, as well as your research interests and goals and how you think these align with my research program. If you are at the postdoc level, you can read more below about postdocs in the lab. 
+
+
+
+
 
 ## Undergraduate students
 
