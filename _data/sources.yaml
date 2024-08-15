@@ -1,6 +1,7 @@
 
 
 
+<<<<<<< HEAD
 
 - id: 10.7717/peerj.17832
   image: https://quantmarineecolab.github.io/images/journal_covers/2022_White_etal_PeerJ.png
@@ -17,6 +18,20 @@
     - aquaculture
     - fisheries
     - climate change
+=======
+- id: 10.3390/su16146078
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_BakerMedard_etal_Sustainability.jpg
+  extra-links:
+    - type: pdf
+      link: pdfs/2024_BakerMedard_etal_Sustainability.pdf
+  tags:
+    - socio-ecological
+    - marine conservation
+    - fisheries
+
+
+
+>>>>>>> 9141a3d27d111ffff4768d87ce7f472172170912
 
 
 
@@ -40,6 +55,7 @@
 
 
 
+
 - id: 10.1111/1365-2656.14120
   image: https://quantmarineecolab.github.io/images/journal_covers/2024_VilleneuveWhite_JAnimEco.jpg
   extra-links:
@@ -51,6 +67,8 @@
     - type: preprint
       link: https://ecoevorxiv.org/repository/view/6604/
       text: Preprint
+    - type: blog 
+      link: https://animalecologyinfocus.com/2024/06/12/an-organismal-crystal-ball-during-marine-heatwaves-predicting-death-across-heat-doses/
   tags:
     - shellfish
     - climate change
