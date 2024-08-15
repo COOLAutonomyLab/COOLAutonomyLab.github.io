@@ -1,6 +1,25 @@
 
 
 
+
+- id: 10.7717/peerj.17832
+  image: https://quantmarineecolab.github.io/images/journal_covers/2022_White_etal_PeerJ.png
+  extra-links:
+    - type: pdf
+      link: pdfs/2024_Fairchild_etal_PeerJ.pdf
+    - type: source
+      link: https://github.com/swulfing/TeamLump
+      text: Code
+    - type: preprint
+      link: https://doi.org/10.32942/X25P7Q
+      text: Preprint
+  tags:
+    - aquaculture
+    - fisheries
+    - climate change
+
+
+
 - id: 10.1016/j.ecolmodel.2024.110786
   image: https://quantmarineecolab.github.io/images/journal_covers/2024_WhiteWulfing_EcoMod.png
   extra-links:
