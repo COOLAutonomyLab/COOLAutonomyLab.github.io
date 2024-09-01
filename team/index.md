@@ -152,5 +152,8 @@ Our work is made possible by funding from several organizations.
     image8="images/nhaes_logo.png"
   link8="https://colsa.unh.edu/new-hampshire-agricultural-experiment-station"
   tooltip8="New Hampshire Agricultural Experiment Station"
-
+  
+      image9="images/logos/USDA_logo.png"
+  link9="https://www.usda.gov/"
+  tooltip9="United States Department of Agriculture"
 %}
