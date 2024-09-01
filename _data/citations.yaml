@@ -1,5 +1,49 @@
 # GENERATED AUTOMATICALLY, DO NOT EDIT
 
+- id: 10.7717/peerj.17832
+  title: 'Lumpfish, <i>Cyclopterus lumpus</i>, distribution in the Gulf of Maine,
+    USA: observations from fisheries independent and dependent catch data'
+  authors:
+  - Elizabeth A. Fairchild
+  - Sophie Wulfing
+  - Easton R. White
+  publisher: PeerJ
+  date: '2024-08-14'
+  link: https://doi.org/gt8jn3
+  image: https://quantmarineecolab.github.io/images/journal_covers/2022_White_etal_PeerJ.png
+  extra-links:
+  - type: pdf
+    link: pdfs/2024_Fairchild_etal_PeerJ.pdf
+  - type: source
+    link: https://github.com/swulfing/TeamLump
+    text: Code
+  - type: preprint
+    link: https://doi.org/10.32942/X25P7Q
+    text: Preprint
+  tags:
+  - aquaculture
+  - fisheries
+  - climate change
+- id: 10.3390/su16146078
+  title: 'Socialscape Ecology: Integrating Social Features and Processes into Spatially
+    Explicit Marine Conservation Planning'
+  authors:
+  - "Merrill Baker-M\xE9dard"
+  - Katherine Concannon
+  - Courtney Gantt
+  - Sierra Moen
+  - Easton R. White
+  publisher: Sustainability
+  date: '2024-07-16'
+  link: https://doi.org/gt43f9
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_BakerMedard_etal_Sustainability.jpg
+  extra-links:
+  - type: pdf
+    link: pdfs/2024_BakerMedard_etal_Sustainability.pdf
+  tags:
+  - socio-ecological
+  - marine conservation
+  - fisheries
 - id: 10.1016/j.ecolmodel.2024.110786
   title: Extreme events and coupled socio-ecological systems
   authors:
@@ -42,6 +86,8 @@
   - type: preprint
     link: https://ecoevorxiv.org/repository/view/6604/
     text: Preprint
+  - type: blog
+    link: https://animalecologyinfocus.com/2024/06/12/an-organismal-crystal-ball-during-marine-heatwaves-predicting-death-across-heat-doses/
   tags:
   - shellfish
   - climate change
