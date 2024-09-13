@@ -1,5 +1,43 @@
 # GENERATED AUTOMATICALLY, DO NOT EDIT
 
+- id: 10.1121/10.0028204
+  title: The effect of localized disturbance on the acoustic behavior of the common
+    tern (<i>Sterna hirundo</i>)
+  authors:
+  - J. E. Brosseau
+  - V. M. Eddington
+  - E. C. Craig
+  - E. R. White
+  - L. N. Kloepper
+  publisher: JASA Express Letters
+  date: '2024-08-01'
+  link: https://doi.org/gwj72v
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_Brosseau_etal_JASA.jpg
+  extra-links:
+  - type: pdf
+    link: pdfs/2024_Brosseau_etal_JASA.pdf
+  tags:
+  - disturbance
+  - acoustics
+  - seabirds
+- id: 10.1093/jmammal/gyae083
+  title: Fifty-year population trajectory in a marginal American Pika (<i>Ochotona
+    princeps</i>) population
+  authors:
+  - Andrew T Smith
+  - Constance I Millar
+  - Easton R White
+  publisher: Journal of Mammalogy
+  date: '2024-08-26'
+  link: https://doi.org/gwj725
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_Smith_etal_Mammology.jpeg
+  extra-links:
+  - type: pdf
+    link: pdfs/2024_Smith_etal_Mammology.pdf
+  tags:
+  - pikas
+  - spatial ecology
+  - climate change
 - id: 10.7717/peerj.17832
   title: 'Lumpfish, <i>Cyclopterus lumpus</i>, distribution in the Gulf of Maine,
     USA: observations from fisheries independent and dependent catch data'
