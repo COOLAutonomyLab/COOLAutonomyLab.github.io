@@ -1,6 +1,32 @@
 
 
 
+- id: 10.1121/10.0028204
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_Brosseau_etal_JASA.jpg
+  extra-links:
+    - type: pdf
+      link: pdfs/2024_Brosseau_etal_JASA.pdf
+  tags:
+    - disturbance
+    - acoustics
+    - seabirds
+
+
+
+
+- id: 10.1093/jmammal/gyae083
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_Smith_etal_Mammology.jpeg
+  extra-links:
+    - type: pdf
+      link: pdfs/2024_Smith_etal_Mammology.pdf
+  tags:
+    - pikas
+    - spatial ecology
+    - climate change
+
+
+
+
 
 - id: 10.7717/peerj.17832
   image: https://quantmarineecolab.github.io/images/journal_covers/2022_White_etal_PeerJ.png
