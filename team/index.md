@@ -5,28 +5,15 @@ nav:
   tooltip: About our team
 ---
 
-# <i class="fas fa-users"></i>Team
-
-
-
+# <i class="fas fa-users"></i>Principal Investigator
 {%
   include list.html
   data="members"
   component="portrait"
   filters="role: pi, group: current"
 %}
-{%
-  include list.html
-  data="members"
-  component="portrait"
-  filters="role: researcher, group: current"
-%}
-{%
-  include list.html
-  data="members"
-  component="portrait"
-  filters="role: postdoc, group: current"
-%}
+
+# <i class="fas fa-users"></i>Graduate Students
 {%
   include list.html
   data="members"
@@ -72,7 +59,7 @@ There are often openings for graduate students and postdoctoral fellows within t
 
 
 
-# Alumni
+# <i class="fas fa-users"></i>Alumni
 
 {%
   include list.html
@@ -112,53 +99,3 @@ There are often openings for graduate students and postdoctoral fellows within t
 %}
 {:.center}
 
-
-
-{% include section.html %}
-
-
-## Funding
-
-Our work is made possible by funding from several organizations.
-{:.center}
-
-{%
-  include gallery.html
-  style="square"
-
-  image1="images/NSF_Logo.png"
-  link1="https://www.nsf.gov/"
-  tooltip1="National Science Foundation"
-
-  image2="images/Gund_logo.png"
-  link2="https://www.uvm.edu/gund"
-  tooltip2="Gund Institute"
-
-  image3="images/fulbright-logo.png"
-  link3="https://cies.org/"
-  tooltip3="Fulbright Program"
-
-  image4="images/cdf_logo.png"
-  link4="https://darwinfoundation.org/en//"
-  tooltip4="Charles Darwin Foundation"
-  
-  image5="images/unh_logo.png"
-  link5="https://www.unh.edu/"
-  tooltip5="University of New Hampshire"
-  
-    image6="images/nhsg-logo-blue.png"
-  link6="https://seagrant.unh.edu/"
-  tooltip6="New Hampshire Sea Grant"
-  
-    image7="images/prep_horiz.png"
-  link7="https://prepestuaries.org/who-we-are/about-prep/"
-  tooltip7="Piscataqua Region Estuaries Partnership"
-  
-    image8="images/nhaes_logo.png"
-  link8="https://colsa.unh.edu/new-hampshire-agricultural-experiment-station"
-  tooltip8="New Hampshire Agricultural Experiment Station"
-  
-      image9="images/logos/USDA_logo.png"
-  link9="https://www.usda.gov/"
-  tooltip9="United States Department of Agriculture"
-%}
