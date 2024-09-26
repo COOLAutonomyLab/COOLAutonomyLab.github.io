@@ -1,8 +1,8 @@
 ---
-title: NSF-CAREER: Foundations of Scalable and Resilient Distributed Real-Time Decision Making in Open Multi-Agent Systems
+title: NSF-CAREER
 ---
 
-# <i class="fas socioeco"></i> Distributed Real-Time Decision Making
+# <i class="fas socioeco"></i> Foundations of Scalable and Resilient Distributed Real-Time Decision Making in Open Multi-Agent Systems
 
 {%
   include feature.html
