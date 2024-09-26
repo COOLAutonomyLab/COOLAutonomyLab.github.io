@@ -31,7 +31,13 @@ nav:
   include list.html
   data="members"
   component="portrait"
-  filters="role: grad, group: current"
+  filters="role: phd, group: current"
+%}
+{%
+  include list.html
+  data="members"
+  component="portrait"
+  filters="role: ms, group: current"
 %}
 {%
   include list.html
