@@ -2,10 +2,10 @@
 title: Home
 ---
 
-# Quantitative tools to address ocean challenges
+# Real-Time Decision Making for Autonomy
 
 
-The Quantitative Marine Ecology lab at the [University of New Hampshire](https://colsa.unh.edu/biological-sciences) is a team of scientists combining field observations with mathematical and statistical tools to address the most pressing issues in the oceans. We address questions related to population ecology, socio-ecological systems, species monitoring, fisheries, and sustainable seafood. A common thread throughout our work is the role of environmental variability, particularly rare events like heatwaves or global pandemics. We currently conduct research in Madagascar, the Eastern Tropical Pacific, and New Hampshire.
+The Control, Optimization, and Learning for Autonomy lab at the [University of Texas, Austin](https://www.ae.utexas.edu) is a team of scientists 
 
 
 
