@@ -1,13 +1,12 @@
 ---
 title: Team
 nav:
-  order: 4
+  order: 1
   tooltip: About our team
 ---
 
 # <i class="fas fa-users"></i>Team
 
-Our lab is made up of a collaborative and diverse team of scientists. We value and actively work to create a lab, university, and community that is more diverse, inclusive, and equitable.
 
 
 {%
