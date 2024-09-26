@@ -1,10 +1,10 @@
 ---
 title: Home
 - images:
-  - image = images/group/Mathew-defense.jpg
-  - image = images/group/Amit-cci.jpg
-  - image = images/group/Mathew-party.JPG
-  - image = images/group/group1.JPG
+  - image: images/group/Mathew-defense.jpg
+  - image: images/group/Amit-cci.jpg
+  - image: images/group/Mathew-party.JPG
+  - image: images/group/group1.JPG
 ---
 
 # Real-Time Decision Making for Autonomy
