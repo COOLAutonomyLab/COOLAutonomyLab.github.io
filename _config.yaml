@@ -1,7 +1,7 @@
 # site properties and page defaults
 title: Control, Optimization, and Learning for Autonomy Lab
-header: images/background.png
-footer: images/background.png
+header: images/ut-campus.jpeg
+footer: images/ut-campus.png
 
 # site nav bar
 nav:
@@ -12,9 +12,9 @@ nav:
 
 
 # base directory where site is hosted
-logo: logo.jpg
-header: images/background.png
-footer: images/background.png
+logo: logo.png
+header: images/ut-campus.jpeg
+footer: images/ut-campus.png
 baseurl: /
 
 # site social media and other links
