@@ -17,6 +17,6 @@ The research focus of COoL Autonomy Lab is to develop advanced real-time decisio
   tooltip1="NSF CAREER Project"
 
   image2="images/research/YIP/wireless-ra.jpg"
-  link1="https://coolautonomylab.github.io/research/YIP"
-  tooltip1="AFOSR YIP Project"
+  link2="https://coolautonomylab.github.io/research/YIP"
+  tooltip2="AFOSR YIP Project"
 %}
