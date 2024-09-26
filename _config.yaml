@@ -1,5 +1,6 @@
 # site properties and page defaults
 title: Control, Optimization, and Learning for Autonomy Lab
+logo: logo.png
 header: images/ut-campus.jpeg
 footer: images/ut-campus.png
 
@@ -70,5 +71,3 @@ plugins:
 theme: null
 
 
-# Google Analytics
-google_analytics: G-QF28DYFVNL
