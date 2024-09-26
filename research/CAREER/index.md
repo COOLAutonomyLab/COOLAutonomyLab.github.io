@@ -11,6 +11,3 @@ title: NSF-CAREER: Foundations of Scalable and Resilient Distributed Real-Time D
 
 
 
-
-{% include section.html %}
-
