@@ -1,40 +1,26 @@
 # site properties and page defaults
-title: Quantitative Marine Ecology Lab
-description: quantitative ecology, fisheries, seafood, socio-ecological systems, science education
+title: Control, Optimization, and Learning for Autonomy Lab
 header: images/background.png
 footer: images/background.png
 
 # site nav bar
 nav:
-  - link: publications
-    tooltip: Published works
-  - research:
-    tooltip: Research interests
-  - teaching:
-    tooltip: Teaching
   - link: team
-    tooltip: About our team
-  - link: news
-    tooltip: News and commentary
+  - link: research
+  - link: publication
   - link: join
-    tooltip: Join the lab
-  - link: contact
-    tooltip: Email, address, and location
 
 
 # base directory where site is hosted
-logo: QMEL_Lab_logo2.png
+logo: logo.jpg
 header: images/background.png
 footer: images/background.png
 baseurl: /
 
 # site social media and other links
 links:
-  email: Easton.White@unh.edu 
-  google-scholar: ImCoyF0AAAAJ&hl
-  github: quantmarineecolab
-  twitter: eastonrwhite
-  instagram: quantmarineecolab
+  google-scholar: xxxxx
+  twitter: xxxx
 
 ### advanced settings
 
