@@ -6,7 +6,7 @@ title: NSF-CAREER
 
 {%
   include feature.html
-  image="images/research/CAREER/drone-fire.jpg"
+  image="images/research/CAREER/drone-fires.jpg"
 %}
 
 
