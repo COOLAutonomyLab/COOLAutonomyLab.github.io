@@ -1,6 +1,6 @@
 ---
 name: Thinh Doan
-image: images/thinhdoan.jpeg
+image: images/thinhdoan.jpg
 role: pi
 ---
 
