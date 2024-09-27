@@ -1,5 +1,5 @@
 ---
-title: Join
+title: Join Us!
 nav:
   order: 5
 ---
