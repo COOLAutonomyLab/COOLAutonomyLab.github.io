@@ -5,7 +5,7 @@ nav:
 ---
 
 # <i class="fas research"></i>Research
-The research focus of COoL Autonomy Lab is to develop advanced real-time decision-making strategies, leveraging tools from control, optimization, and probability theories, to enable autonomous agents complementing humans in performing complex tasks. Agents can be unmanned autonomous vehicles (UAV) or wireless devices having some communication and computation capabilities that can make real-time decisions. For example, in wildfire monitoring UAV are used for autonomous data collection of wildfire boundaries to support firefighters in making real-time decisions to protect communities and infrastructures. We frequently interact with practioners and scientists to bring our development to solve real-world problems.           
+The research focus of COOL Autonomy Lab is to develop advanced real-time decision-making strategies, leveraging tools from control, optimization, and probability theories, to enable autonomous agents complementing humans in performing complex tasks. Agents can be unmanned autonomous vehicles (UAV) or wireless devices having some communication and computation capabilities that can make real-time decisions. For example, in wildfire monitoring UAV are used for autonomous data collection of wildfire boundaries to support firefighters in making real-time decisions to protect communities and infrastructures. We frequently interact with practioners and scientists to bring our development to solve real-world problems.           
 **Technical areas**: reinforcement learning, learning in games, distributed learning and optimization, generative AI, generative diffusion models, fault-tolerance  
 
 {%
