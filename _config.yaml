@@ -4,6 +4,10 @@ logo: images/logo.png
 header: images/ut-campus.jpeg
 footer: images/ut-campus.png
 
+# Markdown
+markdown:           kramdown
+
+
 # site nav bar
 nav:
   - link: team
