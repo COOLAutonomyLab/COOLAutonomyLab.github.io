@@ -8,7 +8,8 @@ footer: images/ut-campus.png
 nav:
   - link: team
   - link: research
-  - link: publication
+  - name: "papers"
+    href: "/publications"
   - link: join
 
 
@@ -66,7 +67,37 @@ plugins:
   # - jekyll-relative-links
   # - jemoji
 
+plugins: ['jekyll/scholar']
+plugins_dir: [jekyll-scholar]
+
+scholar:
+  style: apa #american-institute-of-aeronautics-and-astronautics #modern-language-association  #chicago-author-date #, apa, chicago-author-date, ieee, , nature, vancouver
+  locale: en
+
+  sort_by: none
+  order: ascending
+  group_by: year
+  group_order: descending
+  bibliography_group_tag: h3
+  bibliography_list_tag: ul
+  bibliography_item_tag: ul #nobull
+
+  source: ./_bibliography
+  bibliography: references.bib
+  bibliography_template: bib # "{{reference}}"
+
+  replace_strings: true
+  join_strings:    true
+
+  details_dir:    bibliography
+  details_layout: bibtex.html
+  details_link:   Details
+
+  query: "@*"
+
 # jekyll theme
 theme: null
+
+
 
 
