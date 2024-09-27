@@ -44,6 +44,13 @@ nav:
 
 
 # <i class="fas fa-users"></i>Alumni
+1. Matthew Trang - M.S. ECE - 2022. Current position: Engineer at MIT Lincoln Laboratory
+
+2. Sarnaduti Brahma: Postdoc - 2022.  Current position: Manager and Data/Simulation Professional at Siemens Energy
+
+3. Yitao Bai: Undergraduate - 2022. Current position: Continue as a Ph.D. student in ECE at VT
+
+4. Caleb Zhang: Undergraduate - 2022. Current position: M.S. in ECE at University of Michigan
 
 {%
   include list.html
