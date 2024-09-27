@@ -4,6 +4,11 @@ logo: images/logo.png
 header: images/ut-campus.jpeg
 footer: images/ut-campus.png
 
+url:                https://coolautonomylab.github.io
+baseurl:
+permalink:          /:year/:month/:day/:title.html
+
+
 # Markdown
 markdown:           kramdown
 
