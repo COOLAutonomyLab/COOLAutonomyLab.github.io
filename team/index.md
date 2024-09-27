@@ -43,7 +43,7 @@ nav:
 {% include section.html %}
 
 
-#Alumni
+# <i class="fas fa-users"></i>Alumni
 
 {%
   include list.html
