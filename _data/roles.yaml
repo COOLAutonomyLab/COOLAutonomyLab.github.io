@@ -22,6 +22,6 @@ researcher:
   icon: fas fa-vial
   text: Researcher
 
-mascot:
-  icon: fas fa-dog
-  text: Mascot
+alumni:
+  icon: fas fa-vial
+  text: Alumni
