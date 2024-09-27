@@ -61,7 +61,13 @@ nav:
   include list.html
   data="members"
   component="portrait"
-  filters="role: grad, group: alumni"
+  filters="role: ms, group: alumni"
+%}
+{%
+  include list.html
+  data="members"
+  component="portrait"
+  filters="role: phd, group: alumni"
 %}
 {%
   include list.html
