@@ -11,5 +11,4 @@ A complete list of our publications can be found on [Google Scholar](https://sch
 
 {% include section.html %}
 
-{% include list.html data="citations" component="citation" style="rich" %}
 
