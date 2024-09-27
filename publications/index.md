@@ -11,4 +11,3 @@ A complete list of our publications can be found on [Google Scholar](https://sch
 
 {% include section.html %}
 
-
