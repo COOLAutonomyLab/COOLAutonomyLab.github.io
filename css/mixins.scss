@@ -1,5 +1,24 @@
 // reusable snippets of CSS
 
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin inline-flex-center {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin margins {
+  margin: 20px 0;
+}
+@mixin big-margins {
+  margin: 40px 0;
+}
+
 @mixin trim-v-margins {
   &:first-child {
     margin-top: 0;
@@ -11,4 +30,4 @@
 }
 
 // font awesome icon selectors
-$icon: "i.fas, i.far, i.fab, i.fal, i.fad, i.fa-solid, i.fa-regular, i.fa-light, i.fa-thin, i.fa-duotone, svg";
+$icon: "i.fas, i.far, i.fab, i.fal, i.fad, svg";
