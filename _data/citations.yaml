@@ -1,20 +1,5 @@
 # GENERATED AUTOMATICALLY, DO NOT EDIT
 
-- id: pmc:PMC5640425
-  title: Systematic integration of biomedical knowledge prioritizes drugs for repurposing
-  authors:
-  - Daniel Scott Himmelstein
-  - Antoine Lizee
-  - Christine Hessler
-  - Leo Brueggeman
-  - Sabrina L Chen
-  - Dexter Hadley
-  - Ari Green
-  - Pouya Khankhanian
-  - Sergio E Baranzini
-  publisher: Cold Spring Harbor
-  date: '2017-09-22'
-  link: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5640425/
 - id: doi:10.23919/ECC64448.2024.10590762
   title: Convergence Rates of Gradient Descent-Ascent Dynamics Under Delays in Solving
     Nonconvex Min-Max Optimization
