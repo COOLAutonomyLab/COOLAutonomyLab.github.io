@@ -104,3 +104,49 @@
   publisher: SIAM Journal on Mathematics of Data Science
   date: '2021-01-01'
   link: https://doi.org/gwn9gq
+- id: doi:10.1109/TAC.2020.3031018
+  title: 'Convergence Rates of Distributed Gradient Methods Under Random Quantization:
+    A Stochastic Approximation Approach'
+  authors:
+  - Thinh T. Doan
+  - Siva Theja Maguluri
+  - Justin Romberg
+  publisher: IEEE Transactions on Automatic Control
+  date: '2021-10-01'
+  link: https://doi.org/gwn9f6
+- id: doi:10.1016/j.sysconle.2016.11.006
+  title: Distributed resource allocation on dynamic networks in quadratic time
+  authors:
+  - Thinh T. Doan
+  - Alex Olshevsky
+  publisher: Systems &amp; Control Letters
+  date: '2017-01-01'
+  link: https://doi.org/f9ph2g
+- id: doi:10.1109/LCSYS.2018.2854889
+  title: Convergence of the Iterates in Mirror Descent Methods
+  authors:
+  - Thinh T. Doan
+  - Subhonmesh Bose
+  - D. Hoa Nguyen
+  - Carolyn L. Beck
+  publisher: IEEE Control Systems Letters
+  date: '2019-01-01'
+  link: https://doi.org/ggv8pf
+- id: doi:10.1145/3154496
+  title: On the Convergence Rate of Distributed Gradient Methods for Finite-Sum Optimization
+    under Communication Delays
+  authors:
+  - Thinh T. Doan
+  - Carolyn L. Beck
+  - R. Srikant
+  publisher: Proceedings of the ACM on Measurement and Analysis of Computing Systems
+  date: '2017-12-19'
+  link: https://doi.org/gnzpjv
+- id: doi:10.1109/CCTA.2017.8062536
+  title: Distributed Lagrangian methods for network resource allocation
+  authors:
+  - Thinh T. Doan
+  - Carolyn L. Beck
+  publisher: 2017 IEEE Conference on Control Technology and Applications (CCTA)
+  date: '2017-08-01'
+  link: https://doi.org/gnzpjt
