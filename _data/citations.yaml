@@ -59,3 +59,30 @@
   publisher: IEEE Transactions on Wireless Communications
   date: '2023-08-01'
   link: https://doi.org/gwn9fn
+- id: doi:10.1109/TAC.2022.3201034
+  title: Finite-Time Convergence Rates of Decentralized Stochastic Approximation With
+    Applications in Multi-Agent and Multi-Task Learning
+  authors:
+  - Sihan Zeng
+  - Thinh T. Doan
+  - Justin Romberg
+  publisher: IEEE Transactions on Automatic Control
+  date: '2023-05-01'
+  link: https://doi.org/gwn9fb
+- id: doi:10.1109/TAC.2022.3190032
+  title: "Finite-Sample Analysis of Two-Time-Scale Natural Actor\u2013Critic Algorithm"
+  authors:
+  - Sajad Khodadadian
+  - Thinh T. Doan
+  - Justin Romberg
+  - Siva Theja Maguluri
+  publisher: IEEE Transactions on Automatic Control
+  date: '2023-06-01'
+  link: https://doi.org/gwn9d6
+- id: doi:10.1109/TAC.2022.3172593
+  title: Finite-Time Analysis of Markov Gradient Descent
+  authors:
+  - Thinh T. Doan
+  publisher: IEEE Transactions on Automatic Control
+  date: '2023-04-01'
+  link: https://doi.org/gwn9fg
