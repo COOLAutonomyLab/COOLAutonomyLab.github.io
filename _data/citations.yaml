@@ -9,3 +9,53 @@
   publisher: 2024 European Control Conference (ECC)
   date: '2024-06-25'
   link: https://doi.org/g52bf3
+- id: doi:10.1137/22M150277X
+  title: A Two-Time-Scale Stochastic Optimization Framework with Applications in Control
+    and Reinforcement Learning
+  authors:
+  - Sihan Zeng
+  - Thinh T. Doan
+  - Justin Romberg
+  publisher: SIAM Journal on Optimization
+  date: '2024-03-08'
+  link: https://doi.org/gwn9df
+- id: doi:10.1007/s10957-024-02385-7
+  title: Distributed Dual Subgradient Methods with Averaging and Applications to Grid
+    Optimization
+  authors:
+  - Haitian Liu
+  - Subhonmesh Bose
+  - Hoa Dinh Nguyen
+  - Ye Guo
+  - Thinh T. Doan
+  - Carolyn L. Beck
+  publisher: Journal of Optimization Theory and Applications
+  date: '2024-03-08'
+  link: https://doi.org/gwn9dm
+- id: doi:10.1109/TCNS.2023.3237489
+  title: Byzantine Fault-Tolerance in Federated Local SGD Under $2f$-Redundancy
+  authors:
+  - Nirupam Gupta
+  - Thinh T. Doan
+  - Nitin Vaidya
+  publisher: IEEE Transactions on Control of Network Systems
+  date: '2023-12-01'
+  link: https://doi.org/gwn9dr
+- id: doi:10.1016/j.automatica.2023.111294
+  title: Finite-time convergence rates of distributed local stochastic approximation
+  authors:
+  - Thinh T. Doan
+  publisher: Automatica
+  date: '2023-12-01'
+  link: https://doi.org/g52d89
+- id: doi:10.1109/TWC.2022.3233436
+  title: Federated Multi-Agent Deep Reinforcement Learning (Fed-MADRL) for Dynamic
+    Spectrum Access
+  authors:
+  - Hao-Hsuan Chang
+  - Yifei Song
+  - Thinh T. Doan
+  - Lingjia Liu
+  publisher: IEEE Transactions on Wireless Communications
+  date: '2023-08-01'
+  link: https://doi.org/gwn9fn
