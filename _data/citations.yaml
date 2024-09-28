@@ -150,3 +150,15 @@
   publisher: 2017 IEEE Conference on Control Technology and Applications (CCTA)
   date: '2017-08-01'
   link: https://doi.org/gnzpjt
+- id: url:https://proceedings.mlr.press/v161/zeng21a.html
+  title: A decentralized policy gradient approach to multi-task reinforcement learning
+  authors:
+  - Sihan Zeng
+  - Malik Aqeel Anwar
+  - Thinh T. Doan
+  - Arijit Raychowdhury
+  - Justin Romberg
+  publisher: Proceedings of the Thirty-Seventh Conference on Uncertainty in Artificial
+    Intelligence
+  date: '2021-12-01'
+  link: https://proceedings.mlr.press/v161/zeng21a.html
