@@ -223,3 +223,22 @@
   publisher: IEEE Transactions on Automatic Control
   date: '2021-09-01'
   link: https://doi.org/gnzpjs
+- id: doi:10.48550/arXiv.2409.07767
+  title: 'Accelerated Multi-Time-Scale Stochastic Approximation: Optimal Complexity
+    and Applications in Reinforcement Learning and Multi-Agent Games'
+  authors:
+  - Sihan Zeng
+  - Thinh T. Doan
+  publisher: arXiv
+  date: '2024-01-01'
+  link: https://doi.org/g52jmz
+- id: doi:10.48550/arXiv.2405.02456
+  title: Natural Policy Gradient and Actor Critic Methods for Constrained Multi-Task
+    Reinforcement Learning
+  authors:
+  - Sihan Zeng
+  - Thinh T. Doan
+  - Justin Romberg
+  publisher: arXiv
+  date: '2024-01-01'
+  link: https://doi.org/g52jm3
