@@ -15,3 +15,12 @@
   publisher: Cold Spring Harbor
   date: '2017-09-22'
   link: https://www.ncbi.nlm.nih.gov/pmc/articles/PMC5640425/
+- id: doi:10.23919/ECC64448.2024.10590762
+  title: Convergence Rates of Gradient Descent-Ascent Dynamics Under Delays in Solving
+    Nonconvex Min-Max Optimization
+  authors:
+  - Duy Anh Do
+  - Thinh T. Doan
+  publisher: 2024 European Control Conference (ECC)
+  date: '2024-06-25'
+  link: https://doi.org/g52bf3
