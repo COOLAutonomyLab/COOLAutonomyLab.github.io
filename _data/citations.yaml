@@ -94,3 +94,13 @@
   publisher: SIAM Journal on Control and Optimization
   date: '2021-01-01'
   link: https://doi.org/gwn9gk
+- id: doi:10.1137/20M1311971
+  title: Finite-Time Performance of Distributed Temporal-Difference Learning with
+    Linear Function Approximation
+  authors:
+  - Thinh T. Doan
+  - Siva Theja Maguluri
+  - Justin Romberg
+  publisher: SIAM Journal on Mathematics of Data Science
+  date: '2021-01-01'
+  link: https://doi.org/gwn9gq
