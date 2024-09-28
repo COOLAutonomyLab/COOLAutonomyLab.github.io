@@ -242,3 +242,12 @@
   publisher: arXiv
   date: '2024-01-01'
   link: https://doi.org/g52jm3
+- id: url:https://arxiv.org/abs/2409.03092
+  title: Resilient Two-Time-Scale Local Stochastic Gradient Descent for Byzantine
+    Federated Learning
+  authors:
+  - Amit Dutta
+  - Thinh T. Doan
+  publisher: arXiv
+  date: '2024-09-04'
+  link: http://arxiv.org/abs/2409.03092
