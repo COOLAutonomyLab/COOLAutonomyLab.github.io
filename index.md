@@ -13,7 +13,7 @@ The Control, Optimization, and Online Learning (COOL) for Autonomy lab at the [U
 ![Group picture](/images/group/group1.JPG)
 
 
-# Contact Information:
+### Contact Information:
 **Office**: ASE 3.206 Aerospace Engineering Building 2617 Wichita Street, Austin, Texas 78712-1221
 
 **Email**: thinhdoan (at) utexas.edu.   
