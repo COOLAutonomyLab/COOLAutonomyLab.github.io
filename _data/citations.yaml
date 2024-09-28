@@ -251,3 +251,11 @@
   publisher: arXiv
   date: '2024-09-04'
   link: http://arxiv.org/abs/2409.03092
+- id: url:https://proceedings.mlr.press/v168/doan22a.html
+  title: Convergence Rates of Two-Time-Scale Gradient Descent-Ascent Dynamics for
+    Solving Nonconvex Min-Max Problems
+  authors:
+  - Thinh Doan
+  publisher: Proceedings of The 4th Annual Learning for Dynamics and Control Conference
+  date: '2022-05-11'
+  link: https://proceedings.mlr.press/v168/doan22a.html
