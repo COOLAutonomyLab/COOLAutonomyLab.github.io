@@ -162,3 +162,64 @@
     Intelligence
   date: '2021-12-01'
   link: https://proceedings.mlr.press/v161/zeng21a.html
+- id: doi:10.1109/TAC.2022.3210147
+  title: 'Nonlinear Two-Time-Scale Stochastic Approximation: Convergence and Finite-Time
+    Performance'
+  authors:
+  - Thinh T. Doan
+  publisher: IEEE Transactions on Automatic Control
+  date: '2023-08-01'
+  link: https://doi.org/gwn9dz
+- id: url:https://proceedings.mlr.press/v247/zeng24a.html
+  title: Fast two-time-scale stochastic gradient method with applications in reinforcement
+    learning
+  authors:
+  - Sihan Zeng
+  - Thinh Doan
+  publisher: Proceedings of Thirty Seventh Conference on Learning Theory
+  date: '2024-06-30'
+  link: https://proceedings.mlr.press/v247/zeng24a.html
+- id: doi:10.1109/TETC.2024.3440932
+  title: DALTON - Deep Local Learning in SNNs via local Weights and Surrogate-Derivative
+    Transfer
+  authors:
+  - Ramashish Gaurav
+  - Duy Anh Do
+  - Thinh Doan
+  - Yang Yi
+  publisher: IEEE Transactions on Emerging Topics in Computing
+  date: '2024-01-01'
+  link: https://doi.org/g52jhb
+- id: url:https://proceedings.mlr.press/v242/bai24b
+  title: Finite-time complexity of incremental policy gradient methods for solving
+    multi-task reinforcement learning
+  authors:
+  - Yitao Bai
+  - Thinh Doan
+  publisher: Proceedings of the 6th Annual Learning for Dynamics & Control Conference
+  date: '2024-06-11'
+  link: https://proceedings.mlr.press/v242/bai24b.html
+- id: doi:10.48550/arXiv.2401.12764
+  title: 'Fast Nonlinear Two-Time-Scale Stochastic Approximation: Achieving $O(1/k)$
+    Finite-Sample Complexity'
+  authors:
+  - Thinh T. Doan
+  publisher: arXiv
+  date: '2024-01-01'
+  link: https://doi.org/g52jhk
+- id: url:https://proceedings.mlr.press/v144/doan21a.html
+  title: 'Nonlinear Two-Time-Scale Stochastic Approximation: Convergence and Finite-Time
+    Performance'
+  authors:
+  - Thinh T. Doan
+  publisher: Proceedings of the 3rd Conference on Learning for Dynamics and Control
+  date: '2021-05-29'
+  link: https://proceedings.mlr.press/v144/doan21a.html
+- id: doi:10.1109/TAC.2020.3041248
+  title: Distributed Resource Allocation Over Dynamic Networks With Uncertainty
+  authors:
+  - Thinh T. Doan
+  - Carolyn L. Beck
+  publisher: IEEE Transactions on Automatic Control
+  date: '2021-09-01'
+  link: https://doi.org/gnzpjs
