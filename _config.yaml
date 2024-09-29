@@ -8,15 +8,13 @@ url: https://coolautonomylab.github.io
 
 
 # Markdown
-markdown:           kramdown
+markdown: kramdown
 
 
 # site nav bar
 nav:
   - link: team
   - link: research
-    nav:
-      - link: join
   - name: "papers"
     href: "/publications"
 
