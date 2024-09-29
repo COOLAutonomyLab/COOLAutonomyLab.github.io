@@ -2,6 +2,7 @@
 title: Research
 nav:
   order: 2
+has_children: true
 ---
 
 # <i class="fas research"></i>Research
