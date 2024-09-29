@@ -15,9 +15,10 @@ markdown:           kramdown
 nav:
   - link: team
   - link: research
+    nav:
+      - link: join
   - name: "papers"
     href: "/publications"
-  - link: join
 
 
 # base directory where site is hosted
