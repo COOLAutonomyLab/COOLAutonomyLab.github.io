@@ -4,6 +4,8 @@ nav:
   order: 1
   tooltip: About our team
 ---
+The Control, Optimization, and Online Learning (COOL) for Autonomy lab is a group of researchers and engineers working on advanced real-time decision-making strategies for autonomy. The lab was established in 2020 in the Electrical & Computer Engineering Department at Virginia Tech. In Fall 2024, we relocate our lab to the Department of Aerospace Engineering & Engineering Mechanics at UT Austin. The goal of our lab is to create a supportive and fun environment, where researchers and students can collaborate, learn, and develop necessary skills and knowledge for their future careers. We are always looking for new members. If you are interested in joining our lab, please reach out.   
+
 
 # <i class="fas fa-users"></i>Principal Investigator
 {%
