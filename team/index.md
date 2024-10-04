@@ -47,9 +47,10 @@ The Control, Optimization, and Online Learning (COOL) for Autonomy lab is a grou
 
 # <i class="fas fa-users"></i>Alumni
 <br>
+| Who are they | When were they here | Where they went |
 | :------------- |:-------------| :-----------|
-| Yitao Bai | Undergraduate (2022) and M.S. (2024) in ECE at Virginia Tech | First position: Ph.D. student in Aerospace Engineering at UT Austin.
-| Sarnaduti Brahma | Postdoc (2022) at Virginia Tech |  First position: Manager and Data/Simulation Professional at Siemens Energy.
-| Matthew Trang | M.S. (2022) in ECE at Virginia Tech | First position: Engineer at MIT Lincoln Laboratory.
-| Caleb Zhang: Undergraduate (2022) at Virginia Tech | First position: M.S. in ECE at University of Michigan.
-| Zhenyuan Yuan | Postdoc (2024) at Virginia Tech | First position - Research Scientist at Virginia Tech Transportation Institute.
+|  Yitao Bai | Undergraduate (2022) and M.S. (2024) in ECE at Virginia Tech | First position: Ph.D. student in Aerospace Engineering at UT Austin. |
+| Sarnaduti Brahma | Postdoc (2022) at Virginia Tech |  First position: Manager and Data/Simulation Professional at Siemens Energy. |
+| Matthew Trang | M.S. (2022) in ECE at Virginia Tech | First position: Engineer at MIT Lincoln Laboratory. |
+| Caleb Zhang: Undergraduate (2022) at Virginia Tech | First position: M.S. in ECE at University of Michigan. |
+| Zhenyuan Yuan | Postdoc (2024) at Virginia Tech | First position - Research Scientist at Virginia Tech Transportation Institute. |
