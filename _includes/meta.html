@@ -14,12 +14,6 @@
 <meta property="twitter:title" content="{{ title }}" />
 <meta property="twitter:description" content="{{ page.description | default: site.description }}" />
 
-{% assign png = "images/logo.png" | file_exists %}
-{% assign icon = png | default: jpg | relative_url %}
-
-<link rel="icon" href="{{ icon }}">
-
-
 <!-- RSS -->
 <link
   rel="alternate"
