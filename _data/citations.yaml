@@ -1,28 +1,5 @@
 # GENERATED AUTOMATICALLY, DO NOT EDIT
 
-- id: 10.1007/s12080-024-00594-4
-  title: Social-ecological models with social hierarchy and spatial structure applied
-    to small-scale fisheries
-  authors:
-  - Sophie Wulfing
-  - Easton R. White
-  publisher: Theoretical Ecology
-  date: '2024-10-15'
-  link: https://doi.org/g8gzw5
-  image: https://quantmarineecolab.github.io/images/journal_covers/2024_WulfingWhite_TheoEco.png
-  extra-links:
-  - type: pdf
-    link: pdfs/2024_WulfingWhite_TheoEco.pdf
-  - type: source
-    link: https://github.com/swulfing/SocEco
-    text: Code
-  - type: preprint
-    link: https://doi.org/10.1101/2024.02.17.580847
-    text: Preprint
-  tags:
-  - disturbance
-  - math model
-  - socio-ecological
 - id: 10.1121/10.0028204
   title: The effect of localized disturbance on the acoustic behavior of the common
     tern (<i>Sterna hirundo</i>)
@@ -202,6 +179,22 @@
   tags:
   - COVID-19
   - infectious diseases
+- id: 10.1101/2024.02.17.580847
+  title: Social-ecological models with social hierarchy and spatial structure applied
+    to small scale fisheries
+  authors:
+  - Sophie Wulfing
+  - Easton R. White
+  publisher: Cold Spring Harbor Laboratory
+  date: '2024-02-21'
+  link: https://doi.org/gtkf4t
+  image: https://quantmarineecolab.github.io/images/journal_covers/biorxiv_logo.png
+  extra-links:
+  - type: pdf
+    link: pdfs/2024_WulfingWhite_biorxiv.pdf
+  tags:
+  - socio-ecological dynamics
+  - fisheries
 - id: 10.32942/X2CC97
   title: Refining the trophic diversity, ecological network structure, and bottom-up
     importance of prey groups for temperate reef fishes

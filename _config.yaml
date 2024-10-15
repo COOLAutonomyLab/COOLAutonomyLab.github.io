@@ -1,40 +1,27 @@
 # site properties and page defaults
-title: Quantitative Marine Ecology Lab
-description: quantitative ecology, fisheries, seafood, socio-ecological systems, science education
-header: images/background.png
-footer: images/background.png
+title: Control, Optimization, and Online Learning for Autonomy Lab
+logo: images/logo.png
+header: images/ut-campus.jpeg
+footer: images/ut-campus.png
 
 # site nav bar
 nav:
-  - link: publications
-    tooltip: Published works
-  - research:
-    tooltip: Research interests
-  - teaching:
-    tooltip: Teaching
   - link: team
-    tooltip: About our team
-  - link: news
-    tooltip: News and commentary
+  - link: research
+  - name: "papers"
+    href: "/publications"
   - link: join
-    tooltip: Join the lab
-  - link: contact
-    tooltip: Email, address, and location
 
 
 # base directory where site is hosted
-logo: images/QMEL_Lab_logo2.png
-header: images/background.png
-footer: images/background.png
+logo: images/logo.png
+header: images/ut-campus.jpeg
+footer: images/ut-campus.png
 baseurl: /
 
 # site social media and other links
 links:
-  email: Easton.White@unh.edu 
-  google-scholar: ImCoyF0AAAAJ&hl
-  github: quantmarineecolab
-  twitter: eastonrwhite
-  instagram: quantmarineecolab
+  google-scholar: xxxxx
 
 ### advanced settings
 
@@ -80,9 +67,37 @@ plugins:
   # - jekyll-relative-links
   # - jemoji
 
+plugins: ['jekyll/scholar']
+plugins_dir: [jekyll-scholar]
+
+scholar:
+  style: apa #american-institute-of-aeronautics-and-astronautics #modern-language-association  #chicago-author-date #, apa, chicago-author-date, ieee, , nature, vancouver
+  locale: en
+
+  sort_by: none
+  order: ascending
+  group_by: year
+  group_order: descending
+  bibliography_group_tag: h3
+  bibliography_list_tag: ul
+  bibliography_item_tag: ul #nobull
+
+  source: ./_bibliography
+  bibliography: references.bib
+  bibliography_template: bib # "{{reference}}"
+
+  replace_strings: true
+  join_strings:    true
+
+  details_dir:    bibliography
+  details_layout: bibtex.html
+  details_link:   Details
+
+  query: "@*"
+
 # jekyll theme
 theme: null
 
 
-# Google Analytics
-google_analytics: G-QF28DYFVNL
+
+
