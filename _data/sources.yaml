@@ -1,5 +1,22 @@
 
 
+- id: 10.1007/s12080-024-00594-4
+  image: https://quantmarineecolab.github.io/images/journal_covers/2024_WulfingWhite_TheoEco.png
+  extra-links:
+    - type: pdf
+      link: pdfs/2024_WulfingWhite_TheoEco.pdf
+    - type: source
+      link: https://github.com/swulfing/SocEco
+      text: Code
+    - type: preprint
+      link: https://doi.org/10.1101/2024.02.17.580847 
+      text: Preprint
+  tags:
+    - disturbance
+    - math model
+    - socio-ecological
+
+
 
 - id: 10.1121/10.0028204
   image: https://quantmarineecolab.github.io/images/journal_covers/2024_Brosseau_etal_JASA.jpg
@@ -10,6 +27,8 @@
     - disturbance
     - acoustics
     - seabirds
+
+
 
 
 
@@ -140,14 +159,6 @@
 
 
 
-- id: 10.1101/2024.02.17.580847 
-  image: https://quantmarineecolab.github.io/images/journal_covers/biorxiv_logo.png
-  extra-links:
-    - type: pdf
-      link: pdfs/2024_WulfingWhite_biorxiv.pdf
-  tags:
-    - socio-ecological dynamics
-    - fisheries
 
 
 
