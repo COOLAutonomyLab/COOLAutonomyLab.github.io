@@ -23,7 +23,7 @@ nav:
 
 
 # base directory where site is hosted
-logo: QMEL_Lab_logo2.png
+logo: images/QMEL_Lab_logo2.png
 header: images/background.png
 footer: images/background.png
 baseurl: /
