@@ -4,13 +4,34 @@ title: Home
 
 # Real-Time Decision Making for Autonomy
 
-The Control, Optimization, and Online Learning (COOL) for Autonomy lab at the [University of Texas, Austin](https://www.ae.utexas.edu) focuses on developing advanced real-time decision-making strategies for automy to complement humans in performing complex tasks. We are very interested in any opportunities to educate and train the next generation of scientists, researchers, and engineers in the rapidy advancing field of autonomy. Together as a team we are definitely COOLER, have more fun, and can do much better.     
+The Control, Optimization, and Online Learning (COOL) for Autonomy lab at the [University of Texas, Austin](https://www.ae.utexas.edu) focuses on developing advanced real-time decision-making strategies for autonomy to complement humans in performing complex tasks. We are very interested in any opportunities to educate and train the next generation of scientists, researchers, and engineers in this rapidy advancing field. Together as a team we are definitely COOLer, have more fun, and can do much better. [Our lab members](https://coolautonomylab.github.io/team/).
 
 
-![Mathew's defense](/images/group/Mathew-defense.jpg)
-![Amit's presentation at CCI](/images/group/Amit-cci.jpg)
-![Mathew farewell party](/images/group/Mathew-party.JPG)
+## Recent News
+
+» Thinh is elevated to be an IEEE Senior Member! ✌
+
+» Our newest work, leaded by Sihan Zeng at JPMorgan AI Research, on the optimal complexity of multi-time-scale stochastic approximation is up. ✍
+
+» Our paper on developing a new fast two-time-scale stochastic gradient method with an optimal convergence rate, joint work with Sihan Zeng (JP Morgan AI Research), was accepted to the Conference on Learning Theory (COLT). ✍
+
+» Our paper, leaded by our PhD student Amit Dutta, on exact fault-tolerance in Byzantine federated learning is up. ✍
+
+» Thinh’s paper on fast two-time-scale stochastic approximation is conditonally accepted to IEEE Transactions on Automatic Control. ✍
+
+» Our lab is honored to receive an NSF CAREER Award. ✌
+
+» Our lab is honored to receive the AFOSR Young Investigator Program (YIP) award. ✌
+
 ![Group picture](/images/group/group1.JPG)
+
+### Contact Information
+
+**Office:** ASE 3.206 Aerospace Engineering Building 2617 Wichita Street, Austin, Texas 78712-1221
+
+**Email:** thinhdoan (at) utexas.edu.
+
+**Phone:** ‭+1 (512) 471-7593‬
 
 
 
