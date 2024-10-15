@@ -2,7 +2,7 @@
 title: Control, Optimization, and Online Learning for Autonomy Lab
 logo: images/logo.png
 header: images/ut-campus.jpeg
-footer: images/ut-campus.png
+footer: images/ut-campus.jpeg
 
 # site nav bar
 nav:
@@ -16,7 +16,7 @@ nav:
 # base directory where site is hosted
 logo: images/logo.png
 header: images/ut-campus.jpeg
-footer: images/ut-campus.png
+footer: images/ut-campus.jpeg
 baseurl: /
 
 # site social media and other links
