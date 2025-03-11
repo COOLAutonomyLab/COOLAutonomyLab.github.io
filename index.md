@@ -9,6 +9,8 @@ The Control, Optimization, and Online Learning (COOL) for Autonomy lab at the [U
 
 ## Recent News
 
+» Congratulations, Duy Anh Do, for successfully defending his M.S. thesis at Virginia Tech. ✌
+
 » Thinh is elevated to be an IEEE Senior Member! ✌
 
 » Our newest work, leaded by Sihan Zeng at JPMorgan AI Research, on the optimal complexity of multi-time-scale stochastic approximation is up. ✍
