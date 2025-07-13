@@ -2,7 +2,7 @@
 name: Hunter Ellis
 image: images/hunter.jpg
 role: ms
-group: current
+group: alumni
 description: MS Student - Virginia Tech
 ---
 
