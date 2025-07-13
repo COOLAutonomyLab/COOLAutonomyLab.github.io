@@ -9,7 +9,11 @@ The Control, Optimization, and Online Learning (COOL) for Autonomy lab at the [U
 
 ## Recent News
 
-» Congratulations, Duy Anh Do, for successfully defending his M.S. thesis at Virginia Tech. ✌
+» Thinh’s paper on fast two-time-scale stochastic approximation was accepted to IEEE Transactions on Automatic Control. ✍
+
+» Congratulations, Dr. Amit Dutta, for successfully defending his Ph.D. thesis in ECE at Virginia Tech. ✌
+
+» Congratulations, Duy Anh Do and Hunter Ellis, for successfully defending their M.S. thesis in ECE at Virginia Tech. ✌
 
 » Thinh is elevated to be an IEEE Senior Member! ✌
 
@@ -18,8 +22,6 @@ The Control, Optimization, and Online Learning (COOL) for Autonomy lab at the [U
 » Our paper on developing a new fast two-time-scale stochastic gradient method with an optimal convergence rate, joint work with Sihan Zeng (JP Morgan AI Research), was accepted to the Conference on Learning Theory (COLT). ✍
 
 » Our paper, leaded by our PhD student Amit Dutta, on exact fault-tolerance in Byzantine federated learning is up. ✍
-
-» Thinh’s paper on fast two-time-scale stochastic approximation is conditonally accepted to IEEE Transactions on Automatic Control. ✍
 
 » Our lab is honored to receive an NSF CAREER Award. ✌
 
