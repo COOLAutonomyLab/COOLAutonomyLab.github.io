@@ -6,7 +6,7 @@ title: Home
  
 The Control, Optimization, and Online Learning (COOL) for Autonomy lab at the [University of Texas, Austin](https://www.ae.utexas.edu) focuses on developing advanced real-time decision-making strategies for autonomy to complement humans in performing complex tasks. We are very interested in any opportunities to educate and train the next generation of scientists, researchers, and engineers in this rapidy advancing field. Together as a team we are definitely COOLer, have more fun, and can do much better. [Our lab members](https://coolautonomylab.github.io/team/). 
 
-<span style="color:red; font-size: 2em;"> Hiring!</span> We are always looking for motivated students with strong background on control, optimization, and machine learning. If you are interested, send us an email with your CV and a few paragraphs on your motivations and how you can contribute to our Lab. 
+<span style="color:red; font-size: Large;"> Hiring!</span> We are always looking for motivated students with strong background on control, optimization, and machine learning. If you are interested, send us an email with your CV and a few paragraphs on your motivations and how you can contribute to our Lab. 
 
 ## Recent News
 
