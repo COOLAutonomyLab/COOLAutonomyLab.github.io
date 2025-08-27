@@ -10,7 +10,7 @@ The Control, Optimization, and Online Learning (COOL) for Autonomy lab at the [U
 
 ## Recent News
 
-» Welcome Sichang Su to our lab as a PhD student, co-advised by Prof. Ufuk Topcu. 👏
+» Welcome Sichang Su to our lab as a PhD student, co-advised with Prof. Ufuk Topcu. 👏
 
 » Our lab is honored to receive the support from UT for our UT Portugal Exploratory Projects on Space Distributed Ocean Monitorization and Exploration. This project will be a collaboration between Universidade NOVA de Lisboa (FCT-NOVA) and our group in integrating reinforcement learning into safe and robust control for multi-robot systems.✌
 
