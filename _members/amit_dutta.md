@@ -1,6 +1,6 @@
 ---
 name: Amit Dutta
-image: images/amit.jpg
+image: images/amit_dutta.jpg
 role: phd
 group: alumni
 description: PhD Student - Virginia Tech
