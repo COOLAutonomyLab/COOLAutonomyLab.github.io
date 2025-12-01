@@ -1,6 +1,6 @@
 ---
 name: Sichang Su
-image: images/sichang.jpg
+image: images/sichang_su.jpg
 role: phd
 group: current
 description: PhD Student 
