@@ -1,6 +1,6 @@
 ---
 name: Yitao Bai
-image: images/yitao.jpg
+image: images/yitao_bai.jpg
 role: phd
 group: current
 description: PhD Student 
