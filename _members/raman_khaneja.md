@@ -1,5 +1,6 @@
 ---
 name: Raman Khaneja
+image: images/sichang.jpg
 role: phd
 group: current
 description: PhD Student
