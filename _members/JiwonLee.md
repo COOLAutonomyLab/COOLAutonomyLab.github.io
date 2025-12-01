@@ -1,6 +1,6 @@
 
 ---
-name: Sichang Su
+name: Jiwon Lee
 image: images/JiwonLee.jpg
 role: phd
 group: current
