@@ -1,4 +1,3 @@
-
 ---
 name: Jiwon Lee
 image: images/jiwon_lee.jpg
