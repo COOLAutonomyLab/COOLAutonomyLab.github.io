@@ -10,7 +10,7 @@ The Control, Optimization, and Online Learning (COOL) for Autonomy lab at the [U
 
 ## Recent News
 
-» Welcome Jiwon Lee to our lab as a PhD student. Jiwon will start in Spring 2026. 👏
+» Welcome three newest members to our lab: Jiwon Lee (PhD student - starting in Spring 2026), Dat Nguyen and Trung Truong (Undergrads - starting in Fall 2025). 👏
 
 » Welcome Sichang Su to our lab as a PhD student, co-advised with Prof. Ufuk Topcu. 👏
 
