@@ -1,6 +1,6 @@
 ---
 name: Jiwon Lee
-image: images/jiwon_lee.jpg
+image: images/jiwon lee.jpg
 role: phd
 group: current
 description: PhD Student 
