@@ -2,7 +2,7 @@
 name: Joseph Mikhail
 image: images/joseph-mikhail.png
 role: undergrad
-group: current
+group: alumni
 description: Undergraduate Student
 ---
 
