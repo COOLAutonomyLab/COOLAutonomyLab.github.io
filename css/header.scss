@@ -80,14 +80,15 @@ header {
         }
       }
 
-      &:hover .nav_dropdown_menu,
+      > .link:hover + .nav_dropdown_menu,
+      .nav_dropdown_menu:hover,
       &:focus-within .nav_dropdown_menu {
         opacity: 1;
         visibility: visible;
         transform: translate(-50%, 0);
       }
 
-      &:hover > .link,
+      > .link:hover,
       &:focus-within > .link {
         opacity: 1;
       }
@@ -144,7 +145,8 @@ header {
           transform: none;
         }
 
-        &:hover .nav_dropdown_menu,
+        > .link:hover + .nav_dropdown_menu,
+        .nav_dropdown_menu:hover,
         &:focus-within .nav_dropdown_menu {
           display: block;
           transform: none;
