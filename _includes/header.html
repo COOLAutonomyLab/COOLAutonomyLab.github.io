@@ -31,7 +31,19 @@
     {%- assign pages = site.pages | where_exp: "page", "page.nav" | sort: "nav.order" -%}
     {%- for page in pages -%}
       {%- if page.nav -%}
-        {%- include link.html type="link" text=page.title tooltip=page.nav.tooltip link=page.dir -%}
+        {%- if page.title == "Research" -%}
+          <div class="nav_dropdown">
+            {%- include link.html type="link" text=page.title tooltip=page.nav.tooltip link=page.dir -%}
+            <button class="nav_dropdown_toggle" type="button" aria-label="Open Research submenu" aria-haspopup="true">
+              <span aria-hidden="true">&#9662;</span>
+            </button>
+            <div class="nav_dropdown_menu">
+              <a href="{{ '/research/TAG/' | relative_url }}">TAG</a>
+            </div>
+          </div>
+        {%- else -%}
+          {%- include link.html type="link" text=page.title tooltip=page.nav.tooltip link=page.dir -%}
+        {%- endif -%}
       {%- endif -%}
     {%- endfor -%}
   </nav>
