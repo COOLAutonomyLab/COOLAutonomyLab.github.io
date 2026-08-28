@@ -53,15 +53,6 @@ header {
       position: relative;
       display: inline-block;
 
-      summary {
-        list-style: none;
-        cursor: pointer;
-
-        &::-webkit-details-marker {
-          display: none;
-        }
-      }
-
       .nav_dropdown_menu {
         position: absolute;
         z-index: 10;
@@ -89,13 +80,15 @@ header {
         }
       }
 
-      &[open] .nav_dropdown_menu {
+      &:hover .nav_dropdown_menu,
+      &:focus-within .nav_dropdown_menu {
         opacity: 1;
         visibility: visible;
         transform: translate(-50%, 0);
       }
 
-      &[open] > .link {
+      &:hover > .link,
+      &:focus-within > .link {
         opacity: 1;
       }
     }
@@ -151,7 +144,8 @@ header {
           transform: none;
         }
 
-        &[open] .nav_dropdown_menu {
+        &:hover .nav_dropdown_menu,
+        &:focus-within .nav_dropdown_menu {
           display: block;
           transform: none;
         }
