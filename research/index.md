@@ -24,4 +24,8 @@ The research focus of COOL Autonomy Lab is to develop advanced real-time decisio
   image3="images/research/NSF-Multitask/drone_nav.jpg"
   link3="https://coolautonomylab.github.io/research/NSF-Multitask"
   tooltip3="NSF CIF Project"
+
+  image4="research/TAG/assets/images/tag_physical_hardware.png"
+  link4="https://coolautonomylab.github.io/research/TAG/"
+  tooltip4="TAG - Testbed for Autonomous Games"
 %}
