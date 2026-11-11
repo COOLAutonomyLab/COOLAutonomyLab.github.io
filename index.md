@@ -36,7 +36,7 @@ The Control, Optimization, and Online Learning (COOL) for Autonomy lab at the [U
 
 » Our lab is honored to receive the AFOSR Young Investigator Program (YIP) award. ✌
 
-![Group picture](/images/group/group1.JPG)
+![Group picture](/images/group/Group-Lab-CSR-2026.jpeg)
 
 ### Contact Information
 
