@@ -14,8 +14,6 @@ The Control, Optimization, and Online Learning (COOL) for Autonomy lab at the [U
 
 » Welcome three newest members to our lab: Jiwon Lee (PhD student - starting in Spring 2026), Dat Nguyen and Trung Truong (Undergrads - starting in Fall 2025). 👏
 
-» Welcome Sichang Su to our lab as a PhD student, co-advised with Prof. Ufuk Topcu. 👏
-
 » Our lab is honored to receive the support from UT for our UT Portugal Exploratory Projects on Space Distributed Ocean Monitorization and Exploration. This project will be a collaboration between Universidade NOVA de Lisboa (FCT-NOVA) and our group in integrating reinforcement learning into safe and robust control for multi-robot systems.✌
 
 » Thinh’s paper on fast two-time-scale stochastic approximation was accepted to IEEE Transactions on Automatic Control. ✍
