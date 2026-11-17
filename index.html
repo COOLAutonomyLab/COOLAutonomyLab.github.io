@@ -1532,7 +1532,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
     /* RESEARCH SUB-PAGES: one object per sub-tab. `slug` is the address (#/research/<slug>),
        `name` and `short` appear in the Research menu, `body` is the page text (plain HTML). */
     SITE.researchPages = [
-      { slug: 'career', name: 'NSF CAREER', short: 'Open multi-agent systems', sponsor: 'NSF CAREER',
+      { slug: 'career', name: 'NSF CAREER', short: 'Open multi-agent systems', sponsor: 'NSF CAREER', hide: ['crumbs', 'sponsor', 'title'],
         title: 'Foundations of Scalable and Resilient Distributed Real-Time Decision Making in Open Multi-Agent Systems',
         lede: 'Helping teams of autonomous agents decide quickly and reliably when agents can join, leave, or fail at any time.',
         image: 'research/CAREER/drone-fires.jpg', alt: 'Three quadrotors flying over a forest wildfire',
