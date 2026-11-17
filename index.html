@@ -1532,25 +1532,25 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
     /* RESEARCH SUB-PAGES: one object per sub-tab. `slug` is the address (#/research/<slug>),
        `name` and `short` appear in the Research menu, `body` is the page text (plain HTML). */
     SITE.researchPages = [
-      { slug: 'career', name: 'NSF CAREER', short: 'Open multi-agent systems', sponsor: 'NSF CAREER', hide: ['crumbs', 'sponsor', 'title'],
+      { slug: 'career', name: 'NSF CAREER', short: 'Open multi-agent systems', sponsor: 'NSF CAREER', hide: ['crumbs', 'sponsor', 'lede'], layout: 'split', publications: 2,
         title: 'Foundations of Scalable and Resilient Distributed Real-Time Decision Making in Open Multi-Agent Systems',
         lede: 'Helping teams of autonomous agents decide quickly and reliably when agents can join, leave, or fail at any time.',
         image: 'research/CAREER/drone-fires.jpg', alt: 'Three quadrotors flying over a forest wildfire',
         body: '<p>Teams of autonomous agents, such as drones monitoring a wildfire, often work in open environments where agents can join, leave, or fail at any time, and where conditions change faster than a central planner can respond.</p>' +
               '<p>This project develops the mathematical and algorithmic foundations for distributed, real-time decision making in such open multi-agent systems, with a focus on methods that scale to large teams and stay resilient to uncertainty, disturbances, and changes in the team.</p>' },
-      { slug: 'yip', name: 'AFOSR YIP', short: 'Resource allocation in open networks', sponsor: 'AFOSR YIP',
+      { slug: 'yip', name: 'AFOSR YIP', short: 'Resource allocation in open networks', sponsor: 'AFOSR YIP', layout: 'split',
         title: 'Foundations of Resilient Distributed Resource Allocation in Open Networks',
         lede: 'Sharing limited resources among changing groups of devices and vehicles, without relying on a central controller.',
         image: 'research/YIP/wireless-ra.jpg', alt: 'Diagram of phones, cars and vehicles in three groups, linked wirelessly to each other and to two cell towers',
         body: '<p>In wireless networks of phones, cars, and other vehicles, many agents must share limited resources, and the network keeps changing as agents join and leave.</p>' +
               '<p>This project, supported by the Air Force Office of Scientific Research Young Investigator Program, develops distributed resource allocation algorithms that stay reliable in open networks and under uncertainty and disruptions, with rigorous analysis of how fast and how reliably they work.</p>' },
-      { slug: 'cif', name: 'NSF CIF', short: 'Multi-task learning', sponsor: 'NSF CIF',
+      { slug: 'cif', name: 'NSF CIF', short: 'Multi-task learning', sponsor: 'NSF CIF', layout: 'split',
         title: 'Mathematical and Algorithmic Foundations of Multi-Task Learning',
         lede: 'Learning many related tasks at once, so autonomous agents can adapt as new tasks arise.',
         image: 'research/NSF-Multitask/drone_nav.jpg', alt: 'Four photos of drones at work: above a warehouse, in a forest, beside soldiers in a field, and over a city',
         body: '<p>Autonomous agents rarely face a single task. A drone may need to navigate inside a warehouse, through a forest, or over a city, and each setting calls for different skills.</p>' +
               '<p>This project, supported by the National Science Foundation, develops the mathematical and algorithmic foundations of multi-task learning, including reinforcement learning methods that share what is learned across tasks and come with finite-time performance guarantees.</p>' },
-      { slug: 'ocean', name: 'UT Austin-Portugal', short: 'Ocean monitoring', sponsor: 'UT Austin-Portugal',
+      { slug: 'ocean', name: 'UT Austin-Portugal', short: 'Ocean monitoring', sponsor: 'UT Austin-Portugal', layout: 'split',
         title: 'Space Distributed Ocean Monitorization and Exploration',
         lede: 'Coordinating satellites, high-altitude balloons, and aerial and underwater robots to monitor the health of the ocean safely.',
         image: SITE.research.projects[3].image, alt: 'Satellites, aircraft, and underwater robots connected for ocean monitoring',
@@ -1865,18 +1865,29 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
           <p class="pub-venue">${esc(p.venue)}, ${p.year} (${esc(p.type.toLowerCase())})</p>
           <p class="pub-row">${pubTags(p)}<span class="pub-links">${pubLinks(p)}</span></p>
         </li>`,
-      researchPage: r => `
+      researchPage: r => {
+        const hide = r.hide || [], split = r.layout === 'split';
+        const src = r.image ? esc(r.image.startsWith('data:') ? r.image : SITE.imageBase + r.image) : '';
+        const fig = r.image ? `<figure style="margin:0"><img src="${src}" alt="${esc(r.alt || '')}" loading="lazy" style="display:block;width:100%;height:auto;border-radius:var(--r-lg)"></figure>` : '';
+        const text = `${split ? `<p class="lede" style="margin-top:0">${esc(r.lede)}</p>` : ''}<div class="research-body">${r.body}</div>`;
+        const main = split
+          ? `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(24px,4vw,56px);align-items:center"><div>${text}</div>${fig}</div>`
+          : `${r.image ? `<div style="max-width:760px;margin-bottom:28px">${fig}</div>` : ''}${text}`;
+        const n = r.publications === true ? SITE.pubs.length : Number(r.publications) || 0;
+        const pubs = n ? `<h2 class="kind-title">Publications</h2><ul class="pubs">${SITE.pubs.slice(0, n).map(p => UI.pubItem(p)).join('')}</ul>` : '';
+        return `
         <div class="wrap page-head">
-          <nav class="crumbs" aria-label="Breadcrumb"><a href="#/research">Research</a><span aria-hidden="true">/</span><span aria-current="page">${esc(r.name)}</span></nav>
-          <p style="margin:0 0 10px;font-weight:700;color:var(--plum-soft)">Funded by ${esc(r.sponsor)}</p>
-          <h1>${esc(r.title)}</h1>
-          <p class="lede">${esc(r.lede)}</p>
+          ${hide.includes('crumbs') ? '' : `<nav class="crumbs" aria-label="Breadcrumb"><a href="#/research">Research</a><span aria-hidden="true">/</span><span aria-current="page">${esc(r.name)}</span></nav>`}
+          ${hide.includes('sponsor') ? '' : `<p style="margin:0 0 10px;font-weight:700;color:var(--plum-soft)">Funded by ${esc(r.sponsor)}</p>`}
+          <h1${hide.includes('title') ? ' class="sr-only"' : ''}>${esc(r.title)}</h1>
+          ${split ? '' : `<p class="lede">${esc(r.lede)}</p>`}
         </div>
         <div class="wrap" style="padding-bottom:64px">
-          ${r.image ? `<figure style="margin:0 0 28px;max-width:760px"><img src="${esc(r.image.startsWith('data:') ? r.image : SITE.imageBase + r.image)}" alt="${esc(r.alt || '')}" loading="lazy" style="display:block;width:100%;height:auto;border-radius:var(--r-lg)"></figure>` : ''}
-          <div class="research-body">${r.body}</div>
+          ${main}
+          ${pubs}
           <p style="margin-top:28px"><a class="btn btn-line" href="#/research">Back to Research</a></p>
-        </div>`,
+        </div>`;
+      },
       platformPage: (p, c) => `
         <article class="wrap tone-${p.slug}" style="padding-block:clamp(16px,3vw,32px) 64px">
           <div class="pf-hero">
