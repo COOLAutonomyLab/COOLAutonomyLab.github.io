@@ -1525,6 +1525,33 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
         { key: 'multi',   name: 'Multi-agent systems', text: 'We study how agents interact using game-theoretic models, and develop resilient algorithms to operate them under uncertainty and adversarial attacks.' }
       ]
     };
+        SITE.researchPages = [
+      { slug: 'career', name: 'NSF CAREER', short: 'Open multi-agent systems', sponsor: 'NSF CAREER',
+        title: 'Foundations of Scalable and Resilient Distributed Real-Time Decision Making in Open Multi-Agent Systems',
+        lede: 'Helping teams of autonomous agents decide quickly and reliably when agents can join, leave, or fail at any time.',
+        image: 'research/CAREER/drone-fires.jpg', alt: 'Three quadrotors flying over a forest wildfire',
+        body: '<p>Teams of autonomous agents, such as drones monitoring a wildfire, often work in open environments where agents can join, leave, or fail at any time, and where conditions change faster than a central planner can respond.</p>' +
+              '<p>This project develops the mathematical and algorithmic foundations for distributed, real-time decision making in such open multi-agent systems, with a focus on methods that scale to large teams and stay resilient to uncertainty, disturbances, and changes in the team.</p>' },
+      { slug: 'yip', name: 'AFOSR YIP', short: 'Resource allocation in open networks', sponsor: 'AFOSR YIP',
+        title: 'Foundations of Resilient Distributed Resource Allocation in Open Networks',
+        lede: 'Sharing limited resources among changing groups of devices and vehicles, without relying on a central controller.',
+        image: 'research/YIP/wireless-ra.jpg', alt: 'Diagram of phones, cars and vehicles in three groups, linked wirelessly to each other and to two cell towers',
+        body: '<p>In wireless networks of phones, cars, and other vehicles, many agents must share limited resources, and the network keeps changing as agents join and leave.</p>' +
+              '<p>This project, supported by the Air Force Office of Scientific Research Young Investigator Program, develops distributed resource allocation algorithms that stay reliable in open networks and under uncertainty and disruptions, with rigorous analysis of how fast and how reliably they work.</p>' },
+      { slug: 'cif', name: 'NSF CIF', short: 'Multi-task learning', sponsor: 'NSF CIF',
+        title: 'Mathematical and Algorithmic Foundations of Multi-Task Learning',
+        lede: 'Learning many related tasks at once, so autonomous agents can adapt as new tasks arise.',
+        image: 'research/NSF-Multitask/drone_nav.jpg', alt: 'Four photos of drones at work: above a warehouse, in a forest, beside soldiers in a field, and over a city',
+        body: '<p>Autonomous agents rarely face a single task. A drone may need to navigate inside a warehouse, through a forest, or over a city, and each setting calls for different skills.</p>' +
+              '<p>This project, supported by the National Science Foundation, develops the mathematical and algorithmic foundations of multi-task learning, including reinforcement learning methods that share what is learned across tasks and come with finite-time performance guarantees.</p>' },
+      { slug: 'ocean', name: 'UT Austin-Portugal', short: 'Ocean monitoring', sponsor: 'UT Austin-Portugal',
+        title: 'Space Distributed Ocean Monitorization and Exploration',
+        lede: 'Coordinating satellites, high-altitude balloons, and aerial and underwater robots to monitor the health of the ocean safely.',
+        image: SITE.research.projects[3].image, alt: 'Satellites, aircraft, and underwater robots connected for ocean monitoring',
+        body: '<p>Environmental monitoring, such as assessing ocean health, requires coordinated observations from diverse autonomous platforms. Integrating these heterogeneous assets is a multi-vehicle control challenge: maximizing coverage while operating safely in increasingly congested orbital and operational environments.</p>' +
+              '<p>In this collaborative UT Austin-Portugal Exploratory Project, we develop a hierarchical control framework. At the high level, reinforcement learning-based planners generate action sequences for the desired tasks. At the low level, a unified quadratic-program controller combines Control Lyapunov Functions for stability with Control Barrier Functions for safety.</p>' +
+              '<p>The framework is validated on autonomous aerial and ground vehicles in UT\u2019s indoor and outdoor test facilities.</p>' }
+    ];
     SITE.pubs = SITE.pubs.sort((a, b) => b.year - a.year);   // newest first; the sort is stable
 
     /* =====================================================================
