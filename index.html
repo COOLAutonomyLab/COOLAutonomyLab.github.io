@@ -543,7 +543,10 @@ window.addEventListener('message', event => {
         <ul class="nav-list">
           <li><a class="nav-link" href="#/" data-nav="home">Home</a></li>
           <li><a class="nav-link" href="#/team" data-nav="team">Team</a></li>
-          <li><a class="nav-link" href="#/research" data-nav="research">Research</a></li>
+          <li class="dd-wrap" data-dd-wrap>
+            <button class="nav-link" type="button" data-dd-btn data-nav="research" aria-expanded="false" aria-controls="research-menu">Research <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chev"/></svg></button>
+            <div class="dd" id="research-menu" data-dd hidden></div>
+          </li>
           <li class="dd-wrap" data-dd-wrap>
             <button class="nav-link" type="button" data-dd-btn data-nav="platforms" aria-expanded="false" aria-controls="platforms-menu">Platforms <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><use href="#i-chev"/></svg></button>
             <div class="dd" id="platforms-menu" data-dd hidden></div>
@@ -1192,6 +1195,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
 
     <!-- ================= SINGLE PLATFORM (template, filled from SITE.platforms) ================= -->
     <section data-view="platform" hidden></section>
+    <section data-view="researchpage" hidden></section>
 
     <!-- ================= PUBLICATIONS ================= -->
     <section data-view="publications" hidden>
@@ -1525,7 +1529,9 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
         { key: 'multi',   name: 'Multi-agent systems', text: 'We study how agents interact using game-theoretic models, and develop resilient algorithms to operate them under uncertainty and adversarial attacks.' }
       ]
     };
-        SITE.researchPages = [
+    /* RESEARCH SUB-PAGES: one object per sub-tab. `slug` is the address (#/research/<slug>),
+       `name` and `short` appear in the Research menu, `body` is the page text (plain HTML). */
+    SITE.researchPages = [
       { slug: 'career', name: 'NSF CAREER', short: 'Open multi-agent systems', sponsor: 'NSF CAREER',
         title: 'Foundations of Scalable and Resilient Distributed Real-Time Decision Making in Open Multi-Agent Systems',
         lede: 'Helping teams of autonomous agents decide quickly and reliably when agents can join, leave, or fail at any time.',
@@ -1574,6 +1580,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
     const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 
     const P = Object.fromEntries(SITE.platforms.map(p => [p.slug, p]));
+    const RP = Object.fromEntries(SITE.researchPages.map(r => [r.slug, r]));
     const FLAGSHIP = SITE.platforms.find(p => p.flagship);
     const HARDWARE = SITE.platforms.filter(p => !p.flagship);
     const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1728,24 +1735,33 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
         <ul class="dd-list">${list}</ul>
       </div>`;
     }
+    function researchMenu() {
+      const items = SITE.researchPages.map(r => `<li><a href="#/research/${r.slug}"><strong>${esc(r.name)}</strong><span>${esc(r.short)}</span></a></li>`).join('');
+      return `<div class="dd-grid"><ul class="dd-list">${items}</ul></div>`;
+    }
     let closeMenus = () => {};
     function initNav() {
       const menuBtn = $('[data-menu-btn]'), menu = $('[data-menu]');
-      const ddWrap = $('[data-dd-wrap]'), ddBtn = $('[data-dd-btn]'), dd = $('[data-dd]');
-      dd.innerHTML = (UI.menu || defaultMenu)();
-      const setDd = open => { ddBtn.setAttribute('aria-expanded', open); dd.hidden = !open; };
+      $('#platforms-menu').innerHTML = (UI.menu || defaultMenu)();
+      $('#research-menu').innerHTML = researchMenu();
+      const dds = $$('[data-dd-wrap]').map(wrap => ({ wrap, btn: $('[data-dd-btn]', wrap), dd: $('[data-dd]', wrap) }));
+      const setDd = (o, open) => { o.btn.setAttribute('aria-expanded', open); o.dd.hidden = !open; };
       const setMenu = open => { menuBtn.setAttribute('aria-expanded', open); menu.classList.toggle('is-open', open); };
-      setDd(false); setMenu(false);
-      ddBtn.addEventListener('click', () => setDd(ddBtn.getAttribute('aria-expanded') !== 'true'));
+      dds.forEach(o => setDd(o, false)); setMenu(false);
+      dds.forEach(o => o.btn.addEventListener('click', () => {
+        const open = o.btn.getAttribute('aria-expanded') !== 'true';
+        dds.forEach(x => setDd(x, false)); setDd(o, open);
+      }));
       menuBtn.addEventListener('click', () => setMenu(menuBtn.getAttribute('aria-expanded') !== 'true'));
       document.addEventListener('keydown', e => {
         if (e.key !== 'Escape') return;
-        if (!dd.hidden) { setDd(false); ddBtn.focus(); }
+        const openDd = dds.find(o => !o.dd.hidden);
+        if (openDd) { setDd(openDd, false); openDd.btn.focus(); }
         else if (menu.classList.contains('is-open')) { setMenu(false); menuBtn.focus(); }
       });
-      document.addEventListener('click', e => { if (!ddWrap.contains(e.target)) setDd(false); });
-      document.addEventListener('focusin', e => { if (!ddWrap.contains(e.target)) setDd(false); });
-      closeMenus = () => { setDd(false); setMenu(false); };
+      document.addEventListener('click', e => dds.forEach(o => { if (!o.wrap.contains(e.target)) setDd(o, false); }));
+      document.addEventListener('focusin', e => dds.forEach(o => { if (!o.wrap.contains(e.target)) setDd(o, false); }));
+      closeMenus = () => { dds.forEach(o => setDd(o, false)); setMenu(false); };
     }
 
     /* ---------- Router ---------- */
@@ -1756,16 +1772,18 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
       let view = /^[a-z]+$/.test(parts[0] || '') ? parts[0] : 'home';
       let sub = /^[a-z0-9-]+$/.test(parts[1] || '') ? parts[1] : '';
       if (view === 'platforms' && sub === 'tag') view = 'platform';
+      if (view === 'research' && RP[sub]) view = 'researchpage';
       if (!$(`[data-view="${view}"]`)) { view = 'home'; sub = ''; }
 
       const el = $(`[data-view="${view}"]`);
       if (view === 'platform') el.innerHTML = UI.platformPage(P[sub], platformCopy(P[sub]));
+      if (view === 'researchpage') el.innerHTML = UI.researchPage(RP[sub]);
       if (view === 'publications') { pubState.platform = (sub === 'theory' || P[sub]) ? sub : 'all'; renderPubs(); }
 
       $$('[data-view]').forEach(v => { v.hidden = v !== el; });
-      const navKey = view === 'platform' ? 'platforms' : view;
+      const navKey = view === 'platform' ? 'platforms' : view === 'researchpage' ? 'research' : view;
       $$('[data-nav]').forEach(a => a.dataset.nav === navKey ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
-      document.title = (view === 'platform' ? P[sub].name + ' | ' : TITLES[view] ? TITLES[view] + ' | ' : '') + 'COOL Autonomy Lab';
+      document.title = (view === 'platform' ? P[sub].name + ' | ' : view === 'researchpage' ? RP[sub].name + ' | ' : TITLES[view] ? TITLES[view] + ' | ' : '') + 'COOL Autonomy Lab';
       document.body.dataset.route = view;
       closeMenus();
 
@@ -1847,6 +1865,18 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
           <p class="pub-venue">${esc(p.venue)}, ${p.year} (${esc(p.type.toLowerCase())})</p>
           <p class="pub-row">${pubTags(p)}<span class="pub-links">${pubLinks(p)}</span></p>
         </li>`,
+      researchPage: r => `
+        <div class="wrap page-head">
+          <nav class="crumbs" aria-label="Breadcrumb"><a href="#/research">Research</a><span aria-hidden="true">/</span><span aria-current="page">${esc(r.name)}</span></nav>
+          <p style="margin:0 0 10px;font-weight:700;color:var(--plum-soft)">Funded by ${esc(r.sponsor)}</p>
+          <h1>${esc(r.title)}</h1>
+          <p class="lede">${esc(r.lede)}</p>
+        </div>
+        <div class="wrap" style="padding-bottom:64px">
+          ${r.image ? `<figure style="margin:0 0 28px;max-width:760px"><img src="${esc(r.image.startsWith('data:') ? r.image : SITE.imageBase + r.image)}" alt="${esc(r.alt || '')}" loading="lazy" style="display:block;width:100%;height:auto;border-radius:var(--r-lg)"></figure>` : ''}
+          <div class="research-body">${r.body}</div>
+          <p style="margin-top:28px"><a class="btn btn-line" href="#/research">Back to Research</a></p>
+        </div>`,
       platformPage: (p, c) => `
         <article class="wrap tone-${p.slug}" style="padding-block:clamp(16px,3vw,32px) 64px">
           <div class="pf-hero">
