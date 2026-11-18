@@ -53,7 +53,7 @@
     .tag-pj-career, .chip-pj-career { --tone: var(--rose); }
     .tag-pj-yip, .chip-pj-yip { --tone: var(--lilac); }
     .tag-pj-cif, .chip-pj-cif { --tone: var(--mint); }
-    .tag-pj-ocean, .chip-pj-ocean { --tone: var(--sky); }
+    .tag-pj-ocean, .chip-pj-ocean, .tag-pj-UT-Portugal, .chip-pj-UT-Portugal { --tone: var(--sky); }
     .tag[class*="tag-pj-"] { box-shadow: inset 0 0 0 1.5px var(--plum); }
     .tag, .chip { --on-tone: var(--plum); }
     .tone-exodia, .tag-exodia, .chip-exodia { --tone: var(--plum); --on-tone: var(--milk); }
@@ -1551,7 +1551,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
         lede: 'Helping teams of autonomous agents decide quickly and reliably when agents can join, leave, or fail at any time.',
         image: 'research/CAREER/drone-fires.jpg', alt: 'Three quadrotors flying over a forest wildfire',
         body: '<p>This CAREER project develops new foundations for scalable and resilient distributed reinforcement learning, so that teams of autonomous agents can cooperate in real time in open multi-agent systems, where the number of agents changes over time. The central idea is a new theory of two-time-scale stochastic approximation for non-monotone systems. It combines extrapolation techniques from optimization with singular perturbation theory from control to overcome instability, and it characterizes the finite-time complexity of the methods. Building on this theory, the project designs distributed multi-time-scale learning and control methods that adapt to time-varying environments and stay robust to failures, communication constraints and adversaries, and evaluates them in simulations and multi-robot navigation field experiments. The research is paired with course development, student training, outreach and public partnerships.</p>'},
-      { slug: 'yip', name: 'AFOSR YIP', short: 'Resource allocation in open networks', sponsor: 'AFOSR YIP', hide: ['crumbs', 'sponsor', 'lede'], layout: 'split', oneLine: true, fit: 'match', focus: '50% 50%',
+      { slug: 'yip', name: 'AFOSR YIP', short: 'Resource allocation in open networks', sponsor: 'AFOSR YIP', hide: ['crumbs', 'sponsor', 'lede'], layout: 'split', oneLine: true,
         title: 'Foundations of Resilient Distributed Resource Allocation in Open Networks',
         lede: 'Sharing limited resources among changing groups of devices and vehicles, without relying on a central controller.',
         image: 'research/YIP/wireless-ra.jpg', alt: 'Diagram of phones, cars and vehicles in three groups, linked wirelessly to each other and to two cell towers',
@@ -1565,9 +1565,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
         title: 'Space Distributed Ocean Monitorization and Exploration',
         lede: 'Coordinating satellites, high-altitude balloons, and aerial and underwater robots to monitor the health of the ocean safely.',
         image: SITE.research.projects[3].image, alt: 'Satellites, aircraft, and underwater robots connected for ocean monitoring',
-        body: '<p>Environmental monitoring, such as assessing ocean health, requires coordinated observations from diverse autonomous platforms. Integrating these heterogeneous assets is a multi-vehicle control challenge: maximizing coverage while operating safely in increasingly congested orbital and operational environments.</p>' +
-              '<p>In this collaborative UT Austin-Portugal Exploratory Project, we develop a hierarchical control framework. At the high level, reinforcement learning-based planners generate action sequences for the desired tasks. At the low level, a unified quadratic-program controller combines Control Lyapunov Functions for stability with Control Barrier Functions for safety.</p>' +
-              '<p>The framework is validated on autonomous aerial and ground vehicles in UT\u2019s indoor and outdoor test facilities.</p>' }
+        body: '<p>This project addresses how to monitor the ocean’s health with a team of very different autonomous platforms, including satellites, high-altitude balloons, and aerial and underwater robots, so that they cover as much area as possible while operating safely in crowded orbital and operational environments. It develops a two-layer control framework for autonomous vehicles in uncertain and dynamic conditions. At the high level, reinforcement learning plans the sequence of actions for each task. At the low level, a quadratic-program controller carries out those plans, combining Control Lyapunov Functions for stability with Control Barrier Functions for safety. The framework will be tested on aerial and ground vehicles in UT’s indoor and outdoor test facilities, paving the way for robust, scalable, and safe environmental monitoring missions.</p>' }
     ];
     SITE.pubs = SITE.pubs.sort((a, b) => b.year - a.year);   // newest first; the sort is stable
 
@@ -1592,6 +1590,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
 
     const P = Object.fromEntries(SITE.platforms.map(p => [p.slug, p]));
     const RP = Object.fromEntries(SITE.researchPages.map(r => [r.slug, r]));
+    const SLUG_CASE = Object.fromEntries(SITE.researchPages.map(r => [r.slug.toLowerCase(), r.slug]));   // lets #/research/ut-portugal and #/research/UT-Portugal both work
     const FLAGSHIP = SITE.platforms.find(p => p.flagship);
     const HARDWARE = SITE.platforms.filter(p => !p.flagship);
     const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -1788,7 +1787,8 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
     function route() {
       const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean);
       let view = /^[a-z]+$/.test(parts[0] || '') ? parts[0] : 'home';
-      let sub = /^[a-z0-9-]+$/.test(parts[1] || '') ? parts[1] : '';
+      let sub = /^[A-Za-z0-9-]+$/.test(parts[1] || '') ? parts[1] : '';
+      sub = sub.startsWith('project-') ? 'project-' + (SLUG_CASE[sub.slice(8).toLowerCase()] || sub.slice(8)) : (SLUG_CASE[sub.toLowerCase()] || sub);
       if (view === 'platforms' && sub === 'tag') view = 'platform';
       if (view === 'research' && RP[sub]) view = 'researchpage';
       if (!$(`[data-view="${view}"]`)) { view = 'home'; sub = ''; }
