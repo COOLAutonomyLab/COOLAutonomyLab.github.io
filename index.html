@@ -49,6 +49,12 @@
     .tone-tag, .tag-tag, .chip-tag { --tone: var(--lemon); }
     .tone-evtol, .tag-evtol, .chip-evtol { --tone: var(--lime); }
     .tag-theory, .chip-theory, .chip-all { --tone: var(--oat); }
+    /* Funded projects: one tone each; project tags also get a thin outline so they read differently from platform tags. */
+    .tag-pj-career, .chip-pj-career { --tone: var(--rose); }
+    .tag-pj-yip, .chip-pj-yip { --tone: var(--lilac); }
+    .tag-pj-cif, .chip-pj-cif { --tone: var(--mint); }
+    .tag-pj-ocean, .chip-pj-ocean { --tone: var(--sky); }
+    .tag[class*="tag-pj-"] { box-shadow: inset 0 0 0 1.5px var(--plum); }
     .tag, .chip { --on-tone: var(--plum); }
     .tone-exodia, .tag-exodia, .chip-exodia { --tone: var(--plum); --on-tone: var(--milk); }
     .tone-exodia { --il: var(--milk); --ib: var(--plum); --is: rgba(255, 255, 255, .1); --ia: var(--lemon); --ias: var(--lemon); }
@@ -202,6 +208,9 @@
     .page-head { padding-block: clamp(28px, 5vw, 60px) clamp(20px, 3vw, 36px); }
     .page-head h1 { font: 800 clamp(2.5rem, 6.4vw, 5rem)/1 var(--font); letter-spacing: -.035em; }
     .page-head h1.research-title { font: 800 clamp(1.125rem, 1.6vw, 1.25rem)/1.45 var(--font); letter-spacing: 0; max-width: 72ch; margin: 0 0 22px; }
+    @media (min-width: 1000px) { .page-head h1.research-title.rp-oneline { max-width: none; white-space: nowrap; font-size: clamp(1rem, calc((min(1220px, 100vw - 2 * var(--gutter)) - 16px) / 55.2), 1.25rem); } }
+    /* project pages: title centred on the page (the main Research page keeps its own left-aligned title) */
+    [data-view="researchpage"] .page-head h1.research-title { text-align: center; max-width: none; }
     .crumbs { font-weight: 500; font-size: .9375rem; margin-bottom: 18px; display: flex; gap: 8px; }
     .theme-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 20px); }
     .theme-tiles li { background: var(--tone); border-radius: var(--r-md); padding: 20px; }
@@ -259,7 +268,7 @@
     .chip:hover { border-color: var(--plum); color: var(--on-tone, var(--plum)); }
     .chip[aria-current] { border-color: var(--plum); font-weight: 700; box-shadow: 3px 3px 0 var(--plum); }
     .chip-exodia[aria-current] { box-shadow: 3px 3px 0 var(--berry); }
-    .filters > :first-child { grid-column: 1 / -1; }
+    .filters > :first-child, .filters > .f-projects { grid-column: 1 / -1; }
     .filters input[type="search"] { width: 100%; font: 500 1rem/1.2 var(--font); color: var(--plum); background: var(--milk); border: 2.5px solid var(--plum); border-radius: 99px; padding: .55em 1em; }
     .filters input::placeholder { color: var(--plum-soft); opacity: 1; }
     .filters select { font: 500 1rem/1.2 var(--font); color: var(--plum); background: var(--milk); border: 2.5px solid var(--plum); border-radius: 99px; padding: .55em 2em .55em 1em; min-width: 9.5rem; }
@@ -299,7 +308,7 @@
     .alumni span { color: var(--plum-soft); font-size: .9375rem; }
 
     /* Research */
-    .research-body { max-width: 72ch; font-size: 1.0625rem; }
+    .research-body { max-width: 72ch; font-size: 1.0625rem; text-align: justify; text-justify: inter-word; hyphens: auto; }
     .area-pills { display: flex; flex-wrap: wrap; gap: 10px; }
     .area-pills li { font-weight: 500; padding: 10px 18px; border-radius: 99px; background: #fff; border: 2.5px solid var(--plum); }
     .projects { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: clamp(12px, 1.6vw, 20px); }
@@ -1207,6 +1216,10 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
             <span class="filter-label" id="f-platform">Platform</span>
             <ul class="chips" data-pub-platforms aria-labelledby="f-platform"></ul>
           </div>
+          <div class="f-projects">
+            <span class="filter-label" id="f-project">Project</span>
+            <ul class="chips" data-pub-projects aria-labelledby="f-project"></ul>
+          </div>
           <label class="f-search"><span class="filter-label">Search</span><input type="search" data-pub-search placeholder="Title, author or venue" autocomplete="off"></label>
           <label><span class="filter-label">Year</span><select data-pub-year></select></label>
           <label><span class="filter-label">Type</span><select data-pub-type></select></label>
@@ -1314,131 +1327,131 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
          Link keys: paper (publisher page), arxiv, pdf, code. */
       pubs: [
         { title: 'CBF-based Probabilistic Safe Navigation under Unknown Nonlinear Obstacle Dynamics',
-          authors: 'J. Lee, H. Matias, D. Silvestre, T. T. Doan', venue: 'arXiv:2604.14818', year: 2026, type: 'Preprint', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2604.14818', pdf: 'https://arxiv.org/pdf/2604.14818' } },
+          authors: 'J. Lee, H. Matias, D. Silvestre, T. T. Doan', venue: 'arXiv:2604.14818', year: 2026, type: 'Preprint', projects: ['ocean'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2604.14818', pdf: 'https://arxiv.org/pdf/2604.14818' } },
         { title: 'Internal State-Based Policy Gradient Methods for Partially Observable Markov Potential Games',
-          authors: 'W. Yang, T. T. Doan', venue: 'arXiv:2604.00433', year: 2026, type: 'Preprint', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2604.00433', pdf: 'https://arxiv.org/pdf/2604.00433' } },
+          authors: 'W. Yang, T. T. Doan', venue: 'arXiv:2604.00433', year: 2026, type: 'Preprint', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2604.00433', pdf: 'https://arxiv.org/pdf/2604.00433' } },
         { title: 'Finite-Time Analysis of Projected Two-Time-Scale Stochastic Approximation',
-          authors: 'Y. Bai, T. T. Doan, J. Romberg', venue: 'arXiv:2604.00179', year: 2026, type: 'Preprint', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2604.00179', pdf: 'https://arxiv.org/pdf/2604.00179' } },
+          authors: 'Y. Bai, T. T. Doan, J. Romberg', venue: 'arXiv:2604.00179', year: 2026, type: 'Preprint', projects: ['career'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2604.00179', pdf: 'https://arxiv.org/pdf/2604.00179' } },
         { title: 'Fast Nonlinear Two-Time-Scale Stochastic Approximation: Achieving O(1/k) Finite-Sample Complexity',
-          authors: 'T. T. Doan', venue: 'IEEE Transactions on Automatic Control (accepted)', year: 2025, type: 'Journal', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2401.12764', pdf: 'https://arxiv.org/pdf/2401.12764' } },
+          authors: 'T. T. Doan', venue: 'IEEE Transactions on Automatic Control (accepted)', year: 2025, type: 'Journal', projects: ['career'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2401.12764', pdf: 'https://arxiv.org/pdf/2401.12764' } },
         { title: 'Accelerating Multi-Task Temporal Difference Learning under Low-Rank Representation',
-          authors: 'Y. Bai, S. Zeng, J. Romberg, T. T. Doan', venue: 'arXiv:2503.02030', year: 2025, type: 'Preprint', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2503.02030', pdf: 'https://arxiv.org/pdf/2503.02030' } },
+          authors: 'Y. Bai, S. Zeng, J. Romberg, T. T. Doan', venue: 'arXiv:2503.02030', year: 2025, type: 'Preprint', projects: ['cif'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2503.02030', pdf: 'https://arxiv.org/pdf/2503.02030' } },
         { title: 'Nonasymptotic CLT and Error Bounds for Two-Time-Scale Stochastic Approximation',
-          authors: 'S. T. Kong, S. Zeng, T. T. Doan, R. Srikant', venue: 'arXiv:2502.09884', year: 2025, type: 'Preprint', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2502.09884', pdf: 'https://arxiv.org/pdf/2502.09884' } },
+          authors: 'S. T. Kong, S. Zeng, T. T. Doan, R. Srikant', venue: 'arXiv:2502.09884', year: 2025, type: 'Preprint', projects: ['career'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2502.09884', pdf: 'https://arxiv.org/pdf/2502.09884' } },
         { title: 'DALTON - Deep Local Learning in SNNs via local Weights and Surrogate-Derivative Transfer',
-          authors: 'R. Gaurav, D. A. Do, T. T. Doan, Y. Yi', venue: 'IEEE Transactions on Emerging Topics in Computing', year: 2024, type: 'Journal', platforms: [], links: {} },
+          authors: 'R. Gaurav, D. A. Do, T. T. Doan, Y. Yi', venue: 'IEEE Transactions on Emerging Topics in Computing', year: 2024, type: 'Journal', projects: [], platforms: [], links: {} },
         { title: 'Distributed Grid Optimization via Distributed Dual Subgradient Methods with Averaging',
-          authors: 'S. Bose, H. D. Nguyen, H. Liu, Y. Guo, T. T. Doan, C. L. Beck', venue: 'Journal of Optimization Theory and Applications', year: 2024, type: 'Journal', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2107.07061', pdf: 'https://arxiv.org/pdf/2107.07061' } },
+          authors: 'S. Bose, H. D. Nguyen, H. Liu, Y. Guo, T. T. Doan, C. L. Beck', venue: 'Journal of Optimization Theory and Applications', year: 2024, type: 'Journal', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2107.07061', pdf: 'https://arxiv.org/pdf/2107.07061' } },
         { title: 'Bayesian Meta Learning for Trustworthy Uncertainty Quantification',
-          authors: 'Z. Yuan, T. T. Doan', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2024, type: 'Conference', platforms: [], links: {} },
+          authors: 'Z. Yuan, T. T. Doan', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2024, type: 'Conference', projects: [], platforms: [], links: {} },
         { title: 'Fast Two-Time-Scale Stochastic Gradient Method with Applications in Reinforcement Learning',
-          authors: 'S. Zeng, T. T. Doan', venue: 'Conference on Learning Theory (COLT), pp. 5166-5212', year: 2024, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2405.09660', pdf: 'https://arxiv.org/pdf/2405.09660' } },
+          authors: 'S. Zeng, T. T. Doan', venue: 'Conference on Learning Theory (COLT), pp. 5166-5212', year: 2024, type: 'Conference', projects: ['career'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2405.09660', pdf: 'https://arxiv.org/pdf/2405.09660' } },
         { title: 'Convergence Rates of Gradient Descent-Ascent Dynamics Under Delays in Solving Nonconvex Min-Max Optimization',
-          authors: 'D. A. Do, T. T. Doan', venue: 'European Control Conference (ECC), pp. 2748-2753', year: 2024, type: 'Conference', platforms: [], links: {} },
+          authors: 'D. A. Do, T. T. Doan', venue: 'European Control Conference (ECC), pp. 2748-2753', year: 2024, type: 'Conference', projects: [], platforms: [], links: {} },
         { title: 'Finite-Time Complexity of Incremental Policy Gradient Methods for Solving Multi-Task Reinforcement Learning',
-          authors: 'Y. Bai, T. T. Doan', venue: '6th Annual Learning for Dynamics & Control Conference (L4DC), pp. 1046-1057', year: 2024, type: 'Conference', platforms: [], links: {} },
+          authors: 'Y. Bai, T. T. Doan', venue: '6th Annual Learning for Dynamics & Control Conference (L4DC), pp. 1046-1057', year: 2024, type: 'Conference', projects: ['cif'], platforms: [], links: {} },
         { title: 'Accelerated Multi-Time-Scale Stochastic Approximation: Optimal Complexity and Applications in Reinforcement Learning and Multi-Agent Games',
-          authors: 'S. Zeng, T. T. Doan', venue: 'arXiv:2409.07767', year: 2024, type: 'Preprint', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2409.07767', pdf: 'https://arxiv.org/pdf/2409.07767' } },
+          authors: 'S. Zeng, T. T. Doan', venue: 'arXiv:2409.07767', year: 2024, type: 'Preprint', projects: ['career'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2409.07767', pdf: 'https://arxiv.org/pdf/2409.07767' } },
         { title: 'Resilient Two-Time-Scale Local Stochastic Gradient Descent for Byzantine Federated Learning',
-          authors: 'A. Dutta, T. T. Doan', venue: 'arXiv:2409.03092', year: 2024, type: 'Preprint', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2409.03092', pdf: 'https://arxiv.org/pdf/2409.03092' } },
+          authors: 'A. Dutta, T. T. Doan', venue: 'arXiv:2409.03092', year: 2024, type: 'Preprint', projects: ['career'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2409.03092', pdf: 'https://arxiv.org/pdf/2409.03092' } },
         { title: 'Natural Policy Gradient and Actor Critic Methods for Constrained Multi-Task Reinforcement Learning',
-          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'arXiv:2405.02456', year: 2024, type: 'Preprint', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2405.02456', pdf: 'https://arxiv.org/pdf/2405.02456' } },
+          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'arXiv:2405.02456', year: 2024, type: 'Preprint', projects: ['cif'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2405.02456', pdf: 'https://arxiv.org/pdf/2405.02456' } },
         { title: 'A Two-Time-Scale Stochastic Optimization Framework with Applications in Control and Reinforcement Learning',
-          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'SIAM Journal on Optimization', year: 2023, type: 'Journal', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2109.14756', pdf: 'https://arxiv.org/pdf/2109.14756' } },
+          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'SIAM Journal on Optimization', year: 2023, type: 'Journal', projects: ['career'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2109.14756', pdf: 'https://arxiv.org/pdf/2109.14756' } },
         { title: 'Finite-Time Convergence Rates of Distributed Local Stochastic Approximation',
-          authors: 'T. T. Doan', venue: 'Automatica', year: 2023, type: 'Journal', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2006.13460', pdf: 'https://arxiv.org/pdf/2006.13460' } },
+          authors: 'T. T. Doan', venue: 'Automatica', year: 2023, type: 'Journal', projects: ['career'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2006.13460', pdf: 'https://arxiv.org/pdf/2006.13460' } },
         { title: 'Connected Superlevel Set in (Deep) Reinforcement Learning and its Application to Minimax Theorems',
-          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'Conference on Neural Information Processing Systems (NeurIPS)', year: 2023, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2303.12981', pdf: 'https://arxiv.org/pdf/2303.12981' } },
+          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'Conference on Neural Information Processing Systems (NeurIPS)', year: 2023, type: 'Conference', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2303.12981', pdf: 'https://arxiv.org/pdf/2303.12981' } },
         { title: 'Resilient Federated Learning under Byzantine Attack in Distributed Nonconvex Optimization with 2-f Redundancy',
-          authors: 'A. Dutta, T. T. Doan, J. Reed', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2023, type: 'Conference', platforms: [], links: {} },
+          authors: 'A. Dutta, T. T. Doan, J. Reed', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2023, type: 'Conference', projects: [], platforms: [], links: {} },
         { title: 'Federated Multi-Agent Deep Reinforcement Learning (Fed-MADRL) for Dynamic Spectrum Access',
-          authors: 'H-H. Chang, Y. Song, T. T. Doan, L. Liu', venue: 'IEEE Transactions on Wireless Communications', year: 2022, type: 'Journal', platforms: [], links: {} },
+          authors: 'H-H. Chang, Y. Song, T. T. Doan, L. Liu', venue: 'IEEE Transactions on Wireless Communications', year: 2022, type: 'Journal', projects: [], platforms: [], links: {} },
         { title: 'Byzantine Fault-Tolerance in Federated Local SGD under 2f-Redundancy',
-          authors: 'N. Gupta, T. T. Doan, N. Vaidya', venue: 'IEEE Transactions on Control of Network Systems', year: 2022, type: 'Journal', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2108.11769', pdf: 'https://arxiv.org/pdf/2108.11769' } },
+          authors: 'N. Gupta, T. T. Doan, N. Vaidya', venue: 'IEEE Transactions on Control of Network Systems', year: 2022, type: 'Journal', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2108.11769', pdf: 'https://arxiv.org/pdf/2108.11769' } },
         { title: 'Finite-Time Analysis of Decentralized Stochastic Approximation with Applications in Multi-Agent and Multi-Task Learning',
-          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'IEEE Transactions on Automatic Control, Special Issue on Learning and Control', year: 2022, type: 'Journal', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2010.15088', pdf: 'https://arxiv.org/pdf/2010.15088' } },
+          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'IEEE Transactions on Automatic Control, Special Issue on Learning and Control', year: 2022, type: 'Journal', projects: ['cif'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2010.15088', pdf: 'https://arxiv.org/pdf/2010.15088' } },
         { title: 'Nonlinear Two-Time-Scale Stochastic Approximation: Convergence and Finite-Time Performance',
-          authors: 'T. T. Doan', venue: 'IEEE Transactions on Automatic Control', year: 2022, type: 'Journal', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2011.01868', pdf: 'https://arxiv.org/pdf/2011.01868' } },
+          authors: 'T. T. Doan', venue: 'IEEE Transactions on Automatic Control', year: 2022, type: 'Journal', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2011.01868', pdf: 'https://arxiv.org/pdf/2011.01868' } },
         { title: 'Finite-Time Analysis of Markov Gradient Descent',
-          authors: 'T. T. Doan', venue: 'IEEE Transactions on Automatic Control', year: 2022, type: 'Journal', platforms: [], links: { paper: 'https://ieeexplore.ieee.org/document/9769873' } },
+          authors: 'T. T. Doan', venue: 'IEEE Transactions on Automatic Control', year: 2022, type: 'Journal', projects: [], platforms: [], links: { paper: 'https://ieeexplore.ieee.org/document/9769873' } },
         { title: 'Finite Sample Analysis of Two-Time-Scale Natural Actor-Critic Algorithm',
-          authors: 'S. Khodadadian, T. T. Doan, S. T. Maguluri, J. Romberg', venue: 'IEEE Transactions on Automatic Control', year: 2022, type: 'Journal', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2101.10506', pdf: 'https://arxiv.org/pdf/2101.10506' } },
+          authors: 'S. Khodadadian, T. T. Doan, S. T. Maguluri, J. Romberg', venue: 'IEEE Transactions on Automatic Control', year: 2022, type: 'Journal', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2101.10506', pdf: 'https://arxiv.org/pdf/2101.10506' } },
         { title: 'Performance of Q-learning with Linear Function Approximation: Stability and Finite-Time Analysis',
-          authors: 'Z. Chen, S. Zhang, T. T. Doan, S. T. Maguluri, J-P. Clarke', venue: 'Automatica', year: 2022, type: 'Journal', platforms: [], links: { arxiv: 'https://arxiv.org/abs/1905.11425', pdf: 'https://arxiv.org/pdf/1905.11425' } },
+          authors: 'Z. Chen, S. Zhang, T. T. Doan, S. T. Maguluri, J-P. Clarke', venue: 'Automatica', year: 2022, type: 'Journal', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/1905.11425', pdf: 'https://arxiv.org/pdf/1905.11425' } },
         { title: 'Regularized Gradient Descent Ascent for Two-Player Zero-Sum Markov Games',
-          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'Conference on Neural Information Processing Systems (NeurIPS)', year: 2022, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2205.13746', pdf: 'https://arxiv.org/pdf/2205.13746' } },
+          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'Conference on Neural Information Processing Systems (NeurIPS)', year: 2022, type: 'Conference', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2205.13746', pdf: 'https://arxiv.org/pdf/2205.13746' } },
         { title: 'Finite-Time Complexity of Online Primal-Dual Natural Actor-Critic Algorithm for Constrained Markov Decision Processes',
-          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2022, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2110.11383', pdf: 'https://arxiv.org/pdf/2110.11383' } },
+          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2022, type: 'Conference', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2110.11383', pdf: 'https://arxiv.org/pdf/2110.11383' } },
         { title: 'Convergence Rates of Decentralized Gradient Methods over Cluster Networks',
-          authors: 'A. Dutta, N. Masrourisaadat, T. T. Doan', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2022, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2110.06992', pdf: 'https://arxiv.org/pdf/2110.06992' } },
+          authors: 'A. Dutta, N. Masrourisaadat, T. T. Doan', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2022, type: 'Conference', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2110.06992', pdf: 'https://arxiv.org/pdf/2110.06992' } },
         { title: 'Convergence Rates of Distributed Consensus over Cluster Networks: A Two-Time-Scale Approach',
-          authors: 'A. Dutta, A. M. Boker, T. T. Doan', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2022, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2104.07781', pdf: 'https://arxiv.org/pdf/2104.07781' } },
+          authors: 'A. Dutta, A. M. Boker, T. T. Doan', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2022, type: 'Conference', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2104.07781', pdf: 'https://arxiv.org/pdf/2104.07781' } },
         { title: 'Convergence Rates of Asynchronous Policy Iteration for Zero-Sum Markov Games under Stochastic and Optimistic Settings',
-          authors: 'S. Brahma, Y. Bai, D. A. Do, T. T. Doan', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2022, type: 'Conference', platforms: [], links: {} },
+          authors: 'S. Brahma, Y. Bai, D. A. Do, T. T. Doan', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2022, type: 'Conference', projects: [], platforms: [], links: {} },
         { title: 'Convergence Rates of Two-Time-Scale Gradient Descent-Ascent Dynamics for Solving Nonconvex Min-Max Problems',
-          authors: 'T. T. Doan', venue: '4th Annual Learning for Dynamics & Control Conference (L4DC)', year: 2022, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2112.09579', pdf: 'https://arxiv.org/pdf/2112.09579' } },
+          authors: 'T. T. Doan', venue: '4th Annual Learning for Dynamics & Control Conference (L4DC)', year: 2022, type: 'Conference', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2112.09579', pdf: 'https://arxiv.org/pdf/2112.09579' } },
         { title: 'Convergence and Price of Anarchy Guarantees of the Softmax Policy Gradient in Markov Potential Games',
-          authors: 'D. Chen, Q. Zhang, T. T. Doan', venue: 'arXiv:2206.07642', year: 2022, type: 'Preprint', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2206.07642', pdf: 'https://arxiv.org/pdf/2206.07642' } },
+          authors: 'D. Chen, Q. Zhang, T. T. Doan', venue: 'arXiv:2206.07642', year: 2022, type: 'Preprint', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2206.07642', pdf: 'https://arxiv.org/pdf/2206.07642' } },
         { title: 'A Reinforcement Learning Framework for Sequencing Multi-Robot Behaviors',
-          authors: 'P. Pierpaoli, T. T. Doan, J. Romberg, M. Egerstedt', venue: 'Control Theory and Technology', year: 2021, type: 'Journal', platforms: [], links: { paper: 'https://link.springer.com/article/10.1007%2Fs11768-021-00069-5' } },
+          authors: 'P. Pierpaoli, T. T. Doan, J. Romberg, M. Egerstedt', venue: 'Control Theory and Technology', year: 2021, type: 'Journal', projects: [], platforms: [], links: { paper: 'https://link.springer.com/article/10.1007%2Fs11768-021-00069-5' } },
         { title: 'Finite-Time Analysis and Restarting Scheme for Linear Two-Time-Scale Stochastic Approximation',
-          authors: 'T. T. Doan', venue: 'SIAM Journal on Control and Optimization, vol. 59, no. 4, pp. 2798-2819', year: 2021, type: 'Journal', platforms: [], links: { paper: 'https://epubs.siam.org/doi/abs/10.1137/20M1322649' } },
+          authors: 'T. T. Doan', venue: 'SIAM Journal on Control and Optimization, vol. 59, no. 4, pp. 2798-2819', year: 2021, type: 'Journal', projects: [], platforms: [], links: { paper: 'https://epubs.siam.org/doi/abs/10.1137/20M1322649' } },
         { title: 'Finite-Time Performance of Distributed Temporal Difference Learning with Linear Function Approximation',
-          authors: 'T. T. Doan, S. T. Maguluri, J. Romberg', venue: 'SIAM Journal on Mathematics of Data Science, vol. 3, pp. 298-320', year: 2021, type: 'Journal', platforms: [], links: { paper: 'https://epubs.siam.org/doi/abs/10.1137/20M1311971' } },
+          authors: 'T. T. Doan, S. T. Maguluri, J. Romberg', venue: 'SIAM Journal on Mathematics of Data Science, vol. 3, pp. 298-320', year: 2021, type: 'Journal', projects: [], platforms: [], links: { paper: 'https://epubs.siam.org/doi/abs/10.1137/20M1311971' } },
         { title: 'Distributed Resource Allocation Over Dynamic Networks with Uncertainty',
-          authors: 'T. T. Doan, C. L. Beck', venue: 'IEEE Transactions on Automatic Control, vol. 66, no. 9, pp. 4378-4384', year: 2021, type: 'Journal', platforms: [], links: { paper: 'https://ieeexplore.ieee.org/abstract/document/9272828' } },
+          authors: 'T. T. Doan, C. L. Beck', venue: 'IEEE Transactions on Automatic Control, vol. 66, no. 9, pp. 4378-4384', year: 2021, type: 'Journal', projects: ['yip'], platforms: [], links: { paper: 'https://ieeexplore.ieee.org/abstract/document/9272828' } },
         { title: 'Convergence Rates of Distributed Gradient Methods Under Random Quantization: A Stochastic Approximation Approach',
-          authors: 'T. T. Doan, S. T. Maguluri, J. Romberg', venue: 'IEEE Transactions on Automatic Control, vol. 66, no. 10, pp. 4469-4484', year: 2021, type: 'Journal', platforms: [], links: { paper: 'https://ieeexplore.ieee.org/abstract/document/9224135' } },
+          authors: 'T. T. Doan, S. T. Maguluri, J. Romberg', venue: 'IEEE Transactions on Automatic Control, vol. 66, no. 10, pp. 4469-4484', year: 2021, type: 'Journal', projects: [], platforms: [], links: { paper: 'https://ieeexplore.ieee.org/abstract/document/9224135' } },
         { title: 'Fast Convergence Rates of Distributed Subgradient Methods with Adaptive Quantization',
-          authors: 'T. T. Doan, S. T. Maguluri, J. Romberg', venue: 'IEEE Transactions on Automatic Control, vol. 66, no. 5, pp. 2191-2205', year: 2021, type: 'Journal', platforms: [], links: { paper: 'https://ieeexplore.ieee.org/abstract/document/9157925' } },
+          authors: 'T. T. Doan, S. T. Maguluri, J. Romberg', venue: 'IEEE Transactions on Automatic Control, vol. 66, no. 5, pp. 2191-2205', year: 2021, type: 'Journal', projects: [], platforms: [], links: { paper: 'https://ieeexplore.ieee.org/abstract/document/9157925' } },
         { title: 'Distributed Local Two-Time-Scale Stochastic Approximation',
-          authors: 'T. T. Doan', venue: 'Indian Control Conference (ICC-7)', year: 2021, type: 'Conference', platforms: [], links: {} },
+          authors: 'T. T. Doan', venue: 'Indian Control Conference (ICC-7)', year: 2021, type: 'Conference', projects: [], platforms: [], links: {} },
         { title: 'Finite-Time Analysis of Decentralized Stochastic Approximation with Applications in Multi-Agent and Multi-Task Learning',
-          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2021, type: 'Conference', platforms: [], links: { paper: 'https://ieeexplore.ieee.org/document/9683363' } },
+          authors: 'S. Zeng, T. T. Doan, J. Romberg', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2021, type: 'Conference', projects: ['cif'], platforms: [], links: { paper: 'https://ieeexplore.ieee.org/document/9683363' } },
         { title: 'Improved Convergence Rate for a Distributed Two-Time-Scale Gradient Method under Random Quantization',
-          authors: 'M. M. Vasconcelos, T. T. Doan, U. Mitra', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2021, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2105.14089', pdf: 'https://arxiv.org/pdf/2105.14089' } },
+          authors: 'M. M. Vasconcelos, T. T. Doan, U. Mitra', venue: 'IEEE Conference on Decision and Control (CDC)', year: 2021, type: 'Conference', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2105.14089', pdf: 'https://arxiv.org/pdf/2105.14089' } },
         { title: 'A Decentralized Policy Gradient Approach to Multi-task Reinforcement Learning',
-          authors: 'S. Zeng, A. Anwar, T. T. Doan, J. Romberg, A. Raychowdhury', venue: 'Conference on Uncertainty in Artificial Intelligence (UAI)', year: 2021, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2006.04338', pdf: 'https://arxiv.org/pdf/2006.04338' } },
+          authors: 'S. Zeng, A. Anwar, T. T. Doan, J. Romberg, A. Raychowdhury', venue: 'Conference on Uncertainty in Artificial Intelligence (UAI)', year: 2021, type: 'Conference', projects: ['cif'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2006.04338', pdf: 'https://arxiv.org/pdf/2006.04338' } },
         { title: 'Nonlinear Two-Time-Scale Stochastic Approximation: Convergence and Finite-Time Performance',
-          authors: 'T. T. Doan', venue: '3rd Annual Learning for Dynamics & Control Conference (L4DC), extended abstract', year: 2021, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2011.01868', pdf: 'https://arxiv.org/pdf/2011.01868' } },
+          authors: 'T. T. Doan', venue: '3rd Annual Learning for Dynamics & Control Conference (L4DC), extended abstract', year: 2021, type: 'Conference', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2011.01868', pdf: 'https://arxiv.org/pdf/2011.01868' } },
         { title: 'Distributed two-time-scale methods over clustered networks',
-          authors: 'T. V. Pham, T. T. Doan, D. H. Nguyen', venue: 'American Control Conference (ACC)', year: 2021, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2010.00355', pdf: 'https://arxiv.org/pdf/2010.00355' } },
+          authors: 'T. V. Pham, T. T. Doan, D. H. Nguyen', venue: 'American Control Conference (ACC)', year: 2021, type: 'Conference', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2010.00355', pdf: 'https://arxiv.org/pdf/2010.00355' } },
         { title: 'Byzantine Fault-Tolerance in Decentralized Optimization under Minimal Redundancy',
-          authors: 'N. Gupta, T. T. Doan, N. H. Vaidya', venue: 'American Control Conference (ACC)', year: 2021, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2009.14763', pdf: 'https://arxiv.org/pdf/2009.14763' } },
+          authors: 'N. Gupta, T. T. Doan, N. H. Vaidya', venue: 'American Control Conference (ACC)', year: 2021, type: 'Conference', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2009.14763', pdf: 'https://arxiv.org/pdf/2009.14763' } },
         { title: 'Finite-Time Convergence Rates of Nonlinear Two-Time-Scale Stochastic Approximation under Markovian Noise',
-          authors: 'T. T. Doan', venue: 'arXiv:2104.01627', year: 2021, type: 'Preprint', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2104.01627', pdf: 'https://arxiv.org/pdf/2104.01627' } },
+          authors: 'T. T. Doan', venue: 'arXiv:2104.01627', year: 2021, type: 'Preprint', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2104.01627', pdf: 'https://arxiv.org/pdf/2104.01627' } },
         { title: 'Finite-Time Performance of Distributed Two-Time-Scale Stochastic Approximation',
-          authors: 'T. T. Doan, J. Romberg', venue: 'Learning for Dynamics & Control Conference (L4DC)', year: 2020, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/1912.10155', pdf: 'https://arxiv.org/pdf/1912.10155' } },
+          authors: 'T. T. Doan, J. Romberg', venue: 'Learning for Dynamics & Control Conference (L4DC)', year: 2020, type: 'Conference', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/1912.10155', pdf: 'https://arxiv.org/pdf/1912.10155' } },
         { title: 'Convergence Rates of Accelerated Markov Gradient Descent with Applications in Reinforcement Learning',
-          authors: 'T. T. Doan, L. M. Nguyen, N. H. Pham, J. Romberg', venue: 'arXiv:2002.02873', year: 2020, type: 'Preprint', platforms: [], links: { arxiv: 'https://arxiv.org/abs/2002.02873', pdf: 'https://arxiv.org/pdf/2002.02873' } },
+          authors: 'T. T. Doan, L. M. Nguyen, N. H. Pham, J. Romberg', venue: 'arXiv:2002.02873', year: 2020, type: 'Preprint', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2002.02873', pdf: 'https://arxiv.org/pdf/2002.02873' } },
         { title: 'Convergence of the Iterates in Mirror Descent Methods',
-          authors: 'T. T. Doan, S. Bose, D. H. Nguyen, C. L. Beck', venue: 'IEEE Control Systems Letters, vol. 3, no. 1', year: 2019, type: 'Journal', platforms: [], links: { arxiv: 'https://arxiv.org/abs/1805.01526', pdf: 'https://arxiv.org/pdf/1805.01526' } },
+          authors: 'T. T. Doan, S. Bose, D. H. Nguyen, C. L. Beck', venue: 'IEEE Control Systems Letters, vol. 3, no. 1', year: 2019, type: 'Journal', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/1805.01526', pdf: 'https://arxiv.org/pdf/1805.01526' } },
         { title: 'Linear Two-Time-Scale Stochastic Approximation: A Finite-Time Analysis',
-          authors: 'T. T. Doan, J. Romberg', venue: 'Allerton Conference on Communication, Control, and Computing', year: 2019, type: 'Conference', platforms: [], links: {} },
+          authors: 'T. T. Doan, J. Romberg', venue: 'Allerton Conference on Communication, Control, and Computing', year: 2019, type: 'Conference', projects: [], platforms: [], links: {} },
         { title: 'Convergence Rates of Distributed Two-Time-Scale Gradient Methods under Random Quantization',
-          authors: 'T. T. Doan, S. T. Maguluri, J. Romberg', venue: '8th IFAC Workshop on Distributed Estimation and Control in Networked Systems (NecSys)', year: 2019, type: 'Conference', platforms: [], links: {} },
+          authors: 'T. T. Doan, S. T. Maguluri, J. Romberg', venue: '8th IFAC Workshop on Distributed Estimation and Control in Networked Systems (NecSys)', year: 2019, type: 'Conference', projects: [], platforms: [], links: {} },
         { title: 'Finite-Time Analysis of Distributed TD(0) with Linear Function Approximation for Multi-Agent Reinforcement Learning',
-          authors: 'T. T. Doan, S. T. Maguluri, J. Romberg', venue: 'International Conference on Machine Learning (ICML)', year: 2019, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/1902.07393', pdf: 'https://arxiv.org/pdf/1902.07393' } },
+          authors: 'T. T. Doan, S. T. Maguluri, J. Romberg', venue: 'International Conference on Machine Learning (ICML)', year: 2019, type: 'Conference', projects: [], platforms: [], links: { arxiv: 'https://arxiv.org/abs/1902.07393', pdf: 'https://arxiv.org/pdf/1902.07393' } },
         { title: 'Convergence Rate of Distributed Consensus with Nonuniform Delays',
-          authors: 'T. T. Doan, C. L. Beck, R. Srikant', venue: 'Asilomar Conference on Signals, Systems, and Computers', year: 2018, type: 'Conference', platforms: [], links: {} },
+          authors: 'T. T. Doan, C. L. Beck, R. Srikant', venue: 'Asilomar Conference on Signals, Systems, and Computers', year: 2018, type: 'Conference', projects: [], platforms: [], links: {} },
         { title: 'On the Convergence of Distributed Subgradient Methods under Quantization',
-          authors: 'T. T. Doan, S. T. Maguluri, J. Romberg', venue: 'Allerton Conference on Communication, Control, and Computing', year: 2018, type: 'Conference', platforms: [], links: {} },
+          authors: 'T. T. Doan, S. T. Maguluri, J. Romberg', venue: 'Allerton Conference on Communication, Control, and Computing', year: 2018, type: 'Conference', projects: [], platforms: [], links: {} },
         { title: 'Convergence Rate of Distributed Random Projections',
-          authors: 'T. T. Doan, J. Lubars, C. L. Beck, R. Srikant', venue: '7th IFAC Workshop on Distributed Estimation and Control in Networked Systems (NecSys)', year: 2018, type: 'Conference', platforms: [], links: { pdf: 'https://drive.google.com/open?id=12O1bP5A-0IGgczwtUyOhufrr4antIpE-' } },
+          authors: 'T. T. Doan, J. Lubars, C. L. Beck, R. Srikant', venue: '7th IFAC Workshop on Distributed Estimation and Control in Networked Systems (NecSys)', year: 2018, type: 'Conference', projects: [], platforms: [], links: { pdf: 'https://drive.google.com/open?id=12O1bP5A-0IGgczwtUyOhufrr4antIpE-' } },
         { title: 'Convergence Rate of Distributed Subgradient Methods under Communication Delays',
-          authors: 'T. T. Doan, C. L. Beck, R. Srikant', venue: 'American Control Conference (ACC)', year: 2018, type: 'Conference', platforms: [], links: { pdf: 'https://drive.google.com/open?id=1UJacyTrLkgxWEq1VhjuMfdINMaPyiaJq' } },
+          authors: 'T. T. Doan, C. L. Beck, R. Srikant', venue: 'American Control Conference (ACC)', year: 2018, type: 'Conference', projects: [], platforms: [], links: { pdf: 'https://drive.google.com/open?id=1UJacyTrLkgxWEq1VhjuMfdINMaPyiaJq' } },
         { title: 'Aggregating Stochastic Gradients in Distributed Optimization',
-          authors: 'T. T. Doan', venue: 'American Control Conference (ACC)', year: 2018, type: 'Conference', platforms: [], links: { pdf: 'https://drive.google.com/open?id=1t2tNtXLFlATjjUZDXU2orbWw8QUfAFgu' } },
+          authors: 'T. T. Doan', venue: 'American Control Conference (ACC)', year: 2018, type: 'Conference', projects: [], platforms: [], links: { pdf: 'https://drive.google.com/open?id=1t2tNtXLFlATjjUZDXU2orbWw8QUfAFgu' } },
         { title: 'On the Convergence Rate of Distributed Gradient Methods for Finite-Sum Optimization under Communication Delays',
-          authors: 'T. T. Doan, C. L. Beck, R. Srikant', venue: 'Proceedings of the ACM on Measurement and Analysis of Computing Systems (SIGMETRICS), vol. 1, no. 2', year: 2017, type: 'Journal', platforms: [], links: { paper: 'https://dl.acm.org/citation.cfm?id=3154496' } },
+          authors: 'T. T. Doan, C. L. Beck, R. Srikant', venue: 'Proceedings of the ACM on Measurement and Analysis of Computing Systems (SIGMETRICS), vol. 1, no. 2', year: 2017, type: 'Journal', projects: [], platforms: [], links: { paper: 'https://dl.acm.org/citation.cfm?id=3154496' } },
         { title: 'Distributed Resource Allocation on Dynamic Networks in Quadratic Time',
-          authors: 'T. T. Doan, A. Olshevsky', venue: 'Systems & Control Letters, vol. 99, pp. 57-63', year: 2017, type: 'Journal', platforms: [], links: { arxiv: 'https://arxiv.org/abs/1507.07850', pdf: 'https://arxiv.org/pdf/1507.07850' } },
+          authors: 'T. T. Doan, A. Olshevsky', venue: 'Systems & Control Letters, vol. 99, pp. 57-63', year: 2017, type: 'Journal', projects: ['yip'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/1507.07850', pdf: 'https://arxiv.org/pdf/1507.07850' } },
         { title: 'Distributed Lagrangian Methods for Network Resource Allocation',
-          authors: 'T. T. Doan, C. L. Beck', venue: 'IEEE Conference on Control Technology and Applications (CCTA)', year: 2017, type: 'Conference', platforms: [], links: { arxiv: 'https://arxiv.org/abs/1609.06287', pdf: 'https://arxiv.org/pdf/1609.06287' } },
+          authors: 'T. T. Doan, C. L. Beck', venue: 'IEEE Conference on Control Technology and Applications (CCTA)', year: 2017, type: 'Conference', projects: ['yip'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/1609.06287', pdf: 'https://arxiv.org/pdf/1609.06287' } },
         { title: 'Distributed Lagrangian Method for Tie-Line Scheduling in Power Grids under Uncertainty',
-          authors: 'T. T. Doan, S. Bose, C. L. Beck', venue: 'ACM SIGMETRICS Performance Evaluation Review, vol. 45, no. 2, pp. 88-90, extended abstract', year: 2017, type: 'Conference', platforms: [], links: { paper: 'https://dl.acm.org/citation.cfm?id=3152069' } },
+          authors: 'T. T. Doan, S. Bose, C. L. Beck', venue: 'ACM SIGMETRICS Performance Evaluation Review, vol. 45, no. 2, pp. 88-90, extended abstract', year: 2017, type: 'Conference', projects: [], platforms: [], links: { paper: 'https://dl.acm.org/citation.cfm?id=3152069' } },
         { title: 'Continuous-Time Constrained Distributed Convex Optimization',
-          authors: 'T. T. Doan, C. Y. Tang', venue: 'Allerton Conference on Communication, Control, and Computing, pp. 1482-1489', year: 2012, type: 'Conference', platforms: [], links: { paper: 'https://ieeexplore.ieee.org/document/6483394' } }
+          authors: 'T. T. Doan, C. Y. Tang', venue: 'Allerton Conference on Communication, Control, and Computing, pp. 1482-1489', year: 2012, type: 'Conference', projects: [], platforms: [], links: { paper: 'https://ieeexplore.ieee.org/document/6483394' } }
       ],
 
       /* Dummy papers that show how platform tags and the "Related publications" lists work.
@@ -1533,24 +1546,22 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
     /* RESEARCH SUB-PAGES: one object per sub-tab. `slug` is the address (#/research/<slug>),
        `name` and `short` appear in the Research menu, `body` is the page text (plain HTML). */
     SITE.researchPages = [
-      { slug: 'career', name: 'NSF CAREER', short: 'Open multi-agent systems', sponsor: 'NSF CAREER', hide: ['crumbs', 'sponsor', 'lede'], layout: 'split', publications: 2,
+      { slug: 'career', name: 'NSF CAREER', short: 'Open multi-agent systems', sponsor: 'NSF CAREER', hide: ['crumbs', 'sponsor', 'lede'], layout: 'split', oneLine: true, fit: 'match', focus: '62% 40%',
         title: 'Foundations of Scalable and Resilient Distributed Real-Time Decision Making in Open Multi-Agent Systems',
         lede: 'Helping teams of autonomous agents decide quickly and reliably when agents can join, leave, or fail at any time.',
         image: 'research/CAREER/drone-fires.jpg', alt: 'Three quadrotors flying over a forest wildfire',
         body: '<p>This CAREER project develops new foundations for scalable and resilient distributed reinforcement learning, so that teams of autonomous agents can cooperate in real time in open multi-agent systems, where the number of agents changes over time. The central idea is a new theory of two-time-scale stochastic approximation for non-monotone systems. It combines extrapolation techniques from optimization with singular perturbation theory from control to overcome instability, and it characterizes the finite-time complexity of the methods. Building on this theory, the project designs distributed multi-time-scale learning and control methods that adapt to time-varying environments and stay robust to failures, communication constraints and adversaries, and evaluates them in simulations and multi-robot navigation field experiments. The research is paired with course development, student training, outreach and public partnerships.</p>'},
-      { slug: 'yip', name: 'AFOSR YIP', short: 'Resource allocation in open networks', sponsor: 'AFOSR YIP', layout: 'split', hide: ['lede'],
+      { slug: 'yip', name: 'AFOSR YIP', short: 'Resource allocation in open networks', sponsor: 'AFOSR YIP', hide: ['crumbs', 'sponsor', 'lede'], layout: 'split', oneLine: true, fit: 'match', focus: '50% 50%',
         title: 'Foundations of Resilient Distributed Resource Allocation in Open Networks',
         lede: 'Sharing limited resources among changing groups of devices and vehicles, without relying on a central controller.',
         image: 'research/YIP/wireless-ra.jpg', alt: 'Diagram of phones, cars and vehicles in three groups, linked wirelessly to each other and to two cell towers',
-        body: '<p>In wireless networks of phones, cars, and other vehicles, many agents must share limited resources, and the network keeps changing as agents join and leave.</p>' +
-              '<p>This project, supported by the Air Force Office of Scientific Research Young Investigator Program, develops distributed resource allocation algorithms that stay reliable in open networks and under uncertainty and disruptions, with rigorous analysis of how fast and how reliably they work.</p>' },
-      { slug: 'cif', name: 'NSF CIF', short: 'Multi-task learning', sponsor: 'NSF CIF', layout: 'split', hide: ['lede'],
+        body: '<p>Many networked systems must share limited resources among their agents while optimizing a goal, such as assigning wireless spectrum to mobile users with as little interference as possible, or assigning tasks to a team of robots in a search-and-rescue mission. In real networks the number of agents keeps changing, links fail, and adversaries interfere, so a plan computed in advance quickly becomes outdated. This project develops distributed, online algorithms for these open networks. The key idea is to break the large, time-varying allocation problem into a sequence of small, tractable subproblems. Each one is solved with scalable, resilient, asynchronous methods that combine optimization, online learning, and control, and the solutions are then combined with a surrogate-model approach. The methods will be applied to wireless spectrum management and multi-robot task allocation, with the goal of using limited resources more effectively in civilian and military applications.</p>' },
+      { slug: 'cif', name: 'NSF CIF', short: 'Multi-task learning', sponsor: 'NSF CIF', hide: ['crumbs', 'sponsor', 'lede'], layout: 'split', oneLine: true, fit: 'match', focus: '50% 50%',
         title: 'Mathematical and Algorithmic Foundations of Multi-Task Learning',
         lede: 'Learning many related tasks at once, so autonomous agents can adapt as new tasks arise.',
         image: 'research/NSF-Multitask/drone_nav.jpg', alt: 'Four photos of drones at work: above a warehouse, in a forest, beside soldiers in a field, and over a city',
-        body: '<p>Autonomous agents rarely face a single task. A drone may need to navigate inside a warehouse, through a forest, or over a city, and each setting calls for different skills.</p>' +
-              '<p>This project, supported by the National Science Foundation, develops the mathematical and algorithmic foundations of multi-task learning, including reinforcement learning methods that share what is learned across tasks and come with finite-time performance guarantees.</p>' },
-      { slug: 'ocean', name: 'UT Austin-Portugal', short: 'Ocean monitoring', sponsor: 'UT Austin-Portugal', layout: 'split', hide: ['lede'],
+        body: '<p>This project tackles a core weakness of reinforcement learning, its high sample complexity, by building a mathematical and algorithmic framework for multi-task reinforcement learning. The key idea is that a single agent trained on several related tasks can learn them faster together than separately, because it can exploit what the tasks have in common. The project will quantify how much data is enough when tasks share linear features or are linked through a graph, and develop online methods, including multi-task versions of Q-learning and actor-critic, that adapt quickly to new environments with little data. It will also address catastrophic forgetting, where an agent loses earlier skills as it learns new ones, by using a surrogate model of the agent’s past experience to balance old and new tasks. The methods will be tested on robot navigation problems in simulation and in indoor and outdoor field experiments.</p>' },
+      { slug: 'ocean', name: 'UT Austin-Portugal', short: 'Ocean monitoring', sponsor: 'UT Austin-Portugal', hide: ['crumbs', 'sponsor', 'lede'], layout: 'split', oneLine: true, fit: 'match', focus: '50% 50%',
         title: 'Space Distributed Ocean Monitorization and Exploration',
         lede: 'Coordinating satellites, high-altitude balloons, and aerial and underwater robots to monitor the health of the ocean safely.',
         image: SITE.research.projects[3].image, alt: 'Satellites, aircraft, and underwater robots connected for ocean monitoring',
@@ -1648,7 +1659,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
     }
 
     /* ---------- Publications ---------- */
-    const pubState = { platform: 'all', year: 'all', type: 'all', q: '' };
+    const pubState = { platform: 'all', project: 'all', year: 'all', type: 'all', q: '' };
 
     function pubLinks(pub) {
       const label = { paper: 'Paper', arxiv: 'arXiv', pdf: 'PDF', code: 'Code' };
@@ -1658,7 +1669,9 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
       }).join('');
     }
     function pubTags(pub) {
-      return tagsOf(pub).map(s => `<a class="tag tag-${s}" href="#/publications/${s}"><span class="sr-only">Filter by </span>${esc(chipName(s))}</a>`).join('');
+      const plat = tagsOf(pub).map(s => `<a class="tag tag-${s}" href="#/publications/${s}"><span class="sr-only">Filter by </span>${esc(chipName(s))}</a>`).join('');
+      const proj = (pub.projects || []).map(s => `<a class="tag tag-pj-${s}" href="#/publications/project-${s}"><span class="sr-only">Filter by project </span>${esc(RP[s] ? RP[s].name : s)}</a>`).join('');
+      return plat + proj;
     }
     function initPubs() {
       const years = [...new Set(SITE.pubs.map(p => p.year))].sort((a, b) => b - a);
@@ -1666,6 +1679,9 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
       const chips = [['all', 'All'], [FLAGSHIP.slug, FLAGSHIP.chip], ...HARDWARE.map(p => [p.slug, p.chip]), ['theory', chipName('theory')]];
       $('[data-pub-platforms]').innerHTML = chips.map(([v, l]) =>
         `<li><a class="chip chip-${v}" href="#/publications${v === 'all' ? '' : '/' + v}" data-chip="${v}">${esc(l)}</a></li>`).join('');
+      const pchips = [['all', 'All'], ...SITE.researchPages.map(r => [r.slug, r.name])];
+      $('[data-pub-projects]').innerHTML = pchips.map(([v, l]) =>
+        `<li><a class="chip chip-pj-${v}" href="#/publications${v === 'all' ? '' : '/project-' + v}" data-pchip="${v}">${esc(l)}</a></li>`).join('');
       const ySel = $('[data-pub-year]'), tSel = $('[data-pub-type]');
       ySel.innerHTML = '<option value="all">All years</option>' + years.map(y => `<option>${y}</option>`).join('');
       tSel.innerHTML = '<option value="all">All types</option>' + types.map(t => `<option>${t}</option>`).join('');
@@ -1676,13 +1692,14 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
       $$('[data-pub-reset]').forEach(b => b.addEventListener('click', () => {
         pubState.year = pubState.type = 'all'; ySel.value = tSel.value = 'all';
         pubState.q = ''; if (search) search.value = '';
-        if (pubState.platform === 'all') renderPubs(); else location.hash = '#/publications';
+        if (pubState.platform === 'all' && pubState.project === 'all') renderPubs(); else location.hash = '#/publications';
       }));
     }
     function renderPubs() {
       const s = pubState;
       const list = SITE.pubs.map((p, i) => [p, i + 1]).filter(([p]) =>
         (s.platform === 'all' || tagsOf(p).includes(s.platform)) &&
+        (s.project === 'all' || (p.projects || []).includes(s.project)) &&
         (!s.q || (p.title + ' ' + p.authors + ' ' + p.venue).toLowerCase().includes(s.q)) &&
         (s.year === 'all' || String(p.year) === s.year) &&
         (s.type === 'all' || p.type === s.type));
@@ -1690,6 +1707,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
       $('[data-pub-empty]').hidden = list.length > 0;
       $('[data-pub-count]').textContent = `Showing ${list.length} of ${SITE.pubs.length} papers`;
       $$('[data-chip]').forEach(c => c.dataset.chip === s.platform ? c.setAttribute('aria-current', 'true') : c.removeAttribute('aria-current'));
+      $$('[data-pchip]').forEach(c => c.dataset.pchip === s.project ? c.setAttribute('aria-current', 'true') : c.removeAttribute('aria-current'));
     }
 
     /* ---------- News: first few shown, the rest behind one button ---------- */
@@ -1778,7 +1796,12 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
       const el = $(`[data-view="${view}"]`);
       if (view === 'platform') el.innerHTML = UI.platformPage(P[sub], platformCopy(P[sub]));
       if (view === 'researchpage') el.innerHTML = UI.researchPage(RP[sub]);
-      if (view === 'publications') { pubState.platform = (sub === 'theory' || P[sub]) ? sub : 'all'; renderPubs(); }
+      if (view === 'publications') {
+        const pj = sub.startsWith('project-') ? sub.slice(8) : '';
+        pubState.project = RP[pj] ? pj : 'all';
+        pubState.platform = (!pj && (sub === 'theory' || P[sub])) ? sub : 'all';
+        renderPubs();
+      }
 
       $$('[data-view]').forEach(v => { v.hidden = v !== el; });
       const navKey = view === 'platform' ? 'platforms' : view === 'researchpage' ? 'research' : view;
@@ -1868,18 +1891,21 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
       researchPage: r => {
         const hide = r.hide || [], split = r.layout === 'split';
         const src = r.image ? esc(r.image.startsWith('data:') ? r.image : SITE.imageBase + r.image) : '';
-        const fig = r.image ? `<figure style="margin:0"><img src="${src}" alt="${esc(r.alt || '')}" loading="lazy" style="display:block;width:100%;height:auto;border-radius:var(--r-lg)"></figure>` : '';
+        const match = r.fit === 'match';
+        const fig = r.image ? (match
+          ? `<figure style="margin:0;position:relative;min-height:min(62vw,300px);border-radius:var(--r-lg);overflow:hidden"><img src="${src}" alt="${esc(r.alt || '')}" loading="lazy" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:${esc(r.focus || '50% 50%')}"></figure>`
+          : `<figure style="margin:0"><img src="${src}" alt="${esc(r.alt || '')}" loading="lazy" style="display:block;width:100%;height:auto;border-radius:var(--r-lg)"></figure>`) : '';
         const text = `${split && !hide.includes('lede') ? `<p class="lede" style="margin-top:0">${esc(r.lede)}</p>` : ''}<div class="research-body">${r.body}</div>`;
         const main = split
-          ? `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(24px,4vw,56px);align-items:center"><div>${text}</div>${fig}</div>`
+          ? `<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:clamp(24px,4vw,56px);align-items:${match ? 'stretch' : 'center'}"><div${match ? ' style="display:flex;flex-direction:column;justify-content:center"' : ''}>${text}</div>${fig}</div>`
           : `${r.image ? `<div style="max-width:760px;margin-bottom:28px">${fig}</div>` : ''}${text}`;
-        const n = r.publications === true ? SITE.pubs.length : Number(r.publications) || 0;
-        const pubs = n ? `<h2 class="kind-title">Publications</h2><ul class="pubs">${SITE.pubs.slice(0, n).map(p => UI.pubItem(p)).join('')}</ul>` : '';
+        const mine = SITE.pubs.filter(p => (p.projects || []).includes(r.slug));     // every paper tagged with this project
+        const pubs = mine.length ? `<h2 class="kind-title">Publications</h2><ul class="pubs">${mine.map(p => UI.pubItem(p)).join('')}</ul>` : '';
         return `
         <div class="wrap page-head">
           ${hide.includes('crumbs') ? '' : `<nav class="crumbs" aria-label="Breadcrumb"><a href="#/research">Research</a><span aria-hidden="true">/</span><span aria-current="page">${esc(r.name)}</span></nav>`}
           ${hide.includes('sponsor') ? '' : `<p style="margin:0 0 10px;font-weight:700;color:var(--plum-soft)">Funded by ${esc(r.sponsor)}</p>`}
-          <h1 class="research-title${hide.includes('title') ? ' sr-only' : ''}">${esc(r.title)}</h1>
+          <h1 class="research-title${hide.includes('title') ? ' sr-only' : ''}${r.oneLine ? ' rp-oneline' : ''}">${esc(r.title)}</h1>
           ${split || hide.includes('lede') ? '' : `<p class="lede">${esc(r.lede)}</p>`}
         </div>
         <div class="wrap" style="padding-bottom:64px">
