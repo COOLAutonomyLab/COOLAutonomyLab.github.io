@@ -2286,7 +2286,11 @@ ${p.slug === 'tag' ? '' : `
   .tone-tag .pf-hero.tag-hero .art img.media { width: 100%; height: 100%; object-fit: contain; background: #fff; }
   @media (max-width: 1219px) { .tone-tag .pf-hero.tag-hero { grid-template-columns: minmax(0, 1fr); align-items: center; } .tone-tag .pf-hero.tag-hero .art { max-width: 420px; width: 100%; margin-inline: auto; } .tone-tag .pf-hero.tag-hero .art img.media { height: auto; } }   /* narrower screens: paragraph first, then the picture */
   /* the "Learning Architecture" card: long title, then the figure across the full width of the card */
-  .pf-card > h2.tag-arch-title { font-size: clamp(1.3rem, 2.3vw, 1.75rem); line-height: 1.2; text-wrap: balance; }
+  .pf-card > h2.tag-arch-title { font-size: clamp(.85rem, 1.9vw, 1.5rem); line-height: 1.3; text-align: center; text-wrap: balance; }   /* two centred lines; change the middle number (1.9vw) to make the title bigger or smaller */
+  .pf-card > h2.tag-arch-title .c1 { color: var(--berry); }   /* "Model-Based vs Model-Free RL" */
+  .pf-card > h2.tag-arch-title .c2 { color: #0B7A75; }        /* "Sim-to-Real vs Real-Time Learning" (teal) */
+  .pf-card > h2.tag-arch-title .t1, .pf-card > h2.tag-arch-title .t2 { display: block; }
+  @media (min-width: 600px) { .pf-card > h2.tag-arch-title .t2 { white-space: nowrap; } }   /* on a phone the second line is allowed to wrap */
   .pf-card > h2.tag-arch-title .nb { white-space: nowrap; }   /* keeps Model-Free, Sim-to-Real ... together on one line */
   .tag-arch { margin: 0; }
   .tag-arch button { display: block; width: 100%; padding: 0; border: 0; background: #fff; border-radius: var(--r-md); overflow: hidden; cursor: zoom-in; }
@@ -2303,7 +2307,7 @@ ${p.slug === 'tag' ? '' : `
   var view = document.querySelector('[data-view="platform"]'); if (!view) return;
   var base = (typeof SITE !== 'undefined' && SITE.imageBase) || 'https://coolautonomylab.github.io/images/';
   var PARAGRAPH = 'TAG is a compact physical platform for studying learning and control in physically coupled dynamical systems. It consists of an actively tilted and steered maze board, watched by an overhead camera that tracks a marble\u2019s motion, with a rotary inverted pendulum mounted directly on top. The pendulum\u2019s reaction torque and vibration couple into the board and marble, while the board\u2019s own tilting simultaneously disturbs the pendulum\u2019s balance. This creates a challenging yet controllable environment in which multiple subsystems interact through shared physical dynamics rather than operating independently. TAG supports research in model-based and model-free learning, system identification, adaptive and robust control, multi-agent decision-making, and learning under disturbance and partial observability. More broadly, our goal is to offer a reproducible physical benchmark for developing AI and control algorithms that must learn, predict, and make decisions in the presence of physical coupling, dynamic interaction, uncertainty, and nonstationarity.';
-  var ARCH_TITLE = 'Learning Architecture: Model-Based vs Model-Free RL and Sim-to-Real vs Real-Time Learning';
+  var ARCH_TITLE_1 = 'Learning Architecture', ARCH_TITLE_2 = [['Model-Based vs Model-Free RL', 'c1'], [' and ', ''], ['Sim-to-Real vs Real-Time Learning', 'c2']];   /* the two lines of the title; the second has two coloured parts */
   var ARCH_ALT = 'Learning architecture of TAG. Top: the pendulum controller is trained in simulation only with model-free reinforcement learning (TQC) and only the trained actor is transferred to a microcontroller. Bottom: the maze controller is learned on the real system; a camera image becomes a state estimate on a local PC, and a server updates the maze policy online with model-based reinforcement learning (DreamerV3). The pendulum disturbs the board with reaction torque and vibration, and the board tilt disturbs the pendulum.';
   var FIGURE = ['research/TAG/architecture.jpg', 'research/TAG/architecture.jpeg', 'research/TAG/architecture.png', 'architecture.jpg', 'architecture.jpeg', 'architecture.png', '../research/TAG/assets/images/architecture.jpg', '../research/TAG/architecture.jpg', 'research/YIP/architecture.jpg', '../architecture.jpg', '../architecture.jpeg', '../architecture.png'];   /* where the figure file is looked for (inside the images folder), in this order */
 
@@ -2339,7 +2343,7 @@ ${p.slug === 'tag' ? '' : `
       probe.onerror = tryNext;
       probe.onload = function () {
         if (!card.isConnected) return;
-        h2.innerHTML = ARCH_TITLE.replace(/[A-Za-z]+(?:-[A-Za-z]+)+/g, function (w) { return '<span class="nb">' + w + '</span>'; }); h2.classList.add('tag-arch-title');
+        h2.innerHTML = '<span class="t1">' + ARCH_TITLE_1 + '</span><span class="sr-only">: </span><span class="t2">' + ARCH_TITLE_2.map(function (p) { var t = p[0].replace(/[A-Za-z]+(?:-[A-Za-z]+)+/g, function (w) { return '<span class="nb">' + w + '</span>'; }); return p[1] ? '<span class="' + p[1] + '">' + t + '</span>' : t; }).join('') + '</span>'; h2.classList.add('tag-arch-title');
         var fig = document.createElement('figure'), btn = document.createElement('button'), img = new Image();
         fig.className = 'tag-arch'; btn.type = 'button'; btn.setAttribute('aria-label', 'Enlarge the learning architecture figure'); btn.title = 'Click to enlarge';
         img.src = url; img.alt = ARCH_ALT; img.width = probe.naturalWidth; img.height = probe.naturalHeight;
