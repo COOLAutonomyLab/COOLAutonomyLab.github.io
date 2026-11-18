@@ -161,21 +161,24 @@
     .hiring-art { background: #fff; border-radius: 50%; aspect-ratio: 1; display: grid; place-items: center; transform: rotate(-6deg); }
     .hiring-art .ill { width: 74%; }
     /* ---------- Project pages: "problem and results" + video demonstration box (same look as the hiring box) ---------- */
-    .demo-box { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: center; background: var(--lilac); border-radius: var(--r-lg); padding: clamp(26px, 4.4vw, 60px); margin: 44px 0; }
-    .demo-box h2 { font: 800 clamp(1.1rem, 2.2vw, 1.9rem)/1.1 var(--font); letter-spacing: -.01em; }
+    .demo-box { display: grid; grid-template-columns: minmax(0, 1.28fr) minmax(0, 1fr); gap: clamp(18px, 2.6vw, 36px); align-items: stretch; background: var(--lilac); border-radius: var(--r-lg); padding: clamp(18px, 2.6vw, 34px); margin: 44px 0; }
+    .demo-text { display: flex; flex-direction: column; min-width: 0; }   /* left column: the picture grows to fill the space down to the bottom of the right column */
+    .demo-box h2 { font: 800 clamp(1.1rem, 2.2vw, 1.9rem)/1.1 var(--font); letter-spacing: -.01em; margin: 0 0 12px; }
     @media (min-width: 400px) { .demo-box h2 { white-space: nowrap; } }
     .demo-box h3 { font: 700 .8125rem/1 var(--font); letter-spacing: .06em; text-transform: uppercase; color: var(--berry); margin: 22px 0 8px; }
-    .demo-box p { margin: 0; font-size: clamp(1.0625rem, 1.4vw, 1.125rem); max-width: 62ch; text-align: justify; text-justify: inter-word; hyphens: auto; }
-    .demo-videos { display: grid; gap: 20px; }
-    .demo-fig { margin: 20px 0 0; }
-    .demo-zoom { display: block; width: 100%; padding: 0; border: 0; background: #fff; border-radius: var(--r-md); overflow: hidden; cursor: zoom-in; box-shadow: 0 10px 30px rgba(42, 33, 69, .12); }
+    .demo-box p { margin: 0; font-size: clamp(1.0625rem, 1.4vw, 1.125rem); }   /* short lines: left-aligned (justifying one or two lines leaves big gaps between words) */
+    .demo-label { color: var(--berry); font-weight: 700; }   /* "Problem:" and "Solutions:" sit in front of their text, on the same line */
+    .math-block + p { margin-top: 14px; }
+    .demo-videos { display: grid; align-content: space-between; gap: 14px; }
+    .demo-fig { margin: 14px 0 0; flex: 1; display: flex; flex-direction: column; }
+    .demo-zoom { display: flex; flex: 1; align-items: center; justify-content: center; width: 100%; padding: 0; border: 0; background: #fff; border-radius: var(--r-md); overflow: hidden; cursor: zoom-in; box-shadow: 0 10px 30px rgba(42, 33, 69, .12); }
     .demo-zoom img { display: block; width: 100%; height: auto; }
     .demo-fig figcaption { margin-top: 10px; font: 500 .9375rem/1.4 var(--font); color: var(--plum-soft); text-align: center; }
     #img-zoom { border: 0; padding: 14px; border-radius: var(--r-md); background: #fff; width: min(96vw, 1600px); max-height: 94vh; cursor: zoom-out; }
     #img-zoom img { display: block; width: 100%; height: auto; max-height: calc(94vh - 28px); object-fit: contain; }
     #img-zoom::backdrop { background: rgba(42, 33, 69, .62); }
     #img-zoom .zoom-close { position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--plum); color: #fff; font: 700 1.5rem/1 var(--font); cursor: pointer; }
-    .math-block { margin: 18px 0 4px; padding: 14px 18px; background: #fff; border-radius: var(--r-md); overflow-x: auto; overflow-y: hidden; font-size: clamp(.95rem, 1.3vw, 1.05rem); min-height: 3rem; }
+    .math-block { margin: 12px 0 0; padding: 14px 18px; background: #fff; border-radius: var(--r-md); overflow-x: auto; overflow-y: hidden; font-size: clamp(.95rem, 1.3vw, 1.05rem); min-height: 3rem; }
     .math-block .katex-display { margin: 0; }
     .math-inline:not([data-done]) { visibility: hidden; }   /* hidden until drawn, so the raw LaTeX never flashes */
     .demo-box p .katex { font-size: 1.1em; }
@@ -1604,7 +1607,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
                                       \text{subject to }\quad & r_{i}\in\mathcal{R}_{i} \text{ for all }\;\; i,\quad \text{and }\\
                                       &\sum_{i=1}^{N} g_i(r_i) \leq b
                                       \end{aligned}`,
-                results: 'Real-time multi-time-scale optimization and learning framework',
+                results: 'Real-time multi-time-scale optimization & learning framework',
                 figure: { image: 'research/YIP/ra_framework.png',
                           alt: 'Framework diagram: a thermal field and a monitoring demand feed three layers, a distributed allocation layer (DAGM), a learned motion planning layer (RL policy) and a control and safety layer, which steer a team of Crazyflie drones monitoring a wildfire; observations and updated priorities are fed back.',
                           caption: '' },
@@ -1762,8 +1765,8 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
     });
     function demoBox(r) {
       const d = r.demo; if (!d) return '';
-      const part = (label, text) => text ? `<h3>${label}</h3><p>${withMath(text)}</p>` : '';
-      return `<section class="demo-box" aria-labelledby="demo-${esc(r.slug)}"><div><h2 id="demo-${esc(r.slug)}">${esc(d.title || 'Problem and results')}</h2>${part('Problem', d.problem)}${d.equation ? `<div class="math-block math-wait" data-tex="${esc(d.equation)}"><code>${esc(d.equation)}</code></div>` : ''}${part('Results', d.results)}${demoFigure(d.figure)}</div>` +
+      const part = (label, text) => text ? `<p><strong class="demo-label">${label}:</strong> ${withMath(text)}</p>` : '';
+      return `<section class="demo-box" aria-labelledby="demo-${esc(r.slug)}"><div class="demo-text"><h2 id="demo-${esc(r.slug)}">${esc(d.title || 'Problem and results')}</h2>${part('Problem', d.problem)}${d.equation ? `<div class="math-block math-wait" data-tex="${esc(d.equation)}"><code>${esc(d.equation)}</code></div>` : ''}${part('Solutions', d.results)}${demoFigure(d.figure)}</div>` +
              `<div class="demo-videos">${(d.videos || [{ video: d.video, caption: d.videoCaption }]).map(v => `<figure class="demo-figure"><div class="demo-video">${videoEmbed(v.video, v.caption || d.title)}</div>${v.caption ? `<figcaption>${esc(v.caption)}</figcaption>` : ''}</figure>`).join('')}</div></section>`;
     }
 
