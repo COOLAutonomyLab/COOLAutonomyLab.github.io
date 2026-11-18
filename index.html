@@ -162,16 +162,17 @@
     .hiring-art .ill { width: 74%; }
     /* ---------- Project pages: "problem and results" + video demonstration box (same look as the hiring box) ---------- */
     .demo-box { display: grid; grid-template-columns: minmax(0, 1.28fr) minmax(0, 1fr); gap: clamp(18px, 2.6vw, 36px); align-items: stretch; background: var(--lilac); border-radius: var(--r-lg); padding: clamp(18px, 2.6vw, 34px); margin: 44px 0; }
-    .demo-text { display: flex; flex-direction: column; min-width: 0; }   /* left column: the picture grows to fill the space down to the bottom of the right column */
-    .demo-box h2 { font: 800 clamp(1.1rem, 2.2vw, 1.9rem)/1.1 var(--font); letter-spacing: -.01em; margin: 0 0 12px; }
+    .demo-text { display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }   /* left column: extra height is spread between its items, so its last item ends level with the right column */
+    .demo-box { --t1: clamp(1.1rem, 2.2vw, 1.9rem); --t2: clamp(.9rem, 1.7vw, 1.4rem); }   /* --t1: left title size, --t2: title above a video */
+    .demo-box h2 { font: 800 var(--t1)/1.1 var(--font); letter-spacing: -.01em; margin: 0 0 12px; }
     @media (min-width: 400px) { .demo-box h2 { white-space: nowrap; } }
-    .demo-box h3 { font: 700 .8125rem/1 var(--font); letter-spacing: .06em; text-transform: uppercase; color: var(--berry); margin: 22px 0 8px; }
+    .demo-vtitle { font: 800 var(--t2)/1.1 var(--font); letter-spacing: -.01em; margin: calc((var(--t1) - var(--t2)) * .8925) 0 10px; }   /* the margin lines its baseline up with the left title */
     .demo-box p { margin: 0; font-size: clamp(1.0625rem, 1.4vw, 1.125rem); }   /* short lines: left-aligned (justifying one or two lines leaves big gaps between words) */
     .demo-label { color: var(--berry); font-weight: 700; }   /* "Problem:" and "Solutions:" sit in front of their text, on the same line */
     .math-block + p { margin-top: 14px; }
     .demo-videos { display: grid; align-content: space-between; gap: 14px; }
-    .demo-fig { margin: 14px 0 0; flex: 1; display: flex; flex-direction: column; }
-    .demo-zoom { display: flex; flex: 1; align-items: center; justify-content: center; width: 100%; padding: 0; border: 0; background: #fff; border-radius: var(--r-md); overflow: hidden; cursor: zoom-in; box-shadow: 0 10px 30px rgba(42, 33, 69, .12); }
+    .demo-fig { margin: 14px 0 0; }
+    .demo-zoom { display: block; width: 100%; padding: 0; border: 0; background: #fff; border-radius: var(--r-md); overflow: hidden; cursor: zoom-in; box-shadow: 0 10px 30px rgba(42, 33, 69, .12); }
     .demo-zoom img { display: block; width: 100%; height: auto; }
     .demo-fig figcaption { margin-top: 10px; font: 500 .9375rem/1.4 var(--font); color: var(--plum-soft); text-align: center; }
     #img-zoom { border: 0; padding: 14px; border-radius: var(--r-md); background: #fff; width: min(96vw, 1600px); max-height: 94vh; cursor: zoom-out; }
@@ -1366,7 +1367,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
         { title: 'CBF-based Probabilistic Safe Navigation under Unknown Nonlinear Obstacle Dynamics',
           authors: 'J. Lee, H. Matias, D. Silvestre, T. T. Doan', venue: 'arXiv:2604.14818', year: 2026, type: 'Preprint', projects: ['UT-Portugal', 'career', 'yip'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2604.14818', pdf: 'https://arxiv.org/pdf/2604.14818' } },
         { title: 'Internal State-Based Policy Gradient Methods for Partially Observable Markov Potential Games',
-          authors: 'W. Yang, T. T. Doan', venue: 'arXiv:2604.00433', year: 2026, type: 'Preprint', projects: ['career','yip'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2604.00433', pdf: 'https://arxiv.org/pdf/2604.00433' } },
+          authors: 'W. Yang, T. T. Doan', venue: '65th IEEE Conference on Decision and Control', year: 2026, type: 'Conference', projects: ['career','yip'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2604.00433', pdf: 'https://arxiv.org/pdf/2604.00433' } },
         { title: 'Finite-Time Analysis of Projected Two-Time-Scale Stochastic Approximation',
           authors: 'Y. Bai, T. T. Doan, J. Romberg', venue: '65th IEEE Conference on Decision and Control', year: 2026, type: 'Conference', projects: ['career','cif'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2604.00179', pdf: 'https://arxiv.org/pdf/2604.00179' } },
         { title: 'Advancing Privacy and Accuracy With Federated Learning and Homomorphic Encryption',
@@ -1612,7 +1613,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
                           alt: 'Framework diagram: a thermal field and a monitoring demand feed three layers, a distributed allocation layer (DAGM), a learned motion planning layer (RL policy) and a control and safety layer, which steer a team of Crazyflie drones monitoring a wildfire; observations and updated priorities are fed back.',
                           caption: '' },
                 videos: [   /* each one: a YouTube or Vimeo link, or a video file path such as 'videos/yip-demo.mp4' */
-                  { video: 'videos/AFOSR YIP/DAGM_demo.mp4', caption: 'Proposed distributed alternating gradient methods' },
+                  { title: 'Real-hardware Experiments on Crazyflie', video: 'videos/AFOSR YIP/DAGM_demo.mp4', caption: 'Proposed distributed alternating gradient methods' },
                   { video: 'videos/AFOSR YIP/lag_demo.mp4', caption: 'Distributed Lagrangian methods' } ]},
         body: '<p>Many networked systems must share limited resources among their agents while optimizing a goal, such as assigning wireless spectrum to mobile users with as little interference as possible, or assigning tasks to a team of robots in a search-and-rescue mission. In real networks the number of agents keeps changing, links fail, and adversaries interfere, so a plan computed in advance quickly becomes outdated. This project develops distributed, online algorithms for these open networks. The key idea is to break the large, time-varying allocation problem into a sequence of small, tractable subproblems. Each one is solved with scalable, resilient, asynchronous methods that combine optimization, online learning, and control, and the solutions are then combined with a surrogate-model approach. The methods will be applied to wireless spectrum management and multi-robot task allocation, with the goal of using limited resources more effectively in civilian and military applications.</p>' },
       { slug: 'cif', name: 'NSF CIF', short: 'Multi-task learning', sponsor: 'NSF CIF', hide: ['crumbs', 'sponsor', 'lede'], layout: 'split', oneLine: true, fit: 'match', focus: '50% 50%',
@@ -1767,7 +1768,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
       const d = r.demo; if (!d) return '';
       const part = (label, text) => text ? `<p><strong class="demo-label">${label}:</strong> ${withMath(text)}</p>` : '';
       return `<section class="demo-box" aria-labelledby="demo-${esc(r.slug)}"><div class="demo-text"><h2 id="demo-${esc(r.slug)}">${esc(d.title || 'Problem and results')}</h2>${part('Problem', d.problem)}${d.equation ? `<div class="math-block math-wait" data-tex="${esc(d.equation)}"><code>${esc(d.equation)}</code></div>` : ''}${part('Solutions', d.results)}${demoFigure(d.figure)}</div>` +
-             `<div class="demo-videos">${(d.videos || [{ video: d.video, caption: d.videoCaption }]).map(v => `<figure class="demo-figure"><div class="demo-video">${videoEmbed(v.video, v.caption || d.title)}</div>${v.caption ? `<figcaption>${esc(v.caption)}</figcaption>` : ''}</figure>`).join('')}</div></section>`;
+             `<div class="demo-videos">${(d.videos || [{ video: d.video, caption: d.videoCaption }]).map(v => `<figure class="demo-figure">${v.title ? `<h3 class="demo-vtitle">${esc(v.title)}</h3>` : ''}<div class="demo-video">${videoEmbed(v.video, v.caption || d.title)}</div>${v.caption ? `<figcaption>${esc(v.caption)}</figcaption>` : ''}</figure>`).join('')}</div></section>`;
     }
 
     /* ---------- Publications ---------- */
