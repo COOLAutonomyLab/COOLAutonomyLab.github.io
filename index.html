@@ -2359,5 +2359,60 @@ ${p.slug === 'tag' ? '' : `
   new MutationObserver(fix).observe(view, { childList: true }); fix();   /* runs each time the page is drawn */
 })();
 </script>
+<!-- ===== Video button on a paper: a "Video" link next to PDF that opens a video box inside the paper's card (self-contained: styles + script; paste right before the closing body tag, after the other blocks) ===== -->
+<style>
+  .pub-video-btn { display: inline-flex; align-items: center; gap: .4em; padding: 0; border: 0; background: none; font: inherit; color: var(--berry); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; cursor: pointer; }   /* looks like the arXiv and PDF links */
+  .pub-video-btn::after { content: ""; width: .4em; height: .4em; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-.12em); transition: transform .25s; }   /* little arrow: down = closed, up = open */
+  .pub-video-btn[aria-expanded="true"]::after { transform: rotate(225deg) translate(-.08em, -.04em); }
+  .pub-video-btn:focus-visible { outline: 3px solid var(--berry); outline-offset: 3px; border-radius: 4px; }
+  .pub-video { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }   /* the card grows smoothly when it opens */
+  .pub-video.is-open { grid-template-rows: 1fr; }
+  .pub-video > div { min-height: 0; overflow: hidden; }
+  .pub-video:not(.is-open) > div { visibility: hidden; transition: visibility 0s .35s; }
+  .pub-video-frame { position: relative; aspect-ratio: 16 / 9; max-width: 800px; margin: 18px auto 0; border-radius: var(--r-md); overflow: hidden; background: #000; }   /* up to 800px wide, centred in the card */
+  .pub-video-frame iframe, .pub-video-frame video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
+  .pub-video-soon { position: absolute; inset: 0; display: grid; place-content: center; gap: 6px; padding: 20px; text-align: center; background: var(--oat); color: var(--plum-soft); font-weight: 700; }
+  .pub-video-cap { max-width: 800px; margin: 10px auto 2px; font-size: .9375rem; color: var(--plum-soft); text-align: center; }
+  @media (prefers-reduced-motion: reduce) { .pub-video, .pub-video-btn::after { transition: none; } }
+</style>
+<script>
+(function () {
+  /* Papers that get a Video button. "title" is part of the paper's title; "video" is a YouTube or Vimeo link, or a video file
+     (for example 'videos/UT-Portugal/demo.mp4' in your repository). Leave it empty to show "Video coming soon". */
+  var VIDEOS = [
+    { title: /CBF-based Probabilistic Safe Navigation/i, video: 'videos/UT-Portugal/CBF_demo.mp4', caption: '' }
+  ];
+  var count = 0;
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function player(u, label) {                                  /* the video window itself */
+    u = String(u || '').trim(); var m, box = document.createElement('div');
+    if (!u) { box.className = 'pub-video-soon'; box.innerHTML = '<span>Video coming soon</span>'; return box; }
+    if ((m = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/))) { box.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + m[1] + '" title="' + esc(label) + '" allow="accelerometer; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'; return box.firstChild; }
+    if ((m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/))) { box.innerHTML = '<iframe src="https://player.vimeo.com/video/' + m[1] + '" title="' + esc(label) + '" allow="picture-in-picture" allowfullscreen></iframe>'; return box.firstChild; }
+    if (/\.(mp4|webm|ogg|m4v)(\?|#|$)/i.test(u)) { box.innerHTML = '<video controls preload="metadata" playsinline aria-label="' + esc(label) + '"><source src="' + esc(u) + '"></video>'; return box.firstChild; }
+    box.className = 'pub-video-soon'; box.innerHTML = '<a class="btn" href="' + esc(u) + '" target="_blank" rel="noopener">Watch the video</a>'; return box;
+  }
+  function enhance(li) {
+    if (li.dataset.vid) return;
+    var titleEl = li.querySelector('.pub-title'), links = li.querySelector('.pub-links'); if (!titleEl || !links) return;
+    var title = titleEl.textContent.trim(), v = VIDEOS.find(function (x) { return x.title.test(title); }); if (!v) return;
+    li.dataset.vid = '1'; var id = 'pub-video-' + (++count);
+    var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'pub-video-btn'; btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', id);
+    btn.innerHTML = 'Video<span class="sr-only"> for ' + esc(title) + '</span>'; links.appendChild(btn);
+    var panel = document.createElement('div'); panel.className = 'pub-video'; panel.id = id; panel.setAttribute('aria-hidden', 'true'); panel.inert = true;
+    var inner = document.createElement('div'), frame = document.createElement('div'); frame.className = 'pub-video-frame'; inner.appendChild(frame);
+    if (v.caption) { var cap = document.createElement('p'); cap.className = 'pub-video-cap'; cap.textContent = v.caption; inner.appendChild(cap); }
+    panel.appendChild(inner); li.appendChild(panel);
+    btn.addEventListener('click', function () {
+      var open = btn.getAttribute('aria-expanded') !== 'true'; btn.setAttribute('aria-expanded', String(open));
+      panel.classList.toggle('is-open', open); panel.setAttribute('aria-hidden', String(!open)); panel.inert = !open;
+      if (open) { if (!frame.firstChild) frame.appendChild(player(v.video, 'Video: ' + title)); }
+      else { var vid = frame.querySelector('video'); if (vid) vid.pause(); else frame.innerHTML = ''; }   /* closing stops the video (a YouTube or Vimeo window is removed) */
+    });
+  }
+  function scan() { Array.prototype.forEach.call(document.querySelectorAll('li.pub'), enhance); }
+  new MutationObserver(scan).observe(document.body, { childList: true, subtree: true }); scan();   /* also runs whenever a page or a filtered list is drawn */
+})();
+</script>
 </body>
 </html>
