@@ -162,12 +162,23 @@
     .hiring-art .ill { width: 74%; }
     /* ---------- Project pages: "problem and results" + video demonstration box (same look as the hiring box) ---------- */
     .demo-box { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: center; background: var(--lilac); border-radius: var(--r-lg); padding: clamp(26px, 4.4vw, 60px); margin: 44px 0; }
-    .demo-box h2 { font: 800 clamp(1.5rem, 2.6vw, 2.1rem)/1.1 var(--font); letter-spacing: -.01em; }
+    .demo-box h2 { font: 800 clamp(1.1rem, 2.2vw, 1.9rem)/1.1 var(--font); letter-spacing: -.01em; }
+    @media (min-width: 400px) { .demo-box h2 { white-space: nowrap; } }
     .demo-box h3 { font: 700 .8125rem/1 var(--font); letter-spacing: .06em; text-transform: uppercase; color: var(--berry); margin: 22px 0 8px; }
     .demo-box p { margin: 0; font-size: clamp(1.0625rem, 1.4vw, 1.125rem); max-width: 62ch; text-align: justify; text-justify: inter-word; hyphens: auto; }
     .demo-videos { display: grid; gap: 20px; }
+    .demo-fig { margin: 20px 0 0; }
+    .demo-zoom { display: block; width: 100%; padding: 0; border: 0; background: #fff; border-radius: var(--r-md); overflow: hidden; cursor: zoom-in; box-shadow: 0 10px 30px rgba(42, 33, 69, .12); }
+    .demo-zoom img { display: block; width: 100%; height: auto; }
+    .demo-fig figcaption { margin-top: 10px; font: 500 .9375rem/1.4 var(--font); color: var(--plum-soft); text-align: center; }
+    #img-zoom { border: 0; padding: 14px; border-radius: var(--r-md); background: #fff; width: min(96vw, 1600px); max-height: 94vh; cursor: zoom-out; }
+    #img-zoom img { display: block; width: 100%; height: auto; max-height: calc(94vh - 28px); object-fit: contain; }
+    #img-zoom::backdrop { background: rgba(42, 33, 69, .62); }
+    #img-zoom .zoom-close { position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; border: 0; border-radius: 50%; background: var(--plum); color: #fff; font: 700 1.5rem/1 var(--font); cursor: pointer; }
     .math-block { margin: 18px 0 4px; padding: 14px 18px; background: #fff; border-radius: var(--r-md); overflow-x: auto; overflow-y: hidden; font-size: clamp(.95rem, 1.3vw, 1.05rem); min-height: 3rem; }
     .math-block .katex-display { margin: 0; }
+    .math-inline:not([data-done]) { visibility: hidden; }   /* hidden until drawn, so the raw LaTeX never flashes */
+    .demo-box p .katex { font-size: 1.1em; }
     .math-block code { display: block; white-space: pre-wrap; text-align: left; font: .8125rem/1.5 ui-monospace, Menlo, Consolas, monospace; }
     .math-block.math-wait code { visibility: hidden; }      /* shown only if the math renderer cannot be loaded */
     .demo-figure { margin: 0; }
@@ -1587,13 +1598,16 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
         lede: 'Sharing limited resources among changing groups of devices and vehicles, without relying on a central controller.',
         image: 'research/YIP/wireless-ra.jpg', alt: 'Diagram of phones, cars and vehicles in three groups, linked wirelessly to each other and to two cell towers',
         demo: {title: 'Networked Resource Allocation',
-                problem: 'We consider a network of $N$ agents that must share limited resources while optimizing a global objective. Each agent $i$ has a local cost function $f_i(x_i;q_{i})$ that depends on its decision variable $x_i$ and a time-varying parameter $q_{i}$, and a local constraint set $\mathcal{X}_{i}$. In addition, the resource consumption at agent i is represented by $g_i(x_i)$ and $b$ is the total available resource. For example, in continuous wildfire monitoring problem, $q_{i}$ represents the current condition of the fire in the location covered by UAV $i$. The constant $b$ represents the total available communication bandwidth shared among the agents. The goal is to minimize the sum of the local cost functions subject to the local and global constraints:',
+                problem: 'We consider the following optimization over a network of $N$ agents:',
                 equation: String.raw`\begin{aligned}
-                                      \min_{x_1,\ldots,x_N} \quad & \sum_{i=1}^{N} f_i(x_i;q_{i}) \\
-                                      \text{subject to }\quad & x_{i}\in\mathcal{X}_{i} \text{ for all }\;\; i,\quad \text{and }\\
-                                      &\sum_{i=1}^{N} g_i(x_i) \leq b
+                                      \min_{r_1,\ldots,r_N} \quad & \sum_{i=1}^{N} f_i(r_i;q_{i}) \\
+                                      \text{subject to }\quad & r_{i}\in\mathcal{R}_{i} \text{ for all }\;\; i,\quad \text{and }\\
+                                      &\sum_{i=1}^{N} g_i(r_i) \leq b
                                       \end{aligned}`,
-                results: 'We develop distributed online algorithms that split the changing allocation problem into a sequence of tractable subproblems, solve each one with scalable, resilient, asynchronous methods, and combine the solutions with a surrogate-model approach. The methods are applied to wireless spectrum management and multi-robot task allocation, giving agents a reliable way to share resources despite failures and adversaries.',
+                results: '',
+                figure: { image: 'research/YIP/pictures/ra-framework.jpg',
+                          alt: 'Framework diagram: a thermal field and a monitoring demand feed three layers, a distributed allocation layer (DAGM), a learned motion planning layer (RL policy) and a control and safety layer, which steer a team of Crazyflie drones monitoring a wildfire; observations and updated priorities are fed back.',
+                          caption: 'Real-time multi-time-scale optimization and learning framework.' },
                 videos: [   /* each one: a YouTube or Vimeo link, or a video file path such as 'videos/yip-demo.mp4' */
                   { video: 'videos/AFOSR YIP/DAGM_demo.mp4', caption: 'Proposed distributed alternating gradient methods' },
                   { video: 'videos/AFOSR YIP/lag_demo.mp4', caption: 'Distributed Lagrangian methods' } ]},
@@ -1725,15 +1739,31 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
       }));
     }
     function renderMath() {
-      const todo = [...document.querySelectorAll('.math-block:not([data-done])')]; if (!todo.length) return;
+      const todo = [...document.querySelectorAll('.math-block:not([data-done]), .math-inline:not([data-done])')]; if (!todo.length) return;
       const show = el => { el.dataset.done = '1'; el.classList.remove('math-wait'); };
-      loadKatex().then(() => todo.forEach(el => { try { window.katex.render(el.dataset.tex, el, { displayMode: true, throwOnError: true }); } catch (e) { el.textContent = ''; const c = document.createElement('code'); c.textContent = el.dataset.tex; el.appendChild(c); } show(el); }), () => todo.forEach(show));
+      loadKatex().then(() => todo.forEach(el => { const block = el.classList.contains('math-block'); try { window.katex.render(el.dataset.tex, el, { displayMode: block, throwOnError: true }); } catch (e) { el.textContent = ''; if (block) { const c = document.createElement('code'); c.textContent = el.dataset.tex; el.appendChild(c); } else el.textContent = el.dataset.tex; } show(el); }), () => todo.forEach(show));
     }
-    new MutationObserver(() => { if (document.querySelector('.math-block:not([data-done])')) renderMath(); }).observe(document.body, { childList: true, subtree: true });
+    new MutationObserver(() => { if (document.querySelector('.math-block:not([data-done]), .math-inline:not([data-done])')) renderMath(); }).observe(document.body, { childList: true, subtree: true });
+    /* Text with inline math: write LaTeX between dollar signs, e.g.  'agent $i$ has a cost $f_i(x_i;q_i)$'.  (For a real dollar sign write \\$ inside a quoted string.) */
+    function withMath(text) {
+      return esc(text).replace(/\\\$/g, '\u0000').replace(/\$([^$]+)\$/g, (m, tex) => `<span class="math-inline" data-tex="${tex}">${tex}</span>`).replace(/\u0000/g, '$');
+    }
+    /* A figure under the Results text (see "figure:" in a project's demo). Click it to see it large. */
+    function demoFigure(f) {
+      if (!f || !f.image) return '';
+      const src = esc(f.image.startsWith('data:') ? f.image : SITE.imageBase + f.image), alt = esc(f.alt || '');
+      return `<figure class="demo-fig"><button type="button" class="demo-zoom" data-zoom="${src}" data-alt="${alt}" aria-label="Enlarge figure"><img src="${src}" alt="${alt}" loading="lazy"></button>${f.caption ? `<figcaption>${esc(f.caption)}</figcaption>` : ''}</figure>`;
+    }
+    document.addEventListener('click', e => {
+      const b = e.target.closest && e.target.closest('[data-zoom]'); if (!b) return;
+      let dlg = document.getElementById('img-zoom');
+      if (!dlg) { dlg = document.createElement('dialog'); dlg.id = 'img-zoom'; dlg.setAttribute('aria-label', 'Enlarged figure'); dlg.innerHTML = '<button type="button" class="zoom-close" aria-label="Close">&times;</button><img alt="">'; dlg.addEventListener('click', () => dlg.close()); document.body.appendChild(dlg); }
+      const img = dlg.querySelector('img'); img.src = b.dataset.zoom; img.alt = b.dataset.alt || ''; dlg.showModal();
+    });
     function demoBox(r) {
       const d = r.demo; if (!d) return '';
-      const part = (label, text) => text ? `<h3>${label}</h3><p>${esc(text)}</p>` : '';
-      return `<section class="demo-box" aria-labelledby="demo-${esc(r.slug)}"><div><h2 id="demo-${esc(r.slug)}">${esc(d.title || 'Problem and results')}</h2>${part('Problem', d.problem)}${d.equation ? `<div class="math-block math-wait" data-tex="${esc(d.equation)}"><code>${esc(d.equation)}</code></div>` : ''}${part('Results', d.results)}</div>` +
+      const part = (label, text) => text ? `<h3>${label}</h3><p>${withMath(text)}</p>` : '';
+      return `<section class="demo-box" aria-labelledby="demo-${esc(r.slug)}"><div><h2 id="demo-${esc(r.slug)}">${esc(d.title || 'Problem and results')}</h2>${part('Problem', d.problem)}${d.equation ? `<div class="math-block math-wait" data-tex="${esc(d.equation)}"><code>${esc(d.equation)}</code></div>` : ''}${part('Results', d.results)}${demoFigure(d.figure)}</div>` +
              `<div class="demo-videos">${(d.videos || [{ video: d.video, caption: d.videoCaption }]).map(v => `<figure class="demo-figure"><div class="demo-video">${videoEmbed(v.video, v.caption || d.title)}</div>${v.caption ? `<figcaption>${esc(v.caption)}</figcaption>` : ''}</figure>`).join('')}</div></section>`;
     }
 
