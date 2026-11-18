@@ -1584,9 +1584,9 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
         demo: { title: 'Networked Resource Allocation',
                 problem: 'Many networked systems must share limited resources among their agents, such as wireless spectrum among mobile users or tasks among a team of robots. In an open network, agents join, leave, or fail at any time and links can be attacked, so a plan computed in advance quickly becomes outdated and a central controller cannot keep up.',
                 equation: String.raw`\begin{aligned}
-                                      \min_{r_1,\ldots,r_N} \quad & \sum_{i=1}^{N} f_i(r_i;q_{i}) \\
-                                      \text{subject to }\quad & r_{i}\in\mathcal{R}_{i} \text{ for all }\;\; i,\quad \text{and }\\
-                                      &\sum_{i=1}^{N} g_i(r_i) \leq b
+                                      \min_{x_1,\ldots,x_N} \quad & \sum_{i=1}^{N} f_i(x_i;q_{i}) \\
+                                      \text{subject to }\quad & x_{i}\in\mathcal{X}_{i} \text{ for all }\;\; i,\quad \text{and }\\
+                                      &\sum_{i=1}^{N} g_i(x_i) \leq b
                                       \end{aligned}`,
                 results: 'We develop distributed online algorithms that split the changing allocation problem into a sequence of tractable subproblems, solve each one with scalable, resilient, asynchronous methods, and combine the solutions with a surrogate-model approach. The methods are applied to wireless spectrum management and multi-robot task allocation, giving agents a reliable way to share resources despite failures and adversaries.',
                 videos: [   /* each one: a YouTube or Vimeo link, or a video file path such as 'videos/yip-demo.mp4' */
