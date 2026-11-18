@@ -2272,5 +2272,86 @@ ${p.slug === 'tag' ? '' : `
   new MutationObserver(check).observe(view, { attributes: true, attributeFilter: ['hidden'] }); check();   /* the photos are only loaded once the Team page is opened */
 })();
 </script>
+<!-- ===== TAG page: centred title with red initials, paragraph beside the picture, CyberRunner note, learning-architecture figure (self-contained: styles + script; paste right before the closing body tag, after the other blocks. If an earlier "TAG page" block is there, delete it first.) ===== -->
+<style>
+  /* top card of the TAG page: title across the top, then the paragraph on the left and the picture on the right, same height */
+  .tone-tag .pf-hero.tag-hero { grid-template-columns: minmax(0, 8fr) minmax(0, 5fr); align-items: stretch; row-gap: clamp(16px, 2.4vw, 30px); }   /* 8:5 makes the paragraph and the picture almost the same height on computer screens; the picture card then stretches to match exactly */
+  .tag-hero .tag-title { grid-column: 1 / -1; margin: 0; text-align: center; font: 800 clamp(1.6rem, 3.2vw, 2.6rem)/1.15 var(--font); letter-spacing: -.01em; text-wrap: balance; }
+  .tag-hero .tag-title .r { color: var(--berry); }   /* the red first letters */
+  .tag-hero .tag-text { display: flex; flex-direction: column; justify-content: center; gap: 14px; min-width: 0; }
+  .tag-hero .tag-text p { margin: 0; font-size: clamp(1rem, 1.3vw, 1.0625rem); line-height: 1.6; }
+  .tag-hero .tag-text .tag-note { font-size: .9375rem; }
+  .tag-hero .tag-text a { color: var(--berry); text-decoration: underline; text-underline-offset: 3px; }
+  .tone-tag .pf-hero.tag-hero .art { display: flex; }   /* the picture card stretches to the height of the paragraph */
+  .tone-tag .pf-hero.tag-hero .art img.media { width: 100%; height: 100%; object-fit: contain; background: #fff; }
+  @media (max-width: 1219px) { .tone-tag .pf-hero.tag-hero { grid-template-columns: minmax(0, 1fr); align-items: center; } .tone-tag .pf-hero.tag-hero .art { max-width: 420px; width: 100%; margin-inline: auto; } .tone-tag .pf-hero.tag-hero .art img.media { height: auto; } }   /* narrower screens: paragraph first, then the picture */
+  /* the "Learning Architecture" card: long title, then the figure across the full width of the card */
+  .pf-card > h2.tag-arch-title { font-size: clamp(1.3rem, 2.3vw, 1.75rem); line-height: 1.2; text-wrap: balance; }
+  .pf-card > h2.tag-arch-title .nb { white-space: nowrap; }   /* keeps Model-Free, Sim-to-Real ... together on one line */
+  .tag-arch { margin: 0; }
+  .tag-arch button { display: block; width: 100%; padding: 0; border: 0; background: #fff; border-radius: var(--r-md); overflow: hidden; cursor: zoom-in; }
+  .tag-arch button:focus-visible { outline: 3px solid var(--berry); outline-offset: 3px; }
+  .tag-arch img { display: block; width: 100%; height: auto; }
+  /* click the figure to see it large (it scrolls sideways on a phone, so the small text stays readable) */
+  #tag-zoom { border: 0; padding: 14px; border-radius: var(--r-md); background: #fff; width: fit-content; max-width: 96vw; max-height: 94vh; overflow: auto; }
+  #tag-zoom img { display: block; width: auto; max-width: none; height: auto; }
+  #tag-zoom::backdrop { background: rgba(42, 33, 69, .62); }
+  #tag-zoom .tag-zoom-x { display: block; width: 40px; height: 40px; margin: 0 0 8px auto; padding: 0; border: 0; border-radius: 50%; background: var(--plum); color: #fff; font: 700 1.5rem/1 var(--font); cursor: pointer; }
+</style>
+<script>
+(function () {
+  var view = document.querySelector('[data-view="platform"]'); if (!view) return;
+  var base = (typeof SITE !== 'undefined' && SITE.imageBase) || 'https://coolautonomylab.github.io/images/';
+  var PARAGRAPH = 'TAG is a compact physical platform for studying learning and control in physically coupled dynamical systems. It consists of an actively tilted and steered maze board, watched by an overhead camera that tracks a marble\u2019s motion, with a rotary inverted pendulum mounted directly on top. The pendulum\u2019s reaction torque and vibration couple into the board and marble, while the board\u2019s own tilting simultaneously disturbs the pendulum\u2019s balance. This creates a challenging yet controllable environment in which multiple subsystems interact through shared physical dynamics rather than operating independently. TAG supports research in model-based and model-free learning, system identification, adaptive and robust control, multi-agent decision-making, and learning under disturbance and partial observability. More broadly, our goal is to offer a reproducible physical benchmark for developing AI and control algorithms that must learn, predict, and make decisions in the presence of physical coupling, dynamic interaction, uncertainty, and nonstationarity.';
+  var ARCH_TITLE = 'Learning Architecture: Model-Based vs Model-Free RL and Sim-to-Real vs Real-Time Learning';
+  var ARCH_ALT = 'Learning architecture of TAG. Top: the pendulum controller is trained in simulation only with model-free reinforcement learning (TQC) and only the trained actor is transferred to a microcontroller. Bottom: the maze controller is learned on the real system; a camera image becomes a state estimate on a local PC, and a server updates the maze policy online with model-based reinforcement learning (DreamerV3). The pendulum disturbs the board with reaction torque and vibration, and the board tilt disturbs the pendulum.';
+  var FIGURE = ['research/TAG/architecture.jpg', 'research/TAG/architecture.jpeg', 'research/TAG/architecture.png', 'architecture.jpg', 'architecture.jpeg', 'architecture.png', '../research/TAG/assets/images/architecture.jpg', '../research/TAG/architecture.jpg', 'research/YIP/architecture.jpg', '../architecture.jpg', '../architecture.jpeg', '../architecture.png'];   /* where the figure file is looked for (inside the images folder), in this order */
+
+  function hero() {
+    var h = view.querySelector('.tone-tag .pf-hero'); if (!h || h.dataset.tagDone) return; h.dataset.tagDone = '1';
+    var left = h.firstElementChild;                                      /* the old breadcrumb, big "TAG" heading and short paragraph live here */
+    var title = document.createElement('h1'); title.className = 'tag-title';
+    title.innerHTML = '<span class="r">T</span>estbed for <span class="r">A</span>utonomous <span class="r">G</span>ames (TAG)';
+    var text = document.createElement('div'); text.className = 'tag-text';
+    var p = document.createElement('p'); p.textContent = PARAGRAPH;
+    var note = document.createElement('p'); note.className = 'tag-note'; note.innerHTML = 'The autonomous maze is inspired by <a href="https://www.cyberrunner.ai/" target="_blank" rel="noreferrer">CyberRunner</a>.';
+    text.appendChild(p); text.appendChild(note);
+    h.classList.add('tag-hero'); h.insertBefore(title, h.firstChild); h.replaceChild(text, left);
+  }
+  function zoom(src, alt) {
+    var d = document.getElementById('tag-zoom');
+    if (!d) {
+      d = document.createElement('dialog'); d.id = 'tag-zoom'; d.setAttribute('aria-label', 'Enlarged figure');
+      d.innerHTML = '<button type="button" class="tag-zoom-x" aria-label="Close">&times;</button><img alt="">';
+      d.addEventListener('click', function (e) { if (e.target === d || e.target.classList.contains('tag-zoom-x')) d.close(); });
+      document.body.appendChild(d);
+    }
+    var i = d.querySelector('img'); i.src = src; i.alt = alt || ''; d.showModal();
+  }
+  function arch() {
+    var cards = view.querySelectorAll('.tone-tag .pf-card'), card = null;
+    Array.prototype.forEach.call(cards, function (c) { var h = c.querySelector('h2'); if (!card && h && /^overview$/i.test(h.textContent.trim())) card = c; });
+    if (!card || card.dataset.tagArch) return; card.dataset.tagArch = '1';
+    var h2 = card.querySelector('h2'), body = card.querySelector('.pf-prose'); if (!h2 || !body) return;
+    var k = 0;
+    (function tryNext() {                                              /* the old Overview stays until the figure file has been found */
+      if (k >= FIGURE.length) return; var url = base + FIGURE[k++], probe = new Image();
+      probe.onerror = tryNext;
+      probe.onload = function () {
+        if (!card.isConnected) return;
+        h2.innerHTML = ARCH_TITLE.replace(/[A-Za-z]+(?:-[A-Za-z]+)+/g, function (w) { return '<span class="nb">' + w + '</span>'; }); h2.classList.add('tag-arch-title');
+        var fig = document.createElement('figure'), btn = document.createElement('button'), img = new Image();
+        fig.className = 'tag-arch'; btn.type = 'button'; btn.setAttribute('aria-label', 'Enlarge the learning architecture figure'); btn.title = 'Click to enlarge';
+        img.src = url; img.alt = ARCH_ALT; img.width = probe.naturalWidth; img.height = probe.naturalHeight;
+        btn.appendChild(img); fig.appendChild(btn); btn.addEventListener('click', function () { zoom(url, ARCH_ALT); });
+        card.replaceChild(fig, body);
+      };
+      probe.src = url;
+    })();
+  }
+  function fix() { hero(); arch(); }
+  new MutationObserver(fix).observe(view, { childList: true }); fix();   /* runs each time the page is drawn */
+})();
+</script>
 </body>
 </html>
