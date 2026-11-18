@@ -1581,11 +1581,17 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
         title: 'Foundations of Resilient Distributed Resource Allocation in Open Networks',
         lede: 'Sharing limited resources among changing groups of devices and vehicles, without relying on a central controller.',
         image: 'research/YIP/wireless-ra.jpg', alt: 'Diagram of phones, cars and vehicles in three groups, linked wirelessly to each other and to two cell towers',
-        demo: { title: 'Networed Resource Allocation',
+        demo: { title: 'Networked Resource Allocation',
                 problem: 'Many networked systems must share limited resources among their agents, such as wireless spectrum among mobile users or tasks among a team of robots. In an open network, agents join, leave, or fail at any time and links can be attacked, so a plan computed in advance quickly becomes outdated and a central controller cannot keep up.',
+                equation: String.raw`\begin{aligned}
+                                      \min_{r_1,\ldots,r_N} \quad & \sum_{i=1}^{N} f_i(r_i;q_{i}) \\
+                                      \text{subject to }\quad & r_{i}\in\mathcal{R}_{i} \text{ for all }\;\; i,\quad \text{and }\\
+                                      &\sum_{i=1}^{N} g_i(r_i) \leq b
+                                      \end{aligned}`,
                 results: 'We develop distributed online algorithms that split the changing allocation problem into a sequence of tractable subproblems, solve each one with scalable, resilient, asynchronous methods, and combine the solutions with a surrogate-model approach. The methods are applied to wireless spectrum management and multi-robot task allocation, giving agents a reliable way to share resources despite failures and adversaries.',
-                video: 'videos/AFOSR YIP/DAGM_demo.mp4',   /* paste a YouTube or Vimeo link, or a video file path such as 'videos/yip-demo.mp4' */
-                videoCaption: 'Video demonstration' },
+                videos: [   /* each one: a YouTube or Vimeo link, or a video file path such as 'videos/yip-demo.mp4' */
+                  { video: 'videos/AFOSR YIP/DAGM_demo.mp4',                 videoCaption: 'Proposed distributed alternating gradient methods' },
+                  { video: 'videos/AFOSR YIP/lag_demo.mp4', caption: 'Distributed Lagrangian methods' } ] },
         body: '<p>Many networked systems must share limited resources among their agents while optimizing a goal, such as assigning wireless spectrum to mobile users with as little interference as possible, or assigning tasks to a team of robots in a search-and-rescue mission. In real networks the number of agents keeps changing, links fail, and adversaries interfere, so a plan computed in advance quickly becomes outdated. This project develops distributed, online algorithms for these open networks. The key idea is to break the large, time-varying allocation problem into a sequence of small, tractable subproblems. Each one is solved with scalable, resilient, asynchronous methods that combine optimization, online learning, and control, and the solutions are then combined with a surrogate-model approach. The methods will be applied to wireless spectrum management and multi-robot task allocation, with the goal of using limited resources more effectively in civilian and military applications.</p>' },
       { slug: 'cif', name: 'NSF CIF', short: 'Multi-task learning', sponsor: 'NSF CIF', hide: ['crumbs', 'sponsor', 'lede'], layout: 'split', oneLine: true, fit: 'match', focus: '50% 50%',
         title: 'Mathematical and Algorithmic Foundations of Multi-Task Learning',
