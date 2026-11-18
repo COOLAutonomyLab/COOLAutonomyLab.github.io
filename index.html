@@ -2120,5 +2120,36 @@ ${p.slug === 'tag' ? '' : `
 
     boot();
 </script>
+<!-- ===== AFOSR logo in front of the YIP page title (self-contained: styles + script; paste right before </body>) ===== -->
+<style>
+  .page-head h1.research-title.has-logo { display: flex; align-items: center; justify-content: center; gap: .6em; }   /* logo and title side by side, the title centred on the logo */
+  .rp-logo { height: 3em; width: auto; flex: none; mix-blend-mode: multiply; }   /* logo height = 3 x the title's font size; multiply lets a white background blend into the page colour */
+  @media (min-width: 1000px) { .page-head h1.research-title.rp-oneline.has-logo { font-size: clamp(.8rem, calc((min(1220px, 100vw - 2 * var(--gutter)) - 16px) / calc(55.2 + var(--logo-w, 3) + .6)), 1.25rem); } }   /* keeps the one-line title inside the page now that the logo takes some room */
+  @media (max-width: 999px) { .page-head h1.research-title.has-logo { flex-direction: column; gap: .4em; } }   /* narrow screens: the title wraps, so the logo goes centred above it */
+</style>
+<script>
+(function () {
+  /* Which title gets which logo, and where to look for the file (inside the images folder; the first one that exists is used). */
+  var LOGOS = [
+    { title: /^AFOSR YIP/, files: ['research/YIP/afosr.jpeg', 'research/YIP/afosr.jpg', 'research/YIP/afosr.png', 'afosr.jpeg'] }
+  ];
+  var base = (typeof SITE !== 'undefined' && SITE.imageBase) || 'https://coolautonomylab.github.io/images/';
+  function addLogos() {
+    document.querySelectorAll('[data-view="researchpage"] h1.research-title').forEach(function (h1) {
+      if (h1.dataset.logoTried) return;                       /* each title is handled once (the page makes a new one every time you open it) */
+      var text = h1.textContent.trim(), entry = LOGOS.find(function (l) { return l.title.test(text); }); if (!entry) return;
+      h1.dataset.logoTried = '1';
+      var span = document.createElement('span'); span.textContent = text; h1.textContent = '';
+      var img = new Image(), i = 0; img.className = 'rp-logo'; img.alt = '';
+      img.onload = function () {   /* tell the title how wide the logo is (in em), so the one-line title still fits */
+        var em = parseFloat(getComputedStyle(h1).fontSize); h1.style.setProperty('--logo-w', (img.naturalWidth / img.naturalHeight * img.getBoundingClientRect().height / em).toFixed(2));
+      };
+      img.onerror = function () { i++; if (i < entry.files.length) img.src = base + entry.files[i]; else { h1.classList.remove('has-logo'); img.remove(); } };   /* no file found: the title stays as it was */
+      h1.classList.add('has-logo'); h1.appendChild(img); h1.appendChild(span); img.src = base + entry.files[0];
+    });
+  }
+  new MutationObserver(addLogos).observe(document.body, { childList: true, subtree: true }); addLogos();
+})();
+</script>
 </body>
 </html>
