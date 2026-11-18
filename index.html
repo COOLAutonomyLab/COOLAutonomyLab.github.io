@@ -160,6 +160,18 @@
     .hiring p { font-size: clamp(1.0625rem, 1.5vw, 1.1875rem); max-width: 60ch; margin-top: 14px; }
     .hiring-art { background: #fff; border-radius: 50%; aspect-ratio: 1; display: grid; place-items: center; transform: rotate(-6deg); }
     .hiring-art .ill { width: 74%; }
+    /* ---------- Project pages: "problem and results" + video demonstration box (same look as the hiring box) ---------- */
+    .demo-box { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 56px); align-items: center; background: var(--lilac); border-radius: var(--r-lg); padding: clamp(26px, 4.4vw, 60px); margin: 44px 0; }
+    .demo-box h2 { font: 800 clamp(1.5rem, 2.6vw, 2.1rem)/1.1 var(--font); letter-spacing: -.01em; }
+    .demo-box h3 { font: 700 .8125rem/1 var(--font); letter-spacing: .06em; text-transform: uppercase; color: var(--berry); margin: 22px 0 8px; }
+    .demo-box p { margin: 0; font-size: clamp(1.0625rem, 1.4vw, 1.125rem); max-width: 62ch; text-align: justify; text-justify: inter-word; hyphens: auto; }
+    .demo-figure { margin: 0; }
+    .demo-video { position: relative; aspect-ratio: 16 / 9; border-radius: var(--r-md); overflow: hidden; background: #fff; box-shadow: 0 10px 30px rgba(42, 33, 69, .12); }
+    .demo-video iframe, .demo-video video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
+    .demo-soon { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 12px; text-align: center; padding: 20px; color: var(--plum-soft); font: 700 1rem/1.3 var(--font); }
+    .demo-soon svg { width: 56px; height: 56px; }
+    .demo-figure figcaption { margin-top: 12px; font: 500 .9375rem/1.4 var(--font); color: var(--plum-soft); text-align: center; }
+    @media (max-width: 860px) { .demo-box { grid-template-columns: minmax(0, 1fr); } }
 
     /* ---------- Platforms bento ---------- */
     .hub-wrap { margin-top: clamp(24px, 3vw, 40px); }
@@ -1279,7 +1291,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
         { slug: 'crazyflie', name: 'Crazyflie', chip: 'Crazyflie', kind: 'Aerial', group: 'Aerial Vehicles',
           short: 'Nano quadrotors',
           blurb: 'Palm-sized quadrotors for multi-robot flight experiments indoors.',
-          image: null, video: null },
+          image: null, video: null},
         { slug: 'resizable-drone', name: 'Custom Resizable Drone', chip: 'Resizable Drone', kind: 'Aerial', group: 'Aerial Vehicles',
           short: 'Lab-built quadrotor',
           blurb: 'A quadrotor designed and built in the lab, with a frame that can be resized.',
@@ -1569,6 +1581,11 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
         title: 'Foundations of Resilient Distributed Resource Allocation in Open Networks',
         lede: 'Sharing limited resources among changing groups of devices and vehicles, without relying on a central controller.',
         image: 'research/YIP/wireless-ra.jpg', alt: 'Diagram of phones, cars and vehicles in three groups, linked wirelessly to each other and to two cell towers',
+        demo: { title: 'Networed Resource Allocation',
+                problem: 'Many networked systems must share limited resources among their agents, such as wireless spectrum among mobile users or tasks among a team of robots. In an open network, agents join, leave, or fail at any time and links can be attacked, so a plan computed in advance quickly becomes outdated and a central controller cannot keep up.',
+                results: 'We develop distributed online algorithms that split the changing allocation problem into a sequence of tractable subproblems, solve each one with scalable, resilient, asynchronous methods, and combine the solutions with a surrogate-model approach. The methods are applied to wireless spectrum management and multi-robot task allocation, giving agents a reliable way to share resources despite failures and adversaries.',
+                video: 'videos/AFOSR YIP/DAGM_demo.mp4',   /* paste a YouTube or Vimeo link, or a video file path such as 'videos/yip-demo.mp4' */
+                videoCaption: 'Video demonstration' },
         body: '<p>Many networked systems must share limited resources among their agents while optimizing a goal, such as assigning wireless spectrum to mobile users with as little interference as possible, or assigning tasks to a team of robots in a search-and-rescue mission. In real networks the number of agents keeps changing, links fail, and adversaries interfere, so a plan computed in advance quickly becomes outdated. This project develops distributed, online algorithms for these open networks. The key idea is to break the large, time-varying allocation problem into a sequence of small, tractable subproblems. Each one is solved with scalable, resilient, asynchronous methods that combine optimization, online learning, and control, and the solutions are then combined with a surrogate-model approach. The methods will be applied to wireless spectrum management and multi-robot task allocation, with the goal of using limited resources more effectively in civilian and military applications.</p>' },
       { slug: 'cif', name: 'NSF CIF', short: 'Multi-task learning', sponsor: 'NSF CIF', hide: ['crumbs', 'sponsor', 'lede'], layout: 'split', oneLine: true, fit: 'match', focus: '50% 50%',
         title: 'Mathematical and Algorithmic Foundations of Multi-Task Learning',
@@ -1669,6 +1686,24 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
       const connected = p.flagship ? HARDWARE : [FLAGSHIP, ...HARDWARE.filter(h => h.kind === p.kind && h !== p)];
       const related = SITE.pubs.filter(x => x.platforms.includes(p.slug));
       return { lead, overview, capabilities, specs, connected, related };
+    }
+
+    /* ---------- Project pages: video + the "problem and results" box ---------- */
+    function videoEmbed(url, title) {
+      const u = String(url || '').trim();
+      if (!u) return `<div class="demo-soon"><svg viewBox="0 0 56 56" aria-hidden="true"><circle cx="28" cy="28" r="26" style="fill:var(--plum)"/><path d="M23 18l17 10-17 10z" style="fill:var(--milk)"/></svg><span>Video demonstration coming soon</span></div>`;
+      let m = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
+      if (m) return `<iframe src="https://www.youtube-nocookie.com/embed/${m[1]}" title="${esc(title || 'Video')}" loading="lazy" allow="accelerometer; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+      m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+      if (m) return `<iframe src="https://player.vimeo.com/video/${m[1]}" title="${esc(title || 'Video')}" loading="lazy" allow="picture-in-picture" allowfullscreen></iframe>`;
+      if (/\.(mp4|webm|ogg)(\?|#|$)/i.test(u)) return `<video controls preload="metadata" playsinline aria-label="${esc(title || 'Video')}"><source src="${esc(u)}"></video>`;
+      return `<div class="demo-soon"><a class="btn" href="${esc(u)}" rel="noopener">Watch the video</a></div>`;
+    }
+    function demoBox(r) {
+      const d = r.demo; if (!d) return '';
+      const part = (label, text) => text ? `<h3>${label}</h3><p>${esc(text)}</p>` : '';
+      return `<section class="demo-box" aria-labelledby="demo-${esc(r.slug)}"><div><h2 id="demo-${esc(r.slug)}">${esc(d.title || 'Problem and results')}</h2>${part('Problem', d.problem)}${part('Results', d.results)}</div>` +
+             `<figure class="demo-figure"><div class="demo-video">${videoEmbed(d.video, d.videoCaption || d.title)}</div>${d.videoCaption ? `<figcaption>${esc(d.videoCaption)}</figcaption>` : ''}</figure></section>`;
     }
 
     /* ---------- Publications ---------- */
@@ -1922,6 +1957,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
         </div>
         <div class="wrap" style="padding-bottom:64px">
           ${main}
+          ${demoBox(r)}
           ${pubs}
           <p style="margin-top:28px"><a class="btn btn-line" href="#/research">Back to Research</a></p>
         </div>`;
