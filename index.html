@@ -283,6 +283,7 @@
     .tag { font: 500 .8125rem/1 var(--font); padding: .5em .85em; border-radius: 99px; background: var(--tone, var(--oat)); color: var(--on-tone, var(--plum)); text-decoration: none; }
     .tag:hover { outline: 2.5px solid var(--plum); color: var(--on-tone, var(--plum)); }
     .pub-links { display: inline-flex; gap: 14px; margin-left: 8px; font-weight: 700; }
+    .pub-projects { display: inline-flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; margin-left: auto; }   /* project tags: right end of the row */
     .empty { padding: 30px 0; display: grid; gap: 14px; justify-items: start; }
 
     /* Team and Join */
@@ -1669,8 +1670,11 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
     }
     function pubTags(pub) {
       const plat = tagsOf(pub).map(s => `<a class="tag tag-${s}" href="#/publications/${s}"><span class="sr-only">Filter by </span>${esc(chipName(s))}</a>`).join('');
+      return plat;
+    }
+    function pubProjects(pub) {
       const proj = (pub.projects || []).map(s => `<a class="tag tag-pj-${s}" href="#/publications/project-${s}"><span class="sr-only">Filter by project </span>${esc(RP[s] ? RP[s].name : s)}</a>`).join('');
-      return plat + proj;
+      return proj ? `<span class="pub-projects">${proj}</span>` : '';
     }
     function initPubs() {
       const years = [...new Set(SITE.pubs.map(p => p.year))].sort((a, b) => b - a);
@@ -1886,7 +1890,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
           <h3 class="pub-title">${esc(p.title)}${p.placeholder ? ph : ''}</h3>
           <p class="pub-authors">${esc(p.authors)}</p>
           <p class="pub-venue">${esc(p.venue)}, ${p.year} (${esc(p.type.toLowerCase())})</p>
-          <p class="pub-row">${pubTags(p)}<span class="pub-links">${pubLinks(p)}</span></p>
+          <p class="pub-row">${pubTags(p)}<span class="pub-links">${pubLinks(p)}</span>${pubProjects(p)}</p>
         </li>`,
       researchPage: r => {
         const hide = r.hide || [], split = r.layout === 'split';
