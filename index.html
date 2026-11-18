@@ -172,8 +172,10 @@
     .math-block + p { margin-top: 14px; }
     .demo-videos { display: grid; align-content: space-between; gap: 14px; }
     .demo-fig { margin: 14px 0 0; }
-    .fig-box { grid-template-columns: minmax(0, var(--fig-ratio, 1.6fr)) minmax(0, 1fr); }   /* left picture a bit wider than the right one */
-    .fig-box .demo-videos .demo-fig { margin-top: 0; }
+    .fig-box { grid-template-columns: minmax(0, 1.3953fr) minmax(0, 1fr); align-items: start; row-gap: 16px; }   /* 1.3953 = aspect of the left picture / aspect of the right one, so both pictures come out exactly the same height */
+    .fig-box .fig-title { grid-column: 1 / -1; text-align: center; white-space: normal; text-wrap: balance; margin: 0 0 6px; }   /* one title, centred over both pictures */
+    .fig-box .demo-fig { margin: 0; }
+    @media (max-width: 860px) { .fig-box { grid-template-columns: minmax(0, 1fr); } }
     .demo-zoom { display: block; width: 100%; padding: 0; border: 0; background: #fff; border-radius: var(--r-md); overflow: hidden; cursor: zoom-in; box-shadow: 0 10px 30px rgba(42, 33, 69, .12); }
     .demo-zoom img { display: block; width: 100%; height: auto; }
     .demo-fig figcaption { margin-top: 10px; font: 500 .9375rem/1.4 var(--font); color: var(--plum-soft); text-align: center; }
@@ -1378,7 +1380,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
           authors: 'Amit Dutta, Thinh T Doan', venue: '23rd IFAC World Congress', year: 2026, type: 'Conference', projects: ['career', 'yip'], platforms: [], links: {} },
         { title: 'Fast Nonlinear Two-Time-Scale Stochastic Approximation: Achieving O(1/k) Finite-Sample Complexity',
           authors: 'T. T. Doan', venue: 'IEEE Transactions on Automatic Control (accepted)', year: 2025, type: 'Journal', projects: ['career'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2401.12764', pdf: 'https://arxiv.org/pdf/2401.12764' } },
-        { title: 'Distributed optimization in open networks under redundancy',
+        { title: 'Distributed optimization in Open Networks under Redundancy',
           authors: 'Amit Dutta, Thinh T Doan', venue: '2025 American Control Conference (ACC)', year: 2025, type: 'Conference', projects: ['career', 'yip'], platforms: [], links: {} },
         { title: 'Accelerating Multi-Task Temporal Difference Learning under Low-Rank Representation',
           authors: 'Y. Bai, S. Zeng, J. Romberg, T. T. Doan', venue: 'arXiv:2503.02030', year: 2025, type: 'Preprint', projects: ['cif','career'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2503.02030', pdf: 'https://arxiv.org/pdf/2503.02030' } },
@@ -1617,10 +1619,10 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
                 videos: [   /* each one: a YouTube or Vimeo link, or a video file path such as 'videos/yip-demo.mp4' */
                   { title: 'Real-hardware Experiments on Crazyflie', video: 'videos/AFOSR YIP/DAGM_demo.mp4', caption: 'Proposed distributed alternating gradient methods' },
                   { video: 'videos/AFOSR YIP/lag_demo.mp4', caption: 'Distributed Lagrangian methods' } ]},
-        figureBox: { title: 'Resilience to Byzantine Attacks',
+        figureBox: { title: 'Resilient Distributed Optimization under Byzantine Attacks',
                      left: { image: 'research/YIP/byzantine-wildfire.jpg',
                              alt: 'Illustration: a network of Crazyflie drones monitors a wildfire. Two compromised (Byzantine) drones send corrupted messages, shown as red dashed links, while the other drones exchange reliable messages.' },
-                     right: { title: '',
+                     right: {
                               image: 'research/YIP/TAC_2time_Comp_Agg_single_PL.png',
                               alt: 'Plot of optimality error versus iteration for six methods under attack. The proposed algorithm converges almost as fast as the no-attack case, while Local SGD CE, MultiKRUM, TrimmedMean and Median stay higher.',
                               caption: 'Proposed distributed two-time-scale SGD with comparative elimination filters' } },
@@ -1777,8 +1779,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
     function figureBox(r) {
       const b = r.figureBox; if (!b) return '';
       const id = 'fig-' + esc(r.slug);
-      return `<section class="demo-box fig-box" aria-labelledby="${id}"><div class="demo-text"><h2 id="${id}">${esc(b.title || '')}</h2>${demoFigure(b.left)}</div>` +
-             `<div class="demo-videos">${b.right.title ? `<h3 class="demo-vtitle">${esc(b.right.title)}</h3>` : ''}${demoFigure(b.right)}</div></section>`;
+      return `<section class="demo-box fig-box" aria-labelledby="${id}"><h2 class="fig-title" id="${id}">${esc(b.title || '')}</h2><div>${demoFigure(b.left)}</div><div>${demoFigure(b.right)}</div></section>`;
     }
     function demoBox(r) {
       const d = r.demo; if (!d) return '';
