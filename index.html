@@ -1597,7 +1597,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
        `name` and `short` appear in the Research menu, `body` is the page text (plain HTML). */
     SITE.researchPages = [
       { slug: 'career', name: 'NSF CAREER', short: 'Open multi-agent systems', sponsor: 'NSF CAREER', hide: ['crumbs', 'sponsor', 'lede'], layout: 'split', oneLine: true, fit: 'match', focus: '62% 40%',
-        title: 'Foundations of Scalable and Resilient Distributed Real-Time Decision Making in Open Multi-Agent Systems',
+        title: 'NSF CAREER: Foundations of Scalable and Resilient Distributed Real-Time Decision Making in Open Multi-Agent Systems',
         lede: 'Helping teams of autonomous agents decide quickly and reliably when agents can join, leave, or fail at any time.',
         image: 'research/CAREER/drone-fires.jpg', alt: 'Three quadrotors flying over a forest wildfire',
         body: '<p>This CAREER project develops new foundations for scalable and resilient distributed reinforcement learning, so that teams of autonomous agents can cooperate in real time in open multi-agent systems, where the number of agents changes over time. The central idea is a new theory of two-time-scale stochastic approximation for non-monotone systems. It combines extrapolation techniques from optimization with singular perturbation theory from control to overcome instability, and it characterizes the finite-time complexity of the methods. Building on this theory, the project designs distributed multi-time-scale learning and control methods that adapt to time-varying environments and stay robust to failures, communication constraints and adversaries, and evaluates them in simulations and multi-robot navigation field experiments. The research is paired with course development, student training, outreach and public partnerships.</p>'},
@@ -2120,11 +2120,11 @@ ${p.slug === 'tag' ? '' : `
 
     boot();
 </script>
-<!-- ===== AFOSR logo + page title + topic line + box titles (self-contained: styles + script; paste right before the closing body tag) ===== -->
+<!-- ===== AFOSR logo (YIP page) + NSF logo (CAREER page) + topic line + box titles (self-contained: styles + script; paste right before the closing body tag) ===== -->
 <style>
   /* Page title with a logo: logo on the left, the title (2 lines) centred on it. Change the two numbers below to make them bigger or smaller. */
   .page-head h1.research-title.has-logo { display: flex; align-items: center; justify-content: center; gap: .7em; line-height: 1.3; }
-  .page-head h1.research-title.has-logo > span { text-wrap: balance; max-width: 26em; }   /* keeps the 2-line title narrow, so the logo and the title sit together as one centred group */
+  .page-head h1.research-title.has-logo > span { text-wrap: balance; max-width: var(--title-w, 26em); }   /* keeps the title narrow, so the logo and the title sit together as one centred group (each page can set its own width below) */
   .rp-topic { display: block; margin-top: .45em; font-size: .7em; line-height: 1.3; font-weight: 500; color: var(--plum-soft); }   /* the line under the title, centred */
   .rp-topic b { color: var(--berry); font-weight: 700; }
   .rp-logo { height: 3.8em; width: auto; flex: none; mix-blend-mode: multiply; }   /* logo height = 3.8 x the title's font size; multiply lets a white background blend into the page colour */
@@ -2135,20 +2135,22 @@ ${p.slug === 'tag' ? '' : `
 </style>
 <script>
 (function () {
-  /* Which title gets which logo, and where to look for the file (inside the images folder; the first one that exists is used). */
+  /* Which page gets which logo, and where to look for the file (inside the images folder; the first one that exists is used).
+     A page is recognised by its address (route) or by how its title starts. "topic" adds the line under the title. */
   var LOGOS = [
-    { title: /^AFOSR YIP/, topic: 'Complex Networks', files: ['research/YIP/afosr.jpeg', 'research/YIP/afosr.jpg', 'research/YIP/afosr.png', 'afosr.jpeg'] }
+    { route: /#\/research\/yip/i, title: /^AFOSR YIP/, topic: 'Complex Networks', files: ['research/YIP/afosr.jpeg', 'research/YIP/afosr.jpg', 'research/YIP/afosr.png', 'afosr.jpeg'] },
+    { route: /#\/research\/career/i, title: /^NSF CAREER/, width: 22.5, wrapIfNoLogo: true, files: ['research/CAREER/nsf.png', 'research/CAREER/nsf.jpg', 'research/CAREER/nsf.jpeg', 'research/CAREER/NSF.png', 'research/CAREER/NSF.jpg', 'research/CAREER/NSF.jpeg', 'nsf.png', 'nsf.jpg', 'nsf.jpeg'] }
   ];
   var base = (typeof SITE !== 'undefined' && SITE.imageBase) || 'https://coolautonomylab.github.io/images/';
   function addLogos() {
     document.querySelectorAll('[data-view="researchpage"] h1.research-title').forEach(function (h1) {
       if (h1.dataset.logoTried) return;                       /* each title is handled once (the page makes a new one every time you open it) */
-      var text = h1.textContent.trim(), entry = LOGOS.find(function (l) { return l.title.test(text); }); if (!entry) return;
-      h1.dataset.logoTried = '1';
+      var text = h1.textContent.trim(), entry = LOGOS.find(function (l) { return (l.route && l.route.test(location.hash)) || (l.title && l.title.test(text)); }); if (!entry) return;
+      h1.dataset.logoTried = '1'; if (entry.width) h1.style.setProperty('--title-w', entry.width + 'em');
       var span = document.createElement('span'); span.textContent = text; h1.textContent = '';
       if (entry.topic) { var tp = document.createElement('small'), lb = document.createElement('b'); tp.className = 'rp-topic'; lb.textContent = 'Topic:'; tp.appendChild(lb); tp.appendChild(document.createTextNode(' ' + entry.topic)); span.appendChild(tp); }   /* "Topic: ..." under the title */
       var img = new Image(), i = 0; img.className = 'rp-logo'; img.alt = '';
-      img.onerror = function () { i++; if (i < entry.files.length) img.src = base + entry.files[i]; else { h1.classList.remove('has-logo'); img.remove(); } };   /* no file found: the title stays as it was */
+      img.onerror = function () { i++; if (i < entry.files.length) img.src = base + entry.files[i]; else { h1.classList.remove('has-logo'); if (entry.wrapIfNoLogo) h1.classList.remove('rp-oneline'); img.remove(); } };   /* no file found: the title goes back to plain (a long title is allowed to wrap, so it never runs off the page) */
       h1.classList.add('has-logo'); h1.appendChild(img); h1.appendChild(span); img.src = base + entry.files[0];
     });
   }
