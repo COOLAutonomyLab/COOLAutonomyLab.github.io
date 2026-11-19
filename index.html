@@ -618,7 +618,7 @@ window.addEventListener('message', event => {
             <ul class="theme-pills" id="theme-pills" aria-label="What we work on"></ul>
             <p class="intro">The Control, Optimization, and Online Learning (COOL) for Autonomy Lab is based at the University of Texas at Austin. Our mission is to develop advanced real-time decision-making methods that enable autonomous systems to complement humans in performing complex tasks. We are committed to educating and training the next generation of scientists, researchers, and engineers in this rapidly advancing field. We value teamwork, hard work, and having fun, because together we are COOLer.</p>
             <div class="actions">
-              <a class="btn" href="#/platforms">Meet the platforms</a>
+              <a class="btn" href="#/research">Our research</a>
               <a class="btn btn-line" href="#/join">Join the lab</a>
             </div>
           </div>
@@ -1343,6 +1343,8 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
       /* Newest first. The current site shows no dates, so none are invented here;
          add a `date` field when you have them. */
       news: [
+        { tag: 'Paper',     text: 'Jiwon submitted a paper on data-driven safe navigation, and our undergraduates, Bao and Dat, submitted their first paper based on the TAG testbed!' },
+        { tag: 'Paper',     text: 'Congratulations to Yitao and Wonseok for getting their papers accepted to CDC 2026 in Hawaii!' },
         { tag: 'Award',     text: 'Thinh received the 2025 IEEE CSS Antonio Ruberti Young Researcher Prize for fundamental contributions to the optimization and control theoretic foundations of machine learning.',
           link: { text: 'ASE Department News', href: 'https://ae.utexas.edu/news/thinh-doan-wins-antonio-ruberti-young-researcher-prize' } },
         { tag: 'People',    text: 'Welcome Jiwon Lee (PhD, Spring 2026), and Dat Nguyen and Trung Truong (undergraduates, Fall 2025).' },
@@ -1371,7 +1373,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
         { title: 'Analyzing Best-Response Dynamics for Cooperation in Markov Potential Games',
           authors: 'Dingyang Chen, Xiaoling Zeng, Thinh T. Doan, Qi Zhang', venue: 'Transactions on Machine Learning Research', year: 2026, type: 'Journal', projects: ['yip','career'], platforms: [], links: { paper: 'https://openreview.net/forum?id=klFSzxt4MC', pdf: 'https://openreview.net/pdf?id=klFSzxt4MC' } },
         { title: 'CBF-based Probabilistic Safe Navigation under Unknown Nonlinear Obstacle Dynamics',
-          authors: 'J. Lee, H. Matias, D. Silvestre, T. T. Doan', venue: 'arXiv:2604.14818', year: 2026, type: 'Preprint', projects: ['UT-Portugal', 'career', 'yip'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2604.14818', pdf: 'https://arxiv.org/pdf/2604.14818' } },
+          authors: 'J. Lee, H. Matias, D. Silvestre, T. T. Doan', venue: 'arXiv:2604.14818', year: 2026, type: 'Preprint', projects: ['UT-Portugal', 'career', 'yip'], platforms: ['theory','crazyflie'], links: { arxiv: 'https://arxiv.org/abs/2604.14818', pdf: 'https://arxiv.org/pdf/2604.14818' } },
         { title: 'Internal State-Based Policy Gradient Methods for Partially Observable Markov Potential Games',
           authors: 'W. Yang, T. T. Doan', venue: '65th IEEE Conference on Decision and Control', year: 2026, type: 'Conference', projects: ['career','yip'], platforms: [], links: { arxiv: 'https://arxiv.org/abs/2604.00433', pdf: 'https://arxiv.org/pdf/2604.00433' } },
         { title: 'Finite-Time Analysis of Projected Two-Time-Scale Stochastic Approximation',
@@ -2357,6 +2359,79 @@ ${p.slug === 'tag' ? '' : `
   }
   function fix() { hero(); arch(); }
   new MutationObserver(fix).observe(view, { childList: true }); fix();   /* runs each time the page is drawn */
+})();
+</script>
+<!-- ===== Simulation + Video buttons on a paper: links next to PDF that open a video box inside the paper's card (self-contained: styles + script; paste right before the closing body tag, after the other blocks. If an earlier "Video button" block is there, delete it first.) ===== -->
+<style>
+  .pub-video-btn { display: inline-flex; align-items: center; gap: .4em; padding: 0; border: 0; background: none; font: inherit; color: var(--berry); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: .2em; cursor: pointer; }   /* looks like the arXiv and PDF links */
+  .pub-video-btn::after { content: ""; width: .4em; height: .4em; border-right: 2px solid currentColor; border-bottom: 2px solid currentColor; transform: rotate(45deg) translateY(-.12em); transition: transform .25s; }   /* little arrow: down = closed, up = open */
+  .pub-video-btn[aria-expanded="true"]::after { transform: rotate(225deg) translate(-.08em, -.04em); }
+  .pub-video-btn:focus-visible { outline: 3px solid var(--berry); outline-offset: 3px; border-radius: 4px; }
+  .pub-video { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .35s ease; }   /* the card grows smoothly when it opens */
+  .pub-video.is-open { grid-template-rows: 1fr; }
+  .pub-video > div { min-height: 0; overflow: hidden; }
+  .pub-video:not(.is-open) > div { visibility: hidden; transition: visibility 0s .35s; }
+  .pub-video-frame { position: relative; aspect-ratio: 16 / 9; max-width: 800px; margin: 18px auto 0; border-radius: var(--r-md); overflow: hidden; background: #000; }   /* up to 800px wide, centred in the card; a tall (portrait) video gets a tall window, see the script */
+  .pub-video-frame iframe, .pub-video-frame video { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: #000; }
+  .pub-video-soon { position: absolute; inset: 0; display: grid; place-content: center; gap: 6px; padding: 20px; text-align: center; background: var(--oat); color: var(--plum-soft); font-weight: 700; }
+  .pub-video-cap { max-width: 800px; margin: 10px auto 2px; font-size: .9375rem; color: var(--plum-soft); text-align: center; }
+  @media (prefers-reduced-motion: reduce) { .pub-video, .pub-video-btn::after { transition: none; } }
+</style>
+<script>
+(function () {
+  /* Papers that get buttons next to PDF. "title" is part of the paper's title. Each button has a "label" and a "video": a YouTube or Vimeo link,
+     or a video file (for example 'videos/UT-Portugal/demo.mp4' in your repository). Leave "video" empty to show "... coming soon".
+     The buttons appear in this order and share one box: clicking the other button switches the video, clicking the open one closes it. */
+  var VIDEOS = [
+    { title: /CBF-based Probabilistic Safe Navigation/i, items: [
+      { label: 'Simulation', video: 'videos/UT-Portugal/CBF_simulation.mp4', caption: '' },
+      { label: 'Video', video: 'videos/UT-Portugal/CBF_demo.mp4', caption: '' }
+    ] }
+  ];
+  var count = 0;
+  function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function player(u, label, title) {                           /* the video window itself */
+    u = String(u || '').trim(); var m, box = document.createElement('div'), name = label + ': ' + title;
+    if (!u) { box.className = 'pub-video-soon'; box.innerHTML = '<span>' + esc(label) + ' coming soon</span>'; return box; }
+    if ((m = u.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/))) { box.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + m[1] + '" title="' + esc(name) + '" allow="accelerometer; encrypted-media; picture-in-picture" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>'; return box.firstChild; }
+    if ((m = u.match(/vimeo\.com\/(?:video\/)?(\d+)/))) { box.innerHTML = '<iframe src="https://player.vimeo.com/video/' + m[1] + '" title="' + esc(name) + '" allow="picture-in-picture" allowfullscreen></iframe>'; return box.firstChild; }
+    if (/\.(mp4|webm|ogg|m4v)(\?|#|$)/i.test(u)) { box.innerHTML = '<video controls preload="metadata" playsinline aria-label="' + esc(name) + '"><source src="' + esc(u) + '"></video>'; return box.firstChild; }
+    box.className = 'pub-video-soon'; box.innerHTML = '<a class="btn" href="' + esc(u) + '" target="_blank" rel="noopener">Watch the ' + esc(label.toLowerCase()) + '</a>'; return box;
+  }
+  function enhance(li) {
+    if (li.dataset.vid) return;
+    var titleEl = li.querySelector('.pub-title'), links = li.querySelector('.pub-links'); if (!titleEl || !links) return;
+    var title = titleEl.textContent.trim(), entry = VIDEOS.find(function (x) { return x.title.test(title); }); if (!entry) return;
+    li.dataset.vid = '1'; var id = 'pub-video-' + (++count), active = -1;
+    var items = entry.items.map(function (it) { return { label: it.label, video: it.video, caption: it.caption || '', node: null, btn: null }; });
+    var panel = document.createElement('div'), inner = document.createElement('div'), frame = document.createElement('div'), cap = document.createElement('p');
+    panel.className = 'pub-video'; panel.id = id; panel.setAttribute('aria-hidden', 'true'); panel.inert = true; frame.className = 'pub-video-frame'; cap.className = 'pub-video-cap'; cap.hidden = true;
+    inner.appendChild(frame); inner.appendChild(cap); panel.appendChild(inner); li.appendChild(panel);
+    function fit(node) {                                       /* the window takes the shape of the video: tall for a portrait video */
+      var r = node.videoWidth / node.videoHeight; if (!r) return;
+      frame.style.aspectRatio = String(r); frame.style.maxWidth = r < 1 ? 'calc(min(78vh, 720px) * ' + r + ')' : '';
+    }
+    function stop(it) { var n = it.node; if (!n) return; if (n.tagName === 'VIDEO') n.pause(); else { n.remove(); it.node = null; } }   /* leaving a YouTube or Vimeo window removes it, which stops it */
+    function show(it) {
+      frame.innerHTML = ''; frame.style.aspectRatio = ''; frame.style.maxWidth = '';
+      if (!it.node) { it.node = player(it.video, it.label, title); if (it.node.tagName === 'VIDEO') it.node.addEventListener('loadedmetadata', function () { if (it.node.parentNode === frame) fit(it.node); }); }
+      frame.appendChild(it.node); if (it.node.tagName === 'VIDEO' && it.node.readyState >= 1) fit(it.node);
+      cap.textContent = it.caption; cap.hidden = !it.caption;
+    }
+    items.forEach(function (it, k) {
+      var btn = document.createElement('button'); btn.type = 'button'; btn.className = 'pub-video-btn'; btn.setAttribute('aria-expanded', 'false'); btn.setAttribute('aria-controls', id);
+      btn.innerHTML = esc(it.label) + '<span class="sr-only"> for ' + esc(title) + '</span>'; links.appendChild(btn); it.btn = btn;
+      btn.addEventListener('click', function () {
+        if (active >= 0) stop(items[active]);
+        var open = active !== k; active = open ? k : -1;
+        items.forEach(function (x, j) { x.btn.setAttribute('aria-expanded', String(j === active)); });
+        panel.classList.toggle('is-open', open); panel.setAttribute('aria-hidden', String(!open)); panel.inert = !open;
+        if (open) show(it);
+      });
+    });
+  }
+  function scan() { Array.prototype.forEach.call(document.querySelectorAll('li.pub'), enhance); }
+  new MutationObserver(scan).observe(document.body, { childList: true, subtree: true }); scan();   /* also runs whenever a page or a filtered list is drawn */
 })();
 </script>
 </body>
