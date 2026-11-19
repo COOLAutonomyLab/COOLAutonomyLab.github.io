@@ -1369,7 +1369,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
          Link keys: paper (publisher page), arxiv, pdf, code. */
       pubs: [
         { title: 'Learning and Control in Physically Coupled Dynamical Systems',
-          authors: 'Bao Trung Truong, Dat Thanh Nguyen, Thinh T. Doan', venue: 'arXiv', year: 2026, type: 'Preprint', projects: ['yip','cif'], platforms: ['tag'], links: { paper: 'https://arxiv.org/abs/2611.23502', pdf: 'https://arxiv.org/pdf/2611.23502' } },
+          authors: 'Bao Trung Truong, Dat Thanh Nguyen, Thinh T. Doan', venue: 'arXiv', year: 2026, type: 'Preprint', projects: ['career','cif'], platforms: ['tag'], links: { paper: 'https://arxiv.org/abs/2611.23502', pdf: 'https://arxiv.org/pdf/2611.23502' } },
         { title: 'Analyzing Best-Response Dynamics for Cooperation in Markov Potential Games',
           authors: 'Dingyang Chen, Xiaoling Zeng, Thinh T. Doan, Qi Zhang', venue: 'Transactions on Machine Learning Research', year: 2026, type: 'Journal', projects: ['yip','career'], platforms: [], links: { paper: 'https://openreview.net/forum?id=klFSzxt4MC', pdf: 'https://openreview.net/pdf?id=klFSzxt4MC' } },
         { title: 'CBF-based Probabilistic Safe Navigation under Unknown Nonlinear Obstacle Dynamics',
@@ -2432,6 +2432,24 @@ ${p.slug === 'tag' ? '' : `
   }
   function scan() { Array.prototype.forEach.call(document.querySelectorAll('li.pub'), enhance); }
   new MutationObserver(scan).observe(document.body, { childList: true, subtree: true }); scan();   /* also runs whenever a page or a filtered list is drawn */
+})();
+</script>
+<!-- ===== TAG page: "Publications" box above Contact (self-contained: script only; paste right before the closing body tag, after the other blocks) ===== -->
+<script>
+(function () {
+  var view = document.querySelector('[data-view="platform"]'); if (!view) return;
+  var PLATFORM = 'tag';   /* papers are listed when their "platforms" in the publication list contain this name, e.g.  platforms: ['tag'] */
+  function add() {
+    var page = view.querySelector('.tone-tag'); if (!page || page.dataset.pubsDone) return;
+    var cards = Array.prototype.slice.call(page.querySelectorAll('.pf-card')), contact = null;
+    cards.forEach(function (c) { var h = c.querySelector('h2'); if (!contact && h && /^contact$/i.test(h.textContent.trim())) contact = c; });
+    if (!contact) return; page.dataset.pubsDone = '1';
+    var list = SITE.pubs.filter(function (p) { return (p.platforms || []).indexOf(PLATFORM) > -1; }); if (!list.length) return;
+    var box = document.createElement('section'); box.className = 'pf-card';
+    box.innerHTML = '<h2>Publications</h2><ul class="pubs" style="margin-top:0">' + list.map(function (p) { return UI.pubItem(p); }).join('') + '</ul>';   /* the same paper cards as on the research pages */
+    contact.parentNode.insertBefore(box, contact);
+  }
+  new MutationObserver(add).observe(view, { childList: true }); add();   /* runs each time the page is drawn */
 })();
 </script>
 </body>
