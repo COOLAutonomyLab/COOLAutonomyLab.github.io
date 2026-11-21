@@ -2561,7 +2561,7 @@ ${p.slug === 'tag' ? '' : `
   /* The lab login. This holds the (optional) address of the shared Google Sheet, LOCKED with the username and password, so it is not readable in this
      page's source. To share the records across the lab, or to change the password, open set-internal-password.html on your computer and replace
      the line below with the one it makes. With no shared sheet, records stay in each person's own browser. */
-  var VAULT = { iter: 250000, salt: '5bvfkStQLIVXt2gwXSstcg==', iv: 'TGqiGgPiy3u2qQly', data: '/SLmRso8KsPriAE+Fnip6rZ0UmBMD85w9KJAEG7Q8Emhlmlt8tqIC2wlIy0=' };  var SESSION = 'cool-internal-session';                      /* the unlocked setting, kept only for this browser tab; gone when the tab closes or you log out */
+  var VAULT = { iter: 250000, salt: 'Q76IuE08Y3F41ScnsxW6Dw==', iv: '/ovDiFsj3muRsyot', data: 'bob9PNNJTEXOMfxYdxNy782mh83DunD2Ss29x4sa0pWKk2YSF++jiouO3TFfpiD/lIsbGXmPfcSdGaXmRwapHh2FxgwjkE0JumcWpJktHHx4y5mihKipvSSYmoQOtFKBRfJsyAy5D0naLWjYnBnwH+YoEEGKnxxKSJPE3UHYe0bEqKkKI+5ivWMoRl86lI9AISGdrnt7B/WHXDLMxCnylv91oCY+uYxiu/SfeWRPPpEwwoE65pzAwtGA' };  var SESSION = 'cool-internal-session';                      /* the unlocked setting, kept only for this browser tab; gone when the tab closes or you log out */
   var STATUSES = ['Pending', 'Ordered', 'Received', 'Cancelled'];
   var KEYS = { local: 'cool-stockroom-v1', shared: 'cool-stockroom-shared-cache-v1', queue: 'cool-stockroom-queue-v1' };
 
@@ -2574,7 +2574,9 @@ ${p.slug === 'tag' ? '' : `
   function pad(n) { return (n < 10 ? '0' : '') + n; }
   function ymd(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
   function money(n) { return Number(n).toLocaleString('en-US', { style: 'currency', currency: 'USD' }); }
-  function fmtDate(iso, withYear) { var d = new Date(iso); return isNaN(d) ? '' : d.toLocaleDateString('en-US', withYear === false ? { month: 'short', day: 'numeric' } : { month: 'short', day: 'numeric', year: 'numeric' }); }
+  function fmtDate(iso, withYear) { var d = new Date(iso); return isNaN(d) ? '' : d.toLocaleDateString('en-US', withYear === false ? { month: 'short', day: 'numeric', timeZone: 'America/Chicago' } : { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'America/Chicago' }); }
+  var CHI = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' });
+  function chiDate(iso) { var d = new Date(iso); return isNaN(d) ? '' : CHI.format(d); }                 /* YYYY-MM-DD on Chicago time, like the old tracker */
   function uid() { return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10); }
   function bytes(b64) { var s = atob(b64), a = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; }
   function store(key, val) { try { if (val === null) localStorage.removeItem(key); else localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} }
@@ -2607,8 +2609,18 @@ ${p.slug === 'tag' ? '' : `
       .then(function (key) { return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, enc.encode(text)); })
       .then(function (ct) { return { iter: VAULT.iter, salt: b64(salt), iv: b64(iv), data: b64(new Uint8Array(ct)) }; });
   }
-  function remembered() { try { var c = JSON.parse(sessionStorage.getItem(SESSION)); return (c && typeof c === 'object' && 'sync' in c) ? { sync: /^https:\/\//.test(c.sync || '') ? c.sync : '', token: String(c.token || '') } : null; } catch (e) { return null; } }
+  function remembered() { try { var c = JSON.parse(sessionStorage.getItem(SESSION)); return (c && typeof c === 'object' && 'sync' in c) ? { sync: /^https:\/\//.test(c.sync || '') ? c.sync : '', token: String(c.token || ''), user: String(c.user || '') } : null; } catch (e) { return null; } }
   function remember(c) { try { if (c) sessionStorage.setItem(SESSION, JSON.stringify(c)); else sessionStorage.removeItem(SESSION); } catch (e) {} }
+
+  function resultMarkup(intro, withPassword) {               /* the "replace one line in GitHub" steps, shared by Change password and Connect Google Drive */
+    return '<p>' + intro + '</p>' +
+      '<ol class="int-steps"><li>Click <strong>Copy the line</strong>.</li><li>Click <strong>Open index.html on GitHub</strong>, press Ctrl+F (Cmd+F on a Mac) and search for <code>var VAULT =</code>.</li><li>Replace that whole line with the line you copied, then click <strong>Commit changes</strong>.</li><li>After about a minute the change is live.</li></ol>' +
+      '<label class="int-field"><span>Your new line</span><textarea class="int-code" readonly rows="5" data-int-line></textarea></label>' +
+      '<div class="actions int-actions"><button class="btn" type="button" data-int-copy>Copy the line</button><a class="btn btn-line" target="_blank" rel="noopener noreferrer" href="https://github.com/coolautonomylab/coolautonomylab.github.io/edit/main/index.html">Open index.html on GitHub</a></div>' +
+      '<p class="int-msg" data-int-copymsg role="status" aria-live="polite" style="color:var(--plum)"></p>' +
+      (withPassword ? '<label class="int-field"><span>Your new password <i class="st-opt">write it down somewhere safe</i></span><input type="password" readonly data-int-newpw autocomplete="off"></label><div class="int-pwtools"><label class="int-show"><input type="checkbox" data-int-show2> Show it</label></div><p class="int-note">The password cannot be recovered from the website. If it is lost, make a new one with the set-internal-password.html tool.</p>' : '') +
+      '<div class="actions int-actions"><button class="btn btn-line" type="button" ' + (withPassword ? 'data-int-back>Back to sign in' : 'data-int-driveback>Back to the Stockroom') + '</button></div>';
+  }
 
   /* ---------------- the page ---------------- */
   var home = document.querySelector('[data-view="home"]'); if (!home) return;
@@ -2630,18 +2642,19 @@ ${p.slug === 'tag' ? '' : `
           '<div class="int-pwtools"><button class="st-link" type="button" data-int-gen>Make a strong password for me</button><label class="int-show"><input type="checkbox" data-int-show> Show passwords</label></div>' +
           '<p class="int-msg" role="alert" aria-live="assertive"></p><div class="actions int-actions"><button class="btn" type="submit">Change password</button><button class="btn btn-line" type="button" data-int-back>Back to sign in</button></div>' +
         '</form></div>' +
-        '<div data-int-pwdone hidden><p>Your current password was right, and your new password is ready. One small step is left, because a website cannot change its own files:</p>' +
-          '<ol class="int-steps"><li>Click <strong>Copy the line</strong>.</li><li>Click <strong>Open index.html on GitHub</strong>, press Ctrl+F (Cmd+F on a Mac) and search for <code>var VAULT =</code>.</li><li>Replace that whole line with the line you copied, then click <strong>Commit changes</strong>.</li><li>After about a minute the new password works and the old one stops.</li></ol>' +
-          '<label class="int-field"><span>Your new line</span><textarea class="int-code" readonly rows="5" data-int-line></textarea></label>' +
-          '<div class="actions int-actions"><button class="btn" type="button" data-int-copy>Copy the line</button><a class="btn btn-line" target="_blank" rel="noopener noreferrer" href="https://github.com/coolautonomylab/coolautonomylab.github.io/edit/main/index.html">Open index.html on GitHub</a></div>' +
-          '<p class="int-msg" data-int-copymsg role="status" aria-live="polite" style="color:var(--plum)"></p>' +
-          '<label class="int-field"><span>Your new password <i class="st-opt">write it down somewhere safe</i></span><input type="password" readonly data-int-newpw autocomplete="off"></label>' +
-          '<div class="int-pwtools"><label class="int-show"><input type="checkbox" data-int-show2> Show it</label></div>' +
-          '<p class="int-note">The password cannot be recovered from the website. If it is lost, make a new one with the set-internal-password.html tool.</p>' +
-          '<div class="actions int-actions"><button class="btn btn-line" type="button" data-int-back>Back to sign in</button></div>' +
-        '</div></div>' +
+        '<div data-int-pwdone data-int-result hidden>' + resultMarkup('Your current password was right, and your new password is ready. One small step is left, because a website cannot change its own files:', true) + '</div></div>' +
+      '<div class="int-card" data-int-drive hidden><h2>Connect Google Drive</h2><div data-int-driveform-wrap><p>Your purchases and inventory are saved in two CSV files in your Google Drive. Do the setup steps at the top of <code>stockroom-drive.gs</code>, then enter what it gave you.</p>' +
+        '<form data-int-driveform novalidate>' +
+          '<label class="int-field"><span>Username</span><input name="username" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required></label>' +
+          '<label class="int-field"><span>Password <i class="st-opt">to confirm it is you</i></span><input name="password" type="password" autocomplete="current-password" required></label>' +
+          '<label class="int-field"><span>Web app address <i class="st-opt">ends in /exec</i></span><input name="address" type="url" inputmode="url" placeholder="https://script.google.com/macros/s/.../exec" autocomplete="off" spellcheck="false"></label>' +
+          '<label class="int-field"><span>Secret <i class="st-opt">the same one you put in the script</i></span><input name="secret" type="text" autocomplete="off" spellcheck="false"></label>' +
+          '<p class="int-note">Leave the address and secret empty to go back to saving in this browser only.</p>' +
+          '<p class="int-msg" role="alert" aria-live="assertive"></p><div class="actions int-actions"><button class="btn" type="submit">Make my new line</button><button class="btn btn-line" type="button" data-int-driveback>Back</button></div>' +
+        '</form></div>' +
+        '<div data-int-driveresult data-int-result hidden>' + resultMarkup('Your password was right, and the Google Drive setting is ready. One small step is left, because a website cannot change its own files:', false) + '</div></div>' +
       '<div data-int-app hidden>' +
-        '<div class="int-bar"><h2>Stockroom: purchases and inventory</h2><div class="actions"><span class="st-sync" data-st-sync role="status"></span><button class="btn btn-line" type="button" data-st-syncnow hidden>Sync now</button><button class="btn btn-line" type="button" data-int-out>Log out</button></div></div>' +
+        '<div class="int-bar"><h2>Stockroom: purchases and inventory</h2><div class="actions"><span class="st-sync" data-st-sync role="status"></span><button class="btn btn-line" type="button" data-st-syncnow hidden>Sync now</button><button class="btn btn-line" type="button" data-int-drivebtn>Connect Google Drive</button><button class="btn btn-line" type="button" data-int-out>Log out</button></div></div>' +
         '<p class="st-intro">Log what you need to buy and keep track of what arrives.</p>' +
         '<div class="st-stats" aria-live="polite"><div class="st-stat"><b data-st-n="requests">0</b><span>Requests in selected period</span></div><div class="st-stat"><b data-st-n="open">0</b><span>Pending or ordered</span></div><div class="st-stat"><b data-st-n="units">0</b><span>Available inventory units</span></div></div>' +
         '<section class="st-card" aria-labelledby="st-add"><h3 id="st-add">Add a purchase</h3><p class="st-sub">New requests start as Pending.</p>' +
@@ -2703,10 +2716,49 @@ ${p.slug === 'tag' ? '' : `
       var A = 'abcdefghjkmnpqrstuvwxyz23456789', r = crypto.getRandomValues(new Uint32Array(16)), g = ''; r.forEach(function (x, i) { g += A[x % A.length] + (i % 4 === 3 && i < 15 ? '-' : ''); });
       pwForm.elements.next.value = g; pwForm.elements.confirm.value = g; showPw(true); pwMsg.textContent = '';
     }
-    if (t.hasAttribute('data-int-copy')) {
-      var ta = pwDone.querySelector('[data-int-line]'), cm = pwDone.querySelector('[data-int-copymsg]'); ta.select();
-      (navigator.clipboard ? navigator.clipboard.writeText(ta.value) : Promise.reject()).then(function () { cm.textContent = 'Copied.'; }, function () { try { document.execCommand('copy'); cm.textContent = 'Copied.'; } catch (err) { cm.textContent = 'Please copy the text in the box.'; } });
-    }
+    if (t.hasAttribute('data-int-copy')) copyLine(t);
+  });
+  function copyLine(btn) {
+    var box = btn.closest('[data-int-result]'), ta = box.querySelector('[data-int-line]'), cm = box.querySelector('[data-int-copymsg]'); ta.select();
+    (navigator.clipboard ? navigator.clipboard.writeText(ta.value) : Promise.reject()).then(function () { cm.textContent = 'Copied.'; }, function () { try { document.execCommand('copy'); cm.textContent = 'Copied.'; } catch (err) { cm.textContent = 'Please copy the text in the box.'; } });
+  }
+
+  /* ---------------- connect Google Drive ---------------- */
+  var driveCard = $q('[data-int-drive]'), driveWrap = driveCard.querySelector('[data-int-driveform-wrap]'), driveForm = driveCard.querySelector('[data-int-driveform]'), driveDone = driveCard.querySelector('[data-int-driveresult]'), driveMsg = driveForm.querySelector('.int-msg'), driveSubmit = driveForm.querySelector('button[type="submit"]'), who = '';
+  function openDrive() {
+    app.hidden = true; driveCard.hidden = false; driveWrap.hidden = false; driveDone.hidden = true; driveMsg.textContent = ''; driveForm.reset();
+    driveForm.elements.username.value = who; driveForm.elements.address.value = cfg.sync || ''; (who ? driveForm.elements.password : driveForm.elements.username).focus();
+  }
+  function closeDrive() { driveForm.reset(); driveDone.querySelector('[data-int-line]').value = ''; driveDone.querySelector('[data-int-copymsg]').textContent = ''; driveCard.hidden = true; app.hidden = false; render(); window.scrollTo(0, 0); }
+  page.querySelector('[data-int-drivebtn]').addEventListener('click', openDrive);
+  driveCard.addEventListener('click', function (e) { var t = e.target.closest('button'); if (!t) return; if (t.hasAttribute('data-int-driveback')) closeDrive(); if (t.hasAttribute('data-int-copy')) copyLine(t); });
+  driveForm.addEventListener('submit', function (e) {
+    e.preventDefault(); driveMsg.textContent = ''; var f = driveForm.elements, user = f.username.value, pass = f.password.value, addr = f.address.value.trim(), sec = f.secret.value.trim();
+    function bad(t, el) { driveMsg.textContent = t; if (el) el.focus(); }
+    if (!(window.crypto && crypto.subtle)) return bad('This page needs a secure (https) connection.');
+    var wait = Math.ceil((lockedUntil - Date.now()) / 1000); if (wait > 0) return bad('Too many tries. Please wait ' + wait + ' seconds.');
+    if (!user.trim()) return bad('Please enter the username.', f.username);
+    if (!pass) return bad('Please enter your password.', f.password);
+    if (addr && !/^https:\/\/\S+$/.test(addr)) return bad('The web app address should start with https:// .', f.address);
+    if (!addr && sec) return bad('You entered a secret but no web app address.', f.address);
+    if (addr && sec.length < 8) return bad('Please also enter the secret from the script (at least 8 characters).', f.secret);
+    driveSubmit.disabled = true; driveSubmit.textContent = 'Checking\u2026';
+    unlock(user, pass).catch(function () { var er = new Error('auth'); er.auth = true; throw er; })
+      .then(function () {
+        failures = 0;
+        return lockNew(JSON.stringify({ v: 1, sync: addr, token: sec }), user, pass).then(function (nv) {
+          return unlock(user, pass, nv).then(function (c2) { if (c2.sync !== addr || c2.token !== sec) throw new Error('check'); return nv; });
+        });
+      })
+      .then(function (nv) {
+        driveDone.querySelector('[data-int-line]').value = 'var VAULT = { iter: ' + nv.iter + ", salt: '" + nv.salt + "', iv: '" + nv.iv + "', data: '" + nv.data + "' };";
+        driveForm.reset(); driveWrap.hidden = true; driveDone.hidden = false; driveDone.querySelector('[data-int-copy]').focus();
+      })
+      .catch(function (er) {
+        if (er && er.auth) { failures++; if (failures >= 5) { lockedUntil = Date.now() + 30000; failures = 0; } return sleep(900).then(function () { bad('That username or password is not right.'); f.password.value = ''; f.password.focus(); }); }
+        bad('Something went wrong. Please try again.');
+      })
+      .then(function () { driveSubmit.disabled = false; driveSubmit.textContent = 'Make my new line'; });
   });
   pwCard.addEventListener('change', function (e) { if (e.target.hasAttribute('data-int-show')) showPw(e.target.checked); if (e.target.hasAttribute('data-int-show2')) showPw2(e.target.checked); });
   pwForm.addEventListener('submit', function (e) {
@@ -2741,43 +2793,59 @@ ${p.slug === 'tag' ? '' : `
   /* ---------------- records: keep, change, share ---------------- */
   function dbKey() { return cfg.sync ? KEYS.shared : KEYS.local; }
   function save() { store(dbKey(), records); store(KEYS.queue, cfg.sync ? queue : null); }
-  function applyLocal(op) {
-    if (op.op === 'upsert') { var c = clean(op.record); if (!c) return; var i = records.findIndex(function (r) { return r.id === c.id; }); if (i > -1) records[i] = c; else records.push(c); }
-    else if (op.op === 'delete') records = records.filter(function (r) { return r.id !== op.id; });
+  function applyTo(list, op) {                                /* a new list with one change applied */
+    var out = list.slice();
+    if (op.op === 'upsert') { var c = clean(op.record); if (!c) return out; var i = out.findIndex(function (r) { return r.id === c.id; }); if (i > -1) out[i] = c; else out.push(c); }
+    else if (op.op === 'delete') out = out.filter(function (r) { return r.id !== op.id; });
+    return out;
+  }
+  function applyLocal(op) { records = applyTo(records, op); }
+  function newId(rec) {                                       /* with Drive, an item's id comes from its content, so it is the same on every computer and after every reload */
+    if (!cfg.sync) return uid(); var k = sameKey(rec), n = records.filter(function (r) { return sameKey(r) === k; }).length; return 'imp-' + hash(n ? k + '#' + n : k);
   }
   function commit(op) { commitMany([op]); }
   function commitMany(ops) { ops.forEach(function (op) { applyLocal(op); if (cfg.sync) queue.push(op); }); save(); render(); if (cfg.sync) sync(); }
-  function post(ops) {
-    return fetch(cfg.sync, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ token: cfg.token, ops: ops }), redirect: 'follow', credentials: 'omit', referrerPolicy: 'no-referrer' })
+  function call(body) {
+    body.token = cfg.token;
+    return fetch(cfg.sync, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(body), redirect: 'follow', credentials: 'omit', referrerPolicy: 'no-referrer' })
       .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
-      .then(function (j) { if (!j || !j.ok) throw new Error((j && j.error) || 'refused'); return j; });
+      .then(function (j) { if (!j || (!j.ok && !j.conflict)) throw new Error((j && j.error) || 'refused'); return j; });
   }
-  function sync() {
+  function sync() {                                           /* read both files, put the waiting changes on top, write back only the file(s) that changed */
     if (!cfg.sync || syncing) return Promise.resolve();
-    syncing = true; var sent = queue.slice(); syncUi();
-    return post(sent).then(function (j) {
-      queue = queue.slice(sent.length); records = cleanList(j.records); queue.forEach(applyLocal);   /* changes made while this was running are put back on top */
-      lastSync = Date.now(); syncOk = true; save(); render();
-    }).catch(function (err) { syncOk = false; syncWhy = /not allowed/.test(err && err.message) ? 'secret' : ''; }).then(function () { syncing = false; syncUi(); });
+    syncing = true; syncUi(); var tries = 0, count = 0;
+    function pass() {
+      count = queue.length;
+      return call({ action: 'read' }).then(function (st) {
+        var ops = queue.slice(0, count); if (!ops.length) return st;
+        var base = fromFiles(st), merged = ops.reduce(applyTo, base), body = { action: 'write', purchasesVersion: st.purchasesVersion, inventoryVersion: st.inventoryVersion }, p1 = purchasesCsv(merged), i1 = inventoryCsv(merged);
+        if (p1 !== purchasesCsv(base)) body.purchasesCsv = p1; if (i1 !== inventoryCsv(base)) body.inventoryCsv = i1;
+        if (body.purchasesCsv == null && body.inventoryCsv == null) return st;             /* the changes did not alter either file */
+        return call(body).then(function (r) { if (r.conflict) { if (tries++ < 3) return pass(); throw new Error('busy'); } return r; });   /* someone saved at the same moment: read again and retry */
+      });
+    }
+    return pass().then(function (st) {
+      queue = queue.slice(count); records = fromFiles(st); queue.forEach(applyLocal);   /* changes made while this was running are put back on top */
+      lastSync = Date.now(); syncOk = true; syncWhy = ''; save(); render();
+    }).catch(function (err) { var m = err && err.message || ''; syncOk = false; syncWhy = /not allowed/.test(m) ? 'secret' : /^file/.test(m) ? 'file' : /busy/.test(m) ? 'busy' : ''; }).then(function () { syncing = false; syncUi(); });
   }
   function syncUi() {
-    var el = $q('[data-st-sync]'), btn = $q('[data-st-syncnow]'); if (!el) return; btn.hidden = !cfg.sync; el.classList.toggle('is-bad', !!cfg.sync && !syncOk);
+    var el = $q('[data-st-sync]'), btn = $q('[data-st-syncnow]'), drv = $q('[data-int-drivebtn]'); if (!el) return; btn.hidden = !cfg.sync; drv.textContent = cfg.sync ? 'Drive settings' : 'Connect Google Drive'; el.classList.toggle('is-bad', !!cfg.sync && !syncOk);
     if (!cfg.sync) el.textContent = 'Saved in this browser only';
     else if (syncing) el.textContent = 'Syncing\u2026';
-    else if (!syncOk) el.textContent = (syncWhy === 'secret' ? 'The shared sheet did not accept the secret' : 'Cannot reach the shared sheet') + (queue.length ? ' \u00b7 ' + queue.length + ' change' + (queue.length > 1 ? 's' : '') + ' waiting' : '');
-    else el.textContent = 'Shared with the lab \u00b7 synced ' + new Date(lastSync).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-    $q('[data-st-where]').textContent = cfg.sync ? 'Records are kept in the lab\u2019s shared Google Sheet.' : 'Records are kept in this browser only. To share them with the whole lab, connect a shared sheet (see the setup steps).';
+    else if (!syncOk) el.textContent = ({ secret: 'Google Drive did not accept the secret', file: 'The Drive files could not be opened', busy: 'Google Drive is busy' }[syncWhy] || 'Cannot reach Google Drive') + (queue.length ? ' \u00b7 ' + queue.length + ' change' + (queue.length > 1 ? 's' : '') + ' waiting' : '');
+    else el.textContent = 'Saved in Google Drive \u00b7 synced ' + new Date(lastSync).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    $q('[data-st-where]').textContent = cfg.sync ? 'Purchases and inventory are saved in the lab\u2019s two Google Drive CSV files.' : 'Records are kept in this browser only. To save them in the lab\u2019s Google Drive files, use \u201cConnect Google Drive\u201d.';
   }
 
   /* ---------------- periods and filters ---------------- */
   function monday(d) { var x = new Date(d); x.setHours(0, 0, 0, 0); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
-  function weeks() { var map = {}; purchases().forEach(function (r) { var m = ymd(monday(r.submitted)); map[m] = (map[m] || 0) + 1; }); return Object.keys(map).sort().reverse().map(function (k) { return { key: k, n: map[k] }; }); }
-  function weekLabel(k) { var s = new Date(k + 'T00:00:00'), e = new Date(s); e.setDate(e.getDate() + 6); return fmtDate(s.toISOString(), false) + ' \u2013 ' + fmtDate(e.toISOString()); }
+  function weeks() { var map = {}; purchases().forEach(function (r) { var m = chicagoWeek(r.submitted); map[m] = (map[m] || 0) + 1; }); return Object.keys(map).sort().reverse().map(function (k) { return { key: k, n: map[k] }; }); }
+  function weekLabel(k) { var s = new Date(k + 'T12:00:00Z'), e = new Date(s.getTime() + 6 * 864e5); return fmtDate(s.toISOString(), false) + ' \u2013 ' + fmtDate(e.toISOString()); }
   function inPeriod(r) {
-    var t = new Date(r.submitted);
     if (filters.period === 'all') return true;
-    if (filters.period === 'custom') { var f = filters.from ? new Date(filters.from + 'T00:00:00') : null, to = filters.to ? new Date(filters.to + 'T23:59:59.999') : null; return (!f || t >= f) && (!to || t <= to); }
-    var m = new Date(filters.period.slice(2) + 'T00:00:00'), e = new Date(m); e.setDate(e.getDate() + 7); return t >= m && t < e;
+    if (filters.period === 'custom') { var d = chiDate(r.submitted); return (!filters.from || d >= filters.from) && (!filters.to || d <= filters.to); }
+    return chicagoWeek(r.submitted) === filters.period.slice(2);
   }
   function pendingSend(r) { return !r.sent && r.status !== 'Cancelled'; }
   function byNewest(a, b) { return Date.parse(b.submitted) - Date.parse(a.submitted); }
@@ -2825,7 +2893,7 @@ ${p.slug === 'tag' ? '' : `
   function cell(v) { v = v == null ? '' : String(v); if (/^[=+\-@\t\r]/.test(v)) v = "'" + v; return '"' + v.replace(/"/g, '""') + '"'; }   /* stops "=..." running as a formula when the file is opened in Excel or Sheets */
   function toCsv(list) {
     var head = ['Submitted', 'Product', 'Buy link', 'Quantity', 'Unit price (USD)', 'Total (USD)', 'Note', 'Status', 'Send status'];
-    return [head.map(cell).join(',')].concat(list.map(function (r) { return [ymd(new Date(r.submitted)), r.product, r.link, r.qty, r.price == null ? '' : r.price.toFixed(2), r.price == null ? '' : (r.qty * r.price).toFixed(2), r.note, r.status, r.sent ? 'Sent' : 'Pending to send'].map(cell).join(','); })).join('\r\n');
+    return [head.map(cell).join(',')].concat(list.map(function (r) { return [chiDate(r.submitted), r.product, r.link, r.qty, r.price == null ? '' : r.price.toFixed(2), r.price == null ? '' : (r.qty * r.price).toFixed(2), r.note, r.status, r.sent ? 'Sent' : 'Pending to send'].map(cell).join(','); })).join('\r\n');
   }
   function download(name, text, type) {
     var url = URL.createObjectURL(new Blob([type === 'json' ? text : '\ufeff' + text], { type: type === 'json' ? 'application/json' : 'text/csv;charset=utf-8' })), a = document.createElement('a');
@@ -2848,11 +2916,12 @@ ${p.slug === 'tag' ? '' : `
   }
   function hash(str) { var h1 = 0x811c9dc5, h2 = 0x1b873593, i; for (i = 0; i < str.length; i++) { var c = str.charCodeAt(i); h1 = Math.imul(h1 ^ c, 16777619) >>> 0; h2 = Math.imul(h2 ^ c, 2246822519) >>> 0; } return (h1.toString(16) + h2.toString(16)).slice(0, 14); }
   function norm(t) { return String(t == null ? '' : t).trim().toLowerCase().replace(/\s+/g, ' '); }
-  function sameKey(r) { return (r.kind === 'stock' ? 's|' : 'p|') + norm(r.product) + '|' + r.qty + '|' + ymd(new Date(r.submitted)); }   /* same name, quantity and day = the same item, in any of the files */
+  function sameKey(r) { return (r.kind === 'stock' ? 's|' : 'p|') + norm(r.product) + '|' + r.qty + '|' + chiDate(r.submitted); }   /* same name, quantity and day (Chicago) = the same item, in any of the files */
   function looseKey(r) { return (r.kind === 'stock' ? 's|' : 'p|') + norm(r.product) + '|' + r.qty; }
   function unguard(v) { return String(v == null ? '' : v).trim().replace(/^'(?=[=+\-@\t\r])/, ''); }
   function readCsvFile(text) {                                /* turns one file into records; says what it was and what it skipped */
-    var rows = parseCsv(text), out = { kind: '', records: [], skipped: 0, total: 0 }; if (rows.length < 2) return out;
+    var rows = parseCsv(text), out = { kind: '', records: [], skipped: 0, total: 0 }, occ = {}; if (rows.length < 2) return out;
+    function idFor(base) { var n = (base in occ) ? ++occ[base] : (occ[base] = 0); return 'imp-' + hash(n ? base + '#' + n : base); }   /* the same item always gets the same id; two identical rows get two ids */
     var head = rows[0].map(function (h) { return h.trim().toLowerCase(); }), col = function (name) { return head.indexOf(name); };
     function get(r, name) { var k = col(name); return k > -1 && k < r.length ? unguard(r[k]) : ''; }
     var isInv = col('source') > -1 && col('in use') > -1 && col('available') > -1, isOwn = col('send status') > -1 && col('submitted') > -1 && col('status') > -1, isList = col('product') > -1 && col('quantity') > -1;
@@ -2864,14 +2933,14 @@ ${p.slug === 'tag' ? '' : `
       if (out.kind === 'inventory') {
         var stock = /existing|on hand/i.test(get(r, 'source') + ' ' + get(r, 'status')), sub = get(r, 'submitted (utc)'), rcv = get(r, 'received (utc)'); rec.submitted = isNaN(Date.parse(sub)) ? new Date().toISOString() : new Date(sub).toISOString();
         rec.used = Math.max(0, Math.floor(Number(get(r, 'in use'))) || 0); rec.kind = stock ? 'stock' : 'purchase'; rec.status = 'Received'; rec.sent = !stock; rec.sentAt = stock ? '' : rec.submitted; rec.received = isNaN(Date.parse(rcv)) ? rec.submitted : new Date(rcv).toISOString(); rec.price = null;
-        rec.id = 'imp-' + hash(sameKey(rec));
+        rec.id = idFor(sameKey(rec));
       } else if (out.kind === 'purchases') {
-        var d = get(r, 'submitted'), st = get(r, 'status'); rec.submitted = /^\d{4}-\d{2}-\d{2}$/.test(d) ? new Date(d + 'T12:00:00').toISOString() : (isNaN(Date.parse(d)) ? new Date().toISOString() : new Date(d).toISOString());
+        var d = get(r, 'submitted'), st = get(r, 'status'); rec.submitted = /^\d{4}-\d{2}-\d{2}$/.test(d) ? new Date(d + 'T18:00:00Z').toISOString() : (isNaN(Date.parse(d)) ? new Date().toISOString() : new Date(d).toISOString());
         rec.status = STATUSES.indexOf(st) > -1 ? st : 'Pending'; rec.sent = /^sent$/i.test(get(r, 'send status')); rec.sentAt = rec.sent ? rec.submitted : ''; rec.received = rec.status === 'Received' ? rec.submitted : ''; rec.used = 0; rec.kind = 'purchase';
-        rec.id = 'imp-' + hash(sameKey(rec));
+        rec.id = idFor(sameKey(rec));
       } else {
         rec.submitted = new Date().toISOString(); rec.status = 'Pending'; rec.sent = false; rec.sentAt = ''; rec.received = ''; rec.used = 0; rec.kind = 'purchase';
-        rec.id = 'imp-' + hash('list|' + looseKey(rec) + '|' + rec.price + '|' + rec.link);
+        rec.id = idFor('list|' + looseKey(rec) + '|' + rec.price + '|' + rec.link);
       }
       var c = clean(rec); if (c) { if (out.kind === 'pending') c.__undated = true; out.records.push(c); } else { out.total--; out.skipped++; }
     });
@@ -2902,11 +2971,31 @@ ${p.slug === 'tag' ? '' : `
     var p = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(iso)).split('-').map(Number), d = new Date(Date.UTC(p[0], p[1] - 1, p[2]));
     d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7)); return d.toISOString().slice(0, 10);
   }
-  function exportInventory() {
-    var rows = lines().sort(function (a, b) { return Date.parse(b.received || b.submitted) - Date.parse(a.received || a.submitted); }); if (!rows.length) { $q('[data-st-toast]').textContent = 'The inventory is empty, so there is nothing to export.'; return; }
+  function purchasesCsv(list) {                               /* the purchases file: every purchase request, newest first */
+    return '\ufeff' + toCsv(list.filter(function (r) { return r.kind !== 'stock'; }).sort(byNewest));
+  }
+  function inventoryCsv(list) {                               /* the inventory file: same 11 columns as the old tracker's */
+    var rows = list.filter(function (r) { return r.kind === 'stock' || r.status === 'Received'; }).sort(function (a, b) { return Date.parse(b.received || b.submitted) - Date.parse(a.received || a.submitted); });
     var head = ['Product', 'Buy link', 'Quantity', 'Status', 'Notes', 'Week of (Chicago)', 'Submitted (UTC)', 'Received (UTC)', 'Source', 'Available', 'In use'];
-    var csv = [head.map(cell).join(',')].concat(rows.map(function (r) { var st = r.kind === 'stock'; return [r.product, r.link, r.qty, st ? 'On hand' : r.status, r.note, st ? '' : chicagoWeek(r.submitted), r.submitted, st ? '' : r.received, st ? 'Existing hardware' : 'Purchase', r.qty - r.used, r.used].map(cell).join(','); })).join('\r\n');
-    download('stockroom-inventory-' + ymd(new Date()) + '.csv', csv); $q('[data-st-toast]').textContent = rows.length + ' inventory rows exported.';
+    return '\ufeff' + [head.map(cell).join(',')].concat(rows.map(function (r) { var st = r.kind === 'stock'; return [r.product, r.link, r.qty, st ? 'On hand' : r.status, r.note, st ? '' : chicagoWeek(r.submitted), r.submitted, st ? '' : r.received, st ? 'Existing hardware' : 'Purchase', r.qty - r.used, r.used].map(cell).join(','); })).join('\r\n');
+  }
+  function exportInventory() {
+    var n = lines().length; if (!n) { $q('[data-st-toast]').textContent = 'The inventory is empty, so there is nothing to export.'; return; }
+    download('stockroom-inventory-' + ymd(new Date()) + '.csv', inventoryCsv(records).replace(/^\ufeff/, '')); $q('[data-st-toast]').textContent = n + ' inventory rows exported.';
+  }
+  function fromFiles(st) {                                    /* the two Drive files, read together, become the list of records */
+    var P = readCsvFile(st.purchasesCsv || '').records, I = readCsvFile(st.inventoryCsv || '').records, invById = {}, taken = {}, out = [], dated = [], undated = [];
+    I.forEach(function (r) { invById[r.id] = r; });
+    function join(p, inv) {                                   /* an item in both files: the purchases file knows price and sending, the inventory file knows what is in use */
+      var m = Object.assign({}, p); delete m.__undated; if (!inv) return m; taken[inv.id] = true; m.id = inv.id;
+      if (inv.status === 'Received' && p.status !== 'Cancelled') { m.status = 'Received'; m.received = inv.received || m.received || inv.submitted; }
+      m.used = inv.used; m.submitted = inv.submitted; if (!m.note) m.note = inv.note; if (!m.link) m.link = inv.link; return m;
+    }
+    P.forEach(function (p) { (p.__undated ? undated : dated).push(p); });
+    dated.forEach(function (p) { var inv = invById[p.id]; out.push(join(p, inv && !taken[inv.id] ? inv : null)); });
+    undated.forEach(function (p) { var inv = I.find(function (x) { return !taken[x.id] && x.kind !== 'stock' && looseKey(x) === looseKey(p); }); out.push(join(p, inv)); });
+    I.forEach(function (x) { if (!taken[x.id]) out.push(x); });
+    return cleanList(out);
   }
 
   /* ---------------- what people do ---------------- */
@@ -2973,7 +3062,7 @@ ${p.slug === 'tag' ? '' : `
     if (!(qty >= 1) || Math.floor(qty) !== qty) return bad('Quantity must be a whole number, 1 or more.', f.qty);
     var price = null; if (priceText !== '') { price = Number(priceText); if (!isFinite(price) || price < 0) return bad('Unit price must be a number, 0 or more.', f.price); }
     if (link) { if (!/^[a-z][a-z0-9+.-]*:/i.test(link)) link = 'https://' + link; try { var u = new URL(link); if (u.protocol !== 'http:' && u.protocol !== 'https:') throw 0; link = u.href; } catch (err) { return bad('That buy link does not look right. Please check it.', f.link); } }
-    commit({ op: 'upsert', record: { id: uid(), product: product, link: link, qty: qty, price: price, note: f.note.value.trim(), status: 'Pending', sent: false, sentAt: '', submitted: new Date().toISOString(), received: '', used: 0 } });
+    var rec = { product: product, link: link, qty: qty, price: price, note: f.note.value.trim(), status: 'Pending', sent: false, sentAt: '', submitted: new Date().toISOString(), received: '', used: 0, kind: 'purchase' }; rec.id = newId(rec); commit({ op: 'upsert', record: rec });
     addForm.reset(); f.qty.value = 1; addMsg.style.color = 'var(--plum)'; addMsg.textContent = '\u201c' + product + '\u201d added as Pending.'; f.product.focus();
   });
 
@@ -2983,17 +3072,17 @@ ${p.slug === 'tag' ? '' : `
     function bad(t, el) { stockMsg.style.color = 'var(--berry)'; stockMsg.textContent = t; if (el) el.focus(); }
     if (!name) return bad('Please enter the item name.', f.product);
     if (!(qty >= 1) || Math.floor(qty) !== qty) return bad('Quantity must be a whole number, 1 or more.', f.qty);
-    var now = new Date().toISOString(); commit({ op: 'upsert', record: { id: uid(), kind: 'stock', product: name, link: '', qty: qty, price: null, note: f.note.value.trim(), status: 'Received', sent: false, sentAt: '', submitted: now, received: now, used: 0 } });
+    var now = new Date().toISOString(), rec = { kind: 'stock', product: name, link: '', qty: qty, price: null, note: f.note.value.trim(), status: 'Received', sent: false, sentAt: '', submitted: now, received: now, used: 0 }; rec.id = newId(rec); commit({ op: 'upsert', record: rec });
     stockForm.reset(); f.qty.value = 1; stockMsg.style.color = 'var(--plum)'; stockMsg.textContent = '\u201c' + name + '\u201d added to the inventory.'; f.product.focus();
   });
 
   /* ---------------- sign in / out ---------------- */
   function showApp(c) {
-    cfg = c; records = cleanList(recall(dbKey(), [])); queue = cfg.sync ? recall(KEYS.queue, []).filter(function (o) { return o && o.op; }) : []; syncOk = true;
-    gate.hidden = true; pwCard.hidden = true; app.hidden = false; setTab(tab); render(); clearInterval(pollTimer);
+    cfg = c; who = c.user || ''; records = cleanList(recall(dbKey(), [])); queue = cfg.sync ? recall(KEYS.queue, []).filter(function (o) { return o && o.op; }) : []; syncOk = true;
+    gate.hidden = true; pwCard.hidden = true; driveCard.hidden = true; app.hidden = false; setTab(tab); render(); clearInterval(pollTimer);
     if (cfg.sync) { sync(); pollTimer = setInterval(function () { if (!document.hidden && !app.hidden) sync(); }, 45000); }
   }
-  function showGate() { clearInterval(pollTimer); app.hidden = true; pwCard.hidden = true; gate.hidden = false; form.reset(); msg.textContent = ''; records = []; queue = []; cfg = { sync: '', token: '' }; $q('[data-st-backup]').dataset.mode = ''; }
+  function showGate() { clearInterval(pollTimer); app.hidden = true; pwCard.hidden = true; driveCard.hidden = true; who = ''; gate.hidden = false; form.reset(); msg.textContent = ''; records = []; queue = []; cfg = { sync: '', token: '' }; $q('[data-st-backup]').dataset.mode = ''; }
   page.querySelector('[data-int-out]').addEventListener('click', function () { remember(null); showGate(); window.scrollTo(0, 0); });
   document.addEventListener('visibilitychange', function () { if (!document.hidden && !app.hidden && cfg.sync) sync(); });
   form.addEventListener('submit', function (e) {
@@ -3002,11 +3091,11 @@ ${p.slug === 'tag' ? '' : `
     var wait = Math.ceil((lockedUntil - Date.now()) / 1000); if (wait > 0) { msg.textContent = 'Too many tries. Please wait ' + wait + ' seconds.'; return; }
     var user = form.elements.username.value, pass = form.elements.password.value; if (!user || !pass) { msg.textContent = 'Please enter both the username and the password.'; return; }
     submit.disabled = true; submit.textContent = 'Checking\u2026';
-    unlock(user, pass).then(function (c) { failures = 0; remember(c); form.reset(); showApp(c); })
+    unlock(user, pass).then(function (c) { failures = 0; c.user = user.trim(); remember(c); form.reset(); showApp(c); })
       .catch(function () { failures++; if (failures >= 5) { lockedUntil = Date.now() + 30000; failures = 0; } return sleep(900).then(function () { msg.textContent = 'That username or password is not right.'; form.elements.password.value = ''; form.elements.password.focus(); }); })
       .then(function () { submit.disabled = false; submit.textContent = 'Enter'; });
   });
-  function refresh() { var c = remembered(); if (c && app.hidden) showApp(c); else if (!c && !app.hidden) showGate(); }
+  function refresh() { var c = remembered(); if (c && app.hidden && driveCard.hidden) showApp(c); else if (!c && (!app.hidden || !driveCard.hidden)) showGate(); }
   window.addEventListener('hashchange', function () { if (/^#\/internal/.test(location.hash)) { document.title = 'Internal page | COOL Autonomy Lab'; refresh(); } });   /* runs after the site's own router */
 
   /* ---------------- the red button at the bottom left of the "Say hello" box ---------------- */
