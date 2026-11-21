@@ -2457,5 +2457,565 @@ ${p.slug === 'tag' ? '' : `
   new MutationObserver(add).observe(view, { childList: true }); add();   /* runs each time the page is drawn */
 })();
 </script>
+<!-- ===== Internal page: red "Internal page" button in the Say hello box, sign-in, and the lab's Stockroom (purchases + inventory) page (self-contained: styles + script; paste right before the closing body tag, after the other blocks. If an earlier "Internal page" block is there, delete it first.) ===== -->
+<style>
+  /* sign-in */
+  .int-card { max-width: 520px; background: #fff; border-radius: var(--r-lg); padding: clamp(24px, 4vw, 40px); box-shadow: 0 10px 30px rgba(42, 33, 69, .08); }
+  .int-card h2 { font: 800 clamp(1.5rem, 2.6vw, 2rem)/1.1 var(--font); letter-spacing: -.015em; margin: 0 0 6px; }
+  .int-card p { margin: 0; }
+  .int-field { display: block; margin-top: 20px; }
+  .int-field > span { display: block; margin-bottom: 8px; font: 700 .9375rem/1 var(--font); }
+  .int-field input, .int-field select, .int-field textarea { width: 100%; font: 500 1rem/1.2 var(--font); color: var(--plum); background: var(--milk); border: 2.5px solid var(--plum); border-radius: 99px; padding: .7em 1.1em; }   /* same look as the search box on the Publications page */
+  .int-field textarea { border-radius: 22px; line-height: 1.4; resize: vertical; min-height: 3.2em; }
+  .int-field input:focus-visible, .int-field select:focus-visible, .int-field textarea:focus-visible { outline: 3px solid var(--berry); outline-offset: 2px; }
+  .int-msg { min-height: 1.5em; margin-top: 14px !important; color: var(--berry); font-weight: 700; }
+  .int-card .btn { margin-top: 8px; }
+  .btn[disabled] { opacity: .6; cursor: wait; }
+  .int-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 20px; margin-bottom: 8px; }
+  .int-bar h2 { margin: 0; font: 800 clamp(1.5rem, 2.8vw, 2.1rem)/1.15 var(--font); letter-spacing: -.015em; }
+  .int-bar .actions { margin: 0; align-items: center; }
+  .int-card .int-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 8px; } .int-card .int-actions .btn { margin-top: 0; }   /* Enter and Change password side by side */
+  .int-pwtools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px; margin-top: 12px; }
+  .int-pwtools .st-link { display: inline; margin: 0; } .int-show { display: inline-flex; align-items: center; gap: 8px; font: 600 .9375rem/1.2 var(--font); cursor: pointer; } .int-show input { width: 1.1rem; height: 1.1rem; accent-color: var(--berry); }
+  .int-steps { margin: 14px 0 4px; padding-left: 1.5em; list-style: decimal; } .int-steps li { margin-top: 8px; display: list-item; list-style: decimal; } .int-steps li::marker { font-weight: 800; color: var(--berry); }   /* the site removes list numbers elsewhere; here the order matters */ .int-card code { background: var(--lilac); border-radius: 6px; padding: .1em .4em; font-size: .9em; }
+  .int-field textarea.int-code { border-radius: 16px; font: 13px/1.45 ui-monospace, Menlo, Consolas, monospace; min-height: 7.5rem; word-break: break-all; }
+  .int-note { margin-top: 16px !important; font-size: .9375rem; color: var(--plum-soft); }
+  /* the Stockroom */
+  .st-intro { margin: 0 0 22px; color: var(--plum-soft); }
+  .st-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-bottom: 22px; }
+  .st-stat { border-radius: var(--r-md); padding: 20px 24px; }
+  .st-stat:nth-child(1) { background: var(--sky); } .st-stat:nth-child(2) { background: var(--lemon); } .st-stat:nth-child(3) { background: var(--mint); }
+  .st-stat b { display: block; font: 800 clamp(2rem, 3.6vw, 2.8rem)/1 var(--font); letter-spacing: -.02em; }
+  .st-stat span { display: block; margin-top: 6px; font: 700 .9375rem/1.3 var(--font); }
+  .st-card { background: #fff; border-radius: var(--r-lg); padding: clamp(22px, 3.4vw, 40px); box-shadow: 0 10px 30px rgba(42, 33, 69, .08); margin-bottom: 22px; }
+  .st-card h3 { margin: 0; font: 800 clamp(1.25rem, 2.2vw, 1.6rem)/1.2 var(--font); letter-spacing: -.01em; }
+  .st-sub { margin: 4px 0 0; color: var(--plum-soft); font-size: .9375rem; }
+  .st-form { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 4px 16px; margin-top: 8px; align-items: end; }
+  .st-form .int-field { margin-top: 14px; grid-column: span 12; } .st-form .f-product { grid-column: span 4; } .st-form .f-link { grid-column: span 3; } .st-form .f-qty { grid-column: span 2; } .st-form .f-price { grid-column: span 3; }
+  .st-form .st-formrow { grid-column: span 12; display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 10px; }
+  .st-form .st-formrow .int-msg { margin: 0 !important; min-height: 0; }
+  .st-opt { font-weight: 500; color: var(--plum-soft); }
+  .st-tabs { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 18px; }
+  .st-tab { font: 700 1rem/1 var(--font); color: var(--plum); background: transparent; border: 2.5px solid var(--plum); border-radius: 99px; padding: .6em 1.3em; cursor: pointer; }
+  .st-tab[aria-selected="true"] { background: var(--plum); color: var(--milk); }
+  .st-tab:focus-visible, .st-link:focus-visible, .st-status:focus-visible { outline: 3px solid var(--berry); outline-offset: 2px; }
+  .st-filters { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 12px 16px; margin-bottom: 14px; }
+  .st-filters label > span { display: block; margin-bottom: 8px; font: 700 .9375rem/1 var(--font); }
+  .st-filters select, .st-filters input[type="date"] { font: 500 1rem/1.2 var(--font); color: var(--plum); background: var(--milk); border: 2.5px solid var(--plum); border-radius: 99px; padding: .55em 1.1em; min-width: 9.5rem; }
+  .st-filters select:focus-visible, .st-filters input:focus-visible { outline: 3px solid var(--berry); outline-offset: 2px; }
+  .st-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 18px; margin: 4px 0 14px; }
+  .st-counts { margin: 0; font-weight: 700; }
+  .st-bar .actions { margin: 0; }
+  .st-bar .btn { font-size: .9375rem; padding: .6em 1.15em; }
+  .st-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; }
+  .st-table th { text-align: left; font: 700 .8125rem/1.2 var(--font); color: var(--plum-soft); padding: 0 12px 2px; white-space: nowrap; }
+  .st-table td { background: var(--milk); padding: 14px 12px; vertical-align: top; overflow-wrap: break-word; }
+  .st-table td[data-label="Qty"], .st-table td[data-label="Unit price"], .st-table td[data-label="Total"], .st-table td[data-label="Submitted"], .st-table td[data-label="Send"], .st-table td[data-label=""], .st-table td[data-label="In use"], .st-table td[data-label="Available"], .st-table td[data-label="Quantity"], .st-table td[data-label="Source"], .st-table td[data-label="Added on"], .st-table td[data-label="Take out"] { white-space: nowrap; }   /* numbers, dates and buttons never break in the middle */
+  .st-table td:first-child { border-radius: 16px 0 0 16px; padding-left: 18px; } .st-table td:last-child { border-radius: 0 16px 16px 0; padding-right: 18px; }
+  .st-table tr.is-cancelled td { opacity: .55; }
+  .st-clamp { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 3; overflow: hidden; }   /* long notes show three lines; the full text appears when you point at it */
+  .st-table a { color: var(--berry); }
+  .st-status { font: 700 .875rem/1.1 var(--font); color: var(--plum); border: 2px solid var(--plum); border-radius: 99px; padding: .45em .8em; cursor: pointer; background: var(--lemon); }
+  .st-status.s-Ordered { background: var(--sky); } .st-status.s-Received { background: var(--mint); } .st-status.s-Cancelled { background: var(--rose); }
+  .st-badge { display: inline-block; font: 700 .8125rem/1 var(--font); border-radius: 99px; padding: .45em .8em; background: var(--lemon); white-space: nowrap; }
+  .st-badge.is-sent { background: var(--mint); }
+  .st-link { display: block; margin-top: 6px; padding: 0; border: 0; background: none; font: 700 .875rem/1.2 var(--font); color: var(--berry); text-decoration: underline; text-underline-offset: .2em; cursor: pointer; }
+  .st-link.st-danger { margin-top: 0; }
+  .st-step { display: inline-flex; align-items: center; gap: 8px; }
+  .st-step button { width: 2.2rem; height: 2.2rem; border-radius: 50%; border: 2px solid var(--plum); background: transparent; color: var(--plum); font: 700 1.2rem/1 var(--font); cursor: pointer; padding: 0; }
+  .st-step button:hover:not([disabled]) { background: var(--plum); color: var(--milk); } .st-step button[disabled] { opacity: .35; cursor: default; }
+  .st-empty { padding: 26px 8px; text-align: center; color: var(--plum-soft); }
+  .st-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 20px; font-size: .9375rem; color: var(--plum-soft); }
+  .st-foot .actions { margin: 0; } .st-foot .btn { font-size: .875rem; padding: .5em 1em; }
+  .st-sync { font: 700 .875rem/1.2 var(--font); background: var(--lilac); border-radius: 99px; padding: .55em 1em; }
+  .st-sync.is-bad { background: var(--rose); }
+  .visually-hidden-file { position: absolute; left: -9999px; }
+  .st-invbar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 18px; margin-bottom: 14px; }
+  .st-invbar .st-sub { margin: 0; max-width: 46rem; } .st-invbar .actions { margin: 0; } .st-invbar .btn { font-size: .9375rem; padding: .6em 1.15em; }
+  .st-details { margin: 0 0 18px; background: var(--milk); border-radius: 18px; padding: 4px 20px; }
+  .st-details summary { cursor: pointer; font: 700 1rem/1.3 var(--font); padding: 14px 0; } .st-details summary:focus-visible { outline: 3px solid var(--berry); outline-offset: 2px; border-radius: 6px; }
+  .st-details form { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 2fr) minmax(0, 5fr); gap: 0 16px; align-items: end; padding-bottom: 18px; } .st-details .int-field { margin-top: 4px; }
+  .st-details .st-formrow { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 14px; margin-top: 14px; } .st-details .int-msg { margin: 0 !important; min-height: 0; }
+  .st-toast { flex-basis: 100%; margin: 0; min-height: 1.4em; font-weight: 700; color: var(--plum); }
+  .st-tag { display: inline-block; margin-left: .5em; font: 700 .75rem/1 var(--font); border-radius: 99px; padding: .35em .7em; background: var(--lilac); vertical-align: middle; }
+  @media (max-width: 1000px) { .st-form .f-product, .st-form .f-link { grid-column: span 6; } .st-form .f-qty, .st-form .f-price { grid-column: span 6; } .st-stats { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 760px) {
+    .st-details form { grid-template-columns: minmax(0, 1fr); }
+    .st-form .f-product, .st-form .f-link { grid-column: span 12; } .st-form .f-qty, .st-form .f-price { grid-column: span 6; }
+    .st-table, .st-table tbody, .st-table tr, .st-table td { display: block; } .st-table thead { display: none; }
+    .st-table tr { background: var(--milk); border-radius: 18px; padding: 8px 0; margin-bottom: 12px; }
+    .st-table td { background: none; padding: 7px 18px; border-radius: 0 !important; display: grid; grid-template-columns: 7.2rem minmax(0, 1fr); gap: 10px; align-items: center; }
+    .st-clamp { display: block; }
+    .st-table td::before { content: attr(data-label); font: 700 .8125rem/1.2 var(--font); color: var(--plum-soft); }
+    .st-table td[data-label=""]::before { content: ""; }
+    .st-table td > * { grid-column: 2; justify-self: start; }   /* everything in a cell stacks in the right-hand column, next to its label */
+    .st-table td .st-link { margin-top: 2px; }
+  }
+  /* the red button at the bottom left of the Say hello box */
+  .contact .contact-internal { margin-top: 30px; }
+  .contact .contact-internal .btn, .contact .contact-internal .btn:hover { color: #fff; text-decoration: none; }   /* white text, like the other red buttons (the Say hello box colours its own links) */
+  @media (prefers-reduced-motion: reduce) { .st-tab { transition: none; } }
+</style>
+<script>
+(function () {
+  /* The lab login. This holds the (optional) address of the shared Google Sheet, LOCKED with the username and password, so it is not readable in this
+     page's source. To share the records across the lab, or to change the password, open set-internal-password.html on your computer and replace
+     the line below with the one it makes. With no shared sheet, records stay in each person's own browser. */
+  var VAULT = { iter: 250000, salt: '5bvfkStQLIVXt2gwXSstcg==', iv: 'TGqiGgPiy3u2qQly', data: '/SLmRso8KsPriAE+Fnip6rZ0UmBMD85w9KJAEG7Q8Emhlmlt8tqIC2wlIy0=' };  var SESSION = 'cool-internal-session';                      /* the unlocked setting, kept only for this browser tab; gone when the tab closes or you log out */
+  var STATUSES = ['Pending', 'Ordered', 'Received', 'Cancelled'];
+  var KEYS = { local: 'cool-stockroom-v1', shared: 'cool-stockroom-shared-cache-v1', queue: 'cool-stockroom-queue-v1' };
+
+  var cfg = { sync: '', token: '' }, records = [], queue = [], tab = 'purchases', syncing = false, lastSync = 0, syncOk = true, syncWhy = '', pollTimer = null, failures = 0, lockedUntil = 0;
+  var filters = { period: 'all', from: '', to: '', send: 'all', status: 'all' };
+
+  /* ---------------- small helpers ---------------- */
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function sleep(ms) { return new Promise(function (r) { setTimeout(r, ms); }); }
+  function pad(n) { return (n < 10 ? '0' : '') + n; }
+  function ymd(d) { return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate()); }
+  function money(n) { return Number(n).toLocaleString('en-US', { style: 'currency', currency: 'USD' }); }
+  function fmtDate(iso, withYear) { var d = new Date(iso); return isNaN(d) ? '' : d.toLocaleDateString('en-US', withYear === false ? { month: 'short', day: 'numeric' } : { month: 'short', day: 'numeric', year: 'numeric' }); }
+  function uid() { return (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : 'id-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2, 10); }
+  function bytes(b64) { var s = atob(b64), a = new Uint8Array(s.length); for (var i = 0; i < s.length; i++) a[i] = s.charCodeAt(i); return a; }
+  function store(key, val) { try { if (val === null) localStorage.removeItem(key); else localStorage.setItem(key, JSON.stringify(val)); } catch (e) {} }
+  function recall(key, fallback) { try { var v = JSON.parse(localStorage.getItem(key)); return v == null ? fallback : v; } catch (e) { return fallback; } }
+  function clean(r) {                                         /* every record is checked on the way in, whatever its source */
+    if (!r || typeof r !== 'object' || !r.id) return null;
+    var qty = Math.max(1, Math.floor(Number(r.qty)) || 1), price = (r.price === '' || r.price == null) ? null : Number(r.price);
+    return { id: String(r.id), product: String(r.product || '').slice(0, 200), link: /^https?:\/\//i.test(r.link || '') ? String(r.link).slice(0, 1000) : '', qty: qty,
+      price: (price != null && isFinite(price) && price >= 0) ? price : null, note: String(r.note || '').slice(0, 1000), status: r.kind === 'stock' ? 'Received' : (STATUSES.indexOf(r.status) > -1 ? r.status : 'Pending'),
+      kind: r.kind === 'stock' ? 'stock' : 'purchase', sent: r.kind === 'stock' ? false : !!r.sent, sentAt: r.sentAt ? String(r.sentAt) : '', submitted: isNaN(Date.parse(r.submitted)) ? new Date().toISOString() : String(r.submitted),
+      received: r.received ? String(r.received) : '', used: Math.min(qty, Math.max(0, Math.floor(Number(r.used)) || 0)) };
+  }
+  function purchases() { return records.filter(function (r) { return r.kind !== 'stock'; }); }                       /* the Purchases tab: real purchase requests */
+  function lines() { return records.filter(function (r) { return r.kind === 'stock' || r.status === 'Received'; }); }   /* the Inventory tab: received purchases plus items that were already here */
+  function cleanList(list) { var out = []; (Array.isArray(list) ? list : []).forEach(function (r) { var c = clean(r); if (c) out.push(c); }); return out; }
+
+  /* ---------------- the lock ---------------- */
+  function unlock(user, pass, vault) {                        /* gives the setting if the username and password are right, otherwise throws */
+    var enc = new TextEncoder(), v = vault || VAULT;
+    return crypto.subtle.importKey('raw', enc.encode(user.trim().toLowerCase() + '\u0000' + pass), 'PBKDF2', false, ['deriveKey'])
+      .then(function (base) { return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: bytes(v.salt), iterations: v.iter, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['decrypt']); })
+      .then(function (key) { return crypto.subtle.decrypt({ name: 'AES-GCM', iv: bytes(v.iv) }, key, bytes(v.data)); })
+      .then(function (plain) { var c = JSON.parse(new TextDecoder().decode(plain)); if (!c || typeof c !== 'object') throw new Error('bad setting'); return { sync: /^https:\/\//.test(c.sync || '') ? c.sync : '', token: String(c.token || '') }; });
+  }
+  function lockNew(text, user, pass) {                        /* locks the setting with a new password: a fresh random salt and iv each time */
+    var enc = new TextEncoder(), salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+    function b64(u8) { var t = ''; u8.forEach(function (b) { t += String.fromCharCode(b); }); return btoa(t); }
+    return crypto.subtle.importKey('raw', enc.encode(user.trim().toLowerCase() + '\u0000' + pass), 'PBKDF2', false, ['deriveKey'])
+      .then(function (base) { return crypto.subtle.deriveKey({ name: 'PBKDF2', salt: salt, iterations: VAULT.iter, hash: 'SHA-256' }, base, { name: 'AES-GCM', length: 256 }, false, ['encrypt']); })
+      .then(function (key) { return crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, enc.encode(text)); })
+      .then(function (ct) { return { iter: VAULT.iter, salt: b64(salt), iv: b64(iv), data: b64(new Uint8Array(ct)) }; });
+  }
+  function remembered() { try { var c = JSON.parse(sessionStorage.getItem(SESSION)); return (c && typeof c === 'object' && 'sync' in c) ? { sync: /^https:\/\//.test(c.sync || '') ? c.sync : '', token: String(c.token || '') } : null; } catch (e) { return null; } }
+  function remember(c) { try { if (c) sessionStorage.setItem(SESSION, JSON.stringify(c)); else sessionStorage.removeItem(SESSION); } catch (e) {} }
+
+  /* ---------------- the page ---------------- */
+  var home = document.querySelector('[data-view="home"]'); if (!home) return;
+  var page = document.createElement('section'); page.setAttribute('data-view', 'internal'); page.hidden = true;
+  page.innerHTML =
+    '<div class="wrap" style="padding-top:clamp(24px,4vw,44px);padding-bottom:72px"><h1 class="sr-only">Internal page</h1>' +   /* no visible title; this heading is only for screen readers and keyboard focus */
+      '<div class="int-card" data-int-gate><h2>Sign in</h2><p>Please enter the lab username and password.</p>' +
+        '<form novalidate>' +
+          '<label class="int-field"><span>Username</span><input name="username" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required></label>' +
+          '<label class="int-field"><span>Password</span><input name="password" type="password" autocomplete="current-password" required></label>' +
+          '<p class="int-msg" role="alert" aria-live="assertive"></p><div class="actions int-actions"><button class="btn" type="submit">Enter</button><button class="btn btn-line" type="button" data-int-change>Change password</button></div>' +
+        '</form></div>' +
+      '<div class="int-card" data-int-pw hidden><h2>Change password</h2><div data-int-pwform-wrap><p>Enter the current password, then choose a new one.</p>' +
+        '<form data-int-pwform novalidate>' +
+          '<label class="int-field"><span>Username</span><input name="username" type="text" autocomplete="username" autocapitalize="none" autocorrect="off" spellcheck="false" required></label>' +
+          '<label class="int-field"><span>Current password</span><input name="current" type="password" autocomplete="current-password" required></label>' +
+          '<label class="int-field"><span>New password <i class="st-opt">at least 12 characters</i></span><input name="next" type="password" autocomplete="new-password" required></label>' +
+          '<label class="int-field"><span>Confirm new password</span><input name="confirm" type="password" autocomplete="new-password" required></label>' +
+          '<div class="int-pwtools"><button class="st-link" type="button" data-int-gen>Make a strong password for me</button><label class="int-show"><input type="checkbox" data-int-show> Show passwords</label></div>' +
+          '<p class="int-msg" role="alert" aria-live="assertive"></p><div class="actions int-actions"><button class="btn" type="submit">Change password</button><button class="btn btn-line" type="button" data-int-back>Back to sign in</button></div>' +
+        '</form></div>' +
+        '<div data-int-pwdone hidden><p>Your current password was right, and your new password is ready. One small step is left, because a website cannot change its own files:</p>' +
+          '<ol class="int-steps"><li>Click <strong>Copy the line</strong>.</li><li>Click <strong>Open index.html on GitHub</strong>, press Ctrl+F (Cmd+F on a Mac) and search for <code>var VAULT =</code>.</li><li>Replace that whole line with the line you copied, then click <strong>Commit changes</strong>.</li><li>After about a minute the new password works and the old one stops.</li></ol>' +
+          '<label class="int-field"><span>Your new line</span><textarea class="int-code" readonly rows="5" data-int-line></textarea></label>' +
+          '<div class="actions int-actions"><button class="btn" type="button" data-int-copy>Copy the line</button><a class="btn btn-line" target="_blank" rel="noopener noreferrer" href="https://github.com/coolautonomylab/coolautonomylab.github.io/edit/main/index.html">Open index.html on GitHub</a></div>' +
+          '<p class="int-msg" data-int-copymsg role="status" aria-live="polite" style="color:var(--plum)"></p>' +
+          '<label class="int-field"><span>Your new password <i class="st-opt">write it down somewhere safe</i></span><input type="password" readonly data-int-newpw autocomplete="off"></label>' +
+          '<div class="int-pwtools"><label class="int-show"><input type="checkbox" data-int-show2> Show it</label></div>' +
+          '<p class="int-note">The password cannot be recovered from the website. If it is lost, make a new one with the set-internal-password.html tool.</p>' +
+          '<div class="actions int-actions"><button class="btn btn-line" type="button" data-int-back>Back to sign in</button></div>' +
+        '</div></div>' +
+      '<div data-int-app hidden>' +
+        '<div class="int-bar"><h2>Stockroom: purchases and inventory</h2><div class="actions"><span class="st-sync" data-st-sync role="status"></span><button class="btn btn-line" type="button" data-st-syncnow hidden>Sync now</button><button class="btn btn-line" type="button" data-int-out>Log out</button></div></div>' +
+        '<p class="st-intro">Log what you need to buy and keep track of what arrives.</p>' +
+        '<div class="st-stats" aria-live="polite"><div class="st-stat"><b data-st-n="requests">0</b><span>Requests in selected period</span></div><div class="st-stat"><b data-st-n="open">0</b><span>Pending or ordered</span></div><div class="st-stat"><b data-st-n="units">0</b><span>Available inventory units</span></div></div>' +
+        '<section class="st-card" aria-labelledby="st-add"><h3 id="st-add">Add a purchase</h3><p class="st-sub">New requests start as Pending.</p>' +
+          '<form class="st-form" data-st-form novalidate>' +
+            '<label class="int-field f-product"><span>Product name</span><input name="product" type="text" maxlength="200" autocomplete="off" required></label>' +
+            '<label class="int-field f-link"><span>Buy link</span><input name="link" type="url" inputmode="url" autocomplete="off" placeholder="https://"></label>' +
+            '<label class="int-field f-qty"><span>Quantity</span><input name="qty" type="number" min="1" step="1" value="1" inputmode="numeric" required></label>' +
+            '<label class="int-field f-price"><span>Unit price (USD) <i class="st-opt">Optional</i></span><input name="price" type="number" min="0" step="0.01" inputmode="decimal" autocomplete="off"></label>' +
+            '<label class="int-field"><span>Note <i class="st-opt">Optional</i></span><textarea name="note" maxlength="1000" rows="2"></textarea></label>' +
+            '<div class="st-formrow"><button class="btn" type="submit">Submit purchase</button><p class="int-msg" data-st-msg role="status" aria-live="polite"></p></div>' +
+          '</form></section>' +
+        '<section class="st-card" aria-label="Purchases and inventory">' +
+          '<div class="st-tabs" role="tablist"><button class="st-tab" role="tab" type="button" data-st-tab="purchases" id="st-tab-purchases" aria-controls="st-panel-purchases" aria-selected="true">Purchases</button><button class="st-tab" role="tab" type="button" data-st-tab="inventory" id="st-tab-inventory" aria-controls="st-panel-inventory" aria-selected="false" tabindex="-1">Inventory</button></div>' +
+          '<div role="tabpanel" id="st-panel-purchases" aria-labelledby="st-tab-purchases" data-st-panel="purchases">' +
+            '<div class="st-filters">' +
+              '<label><span>Period</span><select data-st-f="period"></select></label>' +
+              '<label data-st-custom hidden><span>From</span><input type="date" data-st-f="from"></label><label data-st-custom hidden><span>To</span><input type="date" data-st-f="to"></label>' +
+              '<label><span>Send status</span><select data-st-f="send"><option value="all">All send statuses</option><option value="pending">Pending to send</option><option value="sent">Sent</option></select></label>' +
+              '<label><span>Status</span><select data-st-f="status"><option value="all">All statuses</option>' + STATUSES.map(function (s) { return '<option>' + s + '</option>'; }).join('') + '</select></label>' +
+            '</div>' +
+            '<div class="st-bar"><p class="st-counts" data-st-counts></p><div class="actions"><button class="btn" type="button" data-st-send>Send pending CSV</button><button class="btn btn-line" type="button" data-st-export>Export CSV</button><button class="btn btn-line" type="button" data-st-import>Import CSV</button></div></div>' +
+            '<p class="int-msg" data-st-note role="status" aria-live="polite" style="margin:0 0 8px !important"></p>' +
+            '<div data-st-list></div>' +
+          '</div>' +
+          '<div role="tabpanel" id="st-panel-inventory" aria-labelledby="st-tab-inventory" data-st-panel="inventory" hidden>' +
+            '<div class="st-invbar"><p class="st-sub">Items appear here when a purchase is marked Received. Use the buttons to record units taken from the stockroom (In use).</p><div class="actions"><button class="btn btn-line" type="button" data-st-export-inv>Export inventory CSV</button><button class="btn btn-line" type="button" data-st-import>Import CSV</button></div></div>' +
+            '<details class="st-details"><summary>Add an item that is already in the stockroom</summary><form data-st-stockform novalidate>' +
+              '<label class="int-field"><span>Item</span><input name="product" type="text" maxlength="200" autocomplete="off" required></label>' +
+              '<label class="int-field"><span>Quantity</span><input name="qty" type="number" min="1" step="1" value="1" inputmode="numeric" required></label>' +
+              '<label class="int-field"><span>Note <i class="st-opt">Optional</i></span><input name="note" type="text" maxlength="1000" autocomplete="off"></label>' +
+              '<div class="st-formrow"><button class="btn" type="submit">Add item</button><p class="int-msg" data-st-stockmsg role="status" aria-live="polite"></p></div></form></details>' +
+            '<div data-st-inv></div></div>' +
+        '</section>' +
+        '<div class="st-foot"><span data-st-where></span><div class="actions" data-st-backup></div><p class="st-toast" data-st-toast role="status" aria-live="polite"></p></div>' +
+        '<input class="visually-hidden-file" type="file" accept=".csv,text/csv" multiple tabindex="-1" aria-hidden="true" data-st-importfile>' +
+      '</div>' +
+    '</div>';
+  home.parentNode.appendChild(page);
+  var $q = function (s) { return page.querySelector(s); };
+  var gate = $q('[data-int-gate]'), app = $q('[data-int-app]'), form = gate.querySelector('form'), msg = gate.querySelector('.int-msg'), submit = form.querySelector('button');
+
+  /* ---------------- change the password ---------------- */
+  var pwCard = $q('[data-int-pw]'), pwWrap = pwCard.querySelector('[data-int-pwform-wrap]'), pwForm = pwCard.querySelector('[data-int-pwform]'), pwDone = pwCard.querySelector('[data-int-pwdone]'), pwMsg = pwForm.querySelector('.int-msg'), pwSubmit = pwForm.querySelector('button[type="submit"]');
+  function showChange() {
+    gate.hidden = true; pwCard.hidden = false; pwWrap.hidden = false; pwDone.hidden = true; pwMsg.textContent = ''; pwForm.elements.username.value = form.elements.username.value;
+    (pwForm.elements.username.value ? pwForm.elements.current : pwForm.elements.username).focus();
+  }
+  function backToSignIn() {
+    pwForm.reset(); pwDone.querySelector('[data-int-newpw]').value = ''; pwDone.querySelector('[data-int-line]').value = ''; pwDone.querySelector('[data-int-copymsg]').textContent = ''; showPw(false); showPw2(false);
+    pwCard.hidden = true; gate.hidden = false; form.elements.password.value = ''; (form.elements.username.value ? form.elements.password : form.elements.username).focus();
+  }
+  function showPw(on) { ['current', 'next', 'confirm'].forEach(function (n) { pwForm.elements[n].type = on ? 'text' : 'password'; }); pwForm.querySelector('[data-int-show]').checked = on; }
+  function showPw2(on) { pwDone.querySelector('[data-int-newpw]').type = on ? 'text' : 'password'; pwDone.querySelector('[data-int-show2]').checked = on; }
+  gate.querySelector('[data-int-change]').addEventListener('click', showChange);
+  pwCard.addEventListener('click', function (e) {
+    var t = e.target.closest('button'); if (!t) return;
+    if (t.hasAttribute('data-int-back')) backToSignIn();
+    if (t.hasAttribute('data-int-gen')) {                       /* four groups of four letters and digits that cannot be confused: 80 bits */
+      var A = 'abcdefghjkmnpqrstuvwxyz23456789', r = crypto.getRandomValues(new Uint32Array(16)), g = ''; r.forEach(function (x, i) { g += A[x % A.length] + (i % 4 === 3 && i < 15 ? '-' : ''); });
+      pwForm.elements.next.value = g; pwForm.elements.confirm.value = g; showPw(true); pwMsg.textContent = '';
+    }
+    if (t.hasAttribute('data-int-copy')) {
+      var ta = pwDone.querySelector('[data-int-line]'), cm = pwDone.querySelector('[data-int-copymsg]'); ta.select();
+      (navigator.clipboard ? navigator.clipboard.writeText(ta.value) : Promise.reject()).then(function () { cm.textContent = 'Copied.'; }, function () { try { document.execCommand('copy'); cm.textContent = 'Copied.'; } catch (err) { cm.textContent = 'Please copy the text in the box.'; } });
+    }
+  });
+  pwCard.addEventListener('change', function (e) { if (e.target.hasAttribute('data-int-show')) showPw(e.target.checked); if (e.target.hasAttribute('data-int-show2')) showPw2(e.target.checked); });
+  pwForm.addEventListener('submit', function (e) {
+    e.preventDefault(); pwMsg.textContent = ''; var f = pwForm.elements, user = f.username.value, cur = f.current.value, next = f.next.value, conf = f.confirm.value;
+    function bad(t, el) { pwMsg.textContent = t; if (el) el.focus(); }
+    if (!(window.crypto && crypto.subtle)) return bad('This page needs a secure (https) connection.');
+    var wait = Math.ceil((lockedUntil - Date.now()) / 1000); if (wait > 0) return bad('Too many tries. Please wait ' + wait + ' seconds.');
+    if (!user.trim()) return bad('Please enter the username.', f.username);
+    if (!cur) return bad('Please enter the current password.', f.current);
+    if (next.length < 12) return bad('The new password needs at least 12 characters.', f.next);
+    if (next !== conf) return bad('The two new passwords are not the same.', f.confirm);
+    if (next === cur) return bad('Please choose a password that is different from the current one.', f.next);
+    pwSubmit.disabled = true; pwSubmit.textContent = 'Checking\u2026';
+    unlock(user, cur).catch(function () { var er = new Error('auth'); er.auth = true; throw er; })    /* 1. is the current password right? */
+      .then(function (c) {
+        failures = 0;                                                                                    /* 2. lock the same setting (including the shared-sheet details) with the new password */
+        return lockNew(JSON.stringify({ v: 1, sync: c.sync, token: c.token }), user, next).then(function (nv) {
+          return unlock(user, next, nv).then(function (c2) { if (c2.sync !== c.sync || c2.token !== c.token) throw new Error('check'); return nv; });   /* 3. check the new line really opens with the new password */
+        });
+      })
+      .then(function (nv) {
+        pwDone.querySelector('[data-int-line]').value = 'var VAULT = { iter: ' + nv.iter + ", salt: '" + nv.salt + "', iv: '" + nv.iv + "', data: '" + nv.data + "' };"; pwDone.querySelector('[data-int-newpw]').value = next;
+        pwForm.reset(); showPw(false); showPw2(false); pwWrap.hidden = true; pwDone.hidden = false; pwDone.querySelector('[data-int-copy]').focus();
+      })
+      .catch(function (er) {
+        if (er && er.auth) { failures++; if (failures >= 5) { lockedUntil = Date.now() + 30000; failures = 0; } return sleep(900).then(function () { bad('That username or current password is not right.'); f.current.value = ''; f.current.focus(); }); }
+        bad('Something went wrong. Please try again.');
+      })
+      .then(function () { pwSubmit.disabled = false; pwSubmit.textContent = 'Change password'; });
+  });
+
+  /* ---------------- records: keep, change, share ---------------- */
+  function dbKey() { return cfg.sync ? KEYS.shared : KEYS.local; }
+  function save() { store(dbKey(), records); store(KEYS.queue, cfg.sync ? queue : null); }
+  function applyLocal(op) {
+    if (op.op === 'upsert') { var c = clean(op.record); if (!c) return; var i = records.findIndex(function (r) { return r.id === c.id; }); if (i > -1) records[i] = c; else records.push(c); }
+    else if (op.op === 'delete') records = records.filter(function (r) { return r.id !== op.id; });
+  }
+  function commit(op) { commitMany([op]); }
+  function commitMany(ops) { ops.forEach(function (op) { applyLocal(op); if (cfg.sync) queue.push(op); }); save(); render(); if (cfg.sync) sync(); }
+  function post(ops) {
+    return fetch(cfg.sync, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ token: cfg.token, ops: ops }), redirect: 'follow', credentials: 'omit', referrerPolicy: 'no-referrer' })
+      .then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+      .then(function (j) { if (!j || !j.ok) throw new Error((j && j.error) || 'refused'); return j; });
+  }
+  function sync() {
+    if (!cfg.sync || syncing) return Promise.resolve();
+    syncing = true; var sent = queue.slice(); syncUi();
+    return post(sent).then(function (j) {
+      queue = queue.slice(sent.length); records = cleanList(j.records); queue.forEach(applyLocal);   /* changes made while this was running are put back on top */
+      lastSync = Date.now(); syncOk = true; save(); render();
+    }).catch(function (err) { syncOk = false; syncWhy = /not allowed/.test(err && err.message) ? 'secret' : ''; }).then(function () { syncing = false; syncUi(); });
+  }
+  function syncUi() {
+    var el = $q('[data-st-sync]'), btn = $q('[data-st-syncnow]'); if (!el) return; btn.hidden = !cfg.sync; el.classList.toggle('is-bad', !!cfg.sync && !syncOk);
+    if (!cfg.sync) el.textContent = 'Saved in this browser only';
+    else if (syncing) el.textContent = 'Syncing\u2026';
+    else if (!syncOk) el.textContent = (syncWhy === 'secret' ? 'The shared sheet did not accept the secret' : 'Cannot reach the shared sheet') + (queue.length ? ' \u00b7 ' + queue.length + ' change' + (queue.length > 1 ? 's' : '') + ' waiting' : '');
+    else el.textContent = 'Shared with the lab \u00b7 synced ' + new Date(lastSync).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    $q('[data-st-where]').textContent = cfg.sync ? 'Records are kept in the lab\u2019s shared Google Sheet.' : 'Records are kept in this browser only. To share them with the whole lab, connect a shared sheet (see the setup steps).';
+  }
+
+  /* ---------------- periods and filters ---------------- */
+  function monday(d) { var x = new Date(d); x.setHours(0, 0, 0, 0); x.setDate(x.getDate() - ((x.getDay() + 6) % 7)); return x; }
+  function weeks() { var map = {}; purchases().forEach(function (r) { var m = ymd(monday(r.submitted)); map[m] = (map[m] || 0) + 1; }); return Object.keys(map).sort().reverse().map(function (k) { return { key: k, n: map[k] }; }); }
+  function weekLabel(k) { var s = new Date(k + 'T00:00:00'), e = new Date(s); e.setDate(e.getDate() + 6); return fmtDate(s.toISOString(), false) + ' \u2013 ' + fmtDate(e.toISOString()); }
+  function inPeriod(r) {
+    var t = new Date(r.submitted);
+    if (filters.period === 'all') return true;
+    if (filters.period === 'custom') { var f = filters.from ? new Date(filters.from + 'T00:00:00') : null, to = filters.to ? new Date(filters.to + 'T23:59:59.999') : null; return (!f || t >= f) && (!to || t <= to); }
+    var m = new Date(filters.period.slice(2) + 'T00:00:00'), e = new Date(m); e.setDate(e.getDate() + 7); return t >= m && t < e;
+  }
+  function pendingSend(r) { return !r.sent && r.status !== 'Cancelled'; }
+  function byNewest(a, b) { return Date.parse(b.submitted) - Date.parse(a.submitted); }
+
+  /* ---------------- drawing ---------------- */
+  function render() {
+    if (app.hidden) return;
+    var sel = $q('[data-st-f="period"]'), ws = weeks();
+    sel.innerHTML = '<option value="all">All weeks</option>' + ws.map(function (w) { return '<option value="w:' + w.key + '">' + esc(weekLabel(w.key)) + ' (' + w.n + ')</option>'; }).join('') + '<option value="custom">Custom date range</option>';
+    if (filters.period !== 'all' && filters.period !== 'custom' && !ws.some(function (w) { return 'w:' + w.key === filters.period; })) filters.period = 'all';
+    sel.value = filters.period; page.querySelectorAll('[data-st-custom]').forEach(function (l) { l.hidden = filters.period !== 'custom'; });
+    var inP = purchases().filter(inPeriod), units = lines().reduce(function (n, r) { return n + (r.qty - r.used); }, 0);
+    $q('[data-st-n="requests"]').textContent = inP.length; $q('[data-st-n="open"]').textContent = inP.filter(function (r) { return r.status === 'Pending' || r.status === 'Ordered'; }).length; $q('[data-st-n="units"]').textContent = units;
+    $q('[data-st-counts]').textContent = inP.filter(pendingSend).length + ' pending to send \u00b7 ' + inP.filter(function (r) { return r.sent; }).length + ' sent';
+    var rows = inP.filter(function (r) { return (filters.send === 'all' || (filters.send === 'sent' ? r.sent : pendingSend(r))) && (filters.status === 'all' || r.status === filters.status); }).sort(byNewest);
+    $q('[data-st-list]').innerHTML = rows.length ? '<table class="st-table"><thead><tr><th>Product</th><th>Qty</th><th>Unit price</th><th>Total</th><th>Note</th><th>Submitted</th><th>Status</th><th>Send</th><th><span class="sr-only">Actions</span></th></tr></thead><tbody>' + rows.map(rowHtml).join('') + '</tbody></table>'
+      : '<p class="st-empty">' + (purchases().length ? 'No purchases match these filters.' : 'No purchases yet. Add the first one above.') + '</p>';
+    var got = lines().sort(function (a, b) { return Date.parse(b.received || b.submitted) - Date.parse(a.received || a.submitted); });
+    $q('[data-st-inv]').innerHTML = got.length ? '<table class="st-table"><thead><tr><th>Item</th><th>Quantity</th><th>In use</th><th>Available</th><th>Source</th><th>Added on</th><th>Take out</th></tr></thead><tbody>' + got.map(invHtml).join('') + '</tbody></table>' : '<p class="st-empty">Nothing in the stockroom yet.</p>';
+    backupUi(); syncUi();
+  }
+  function rowHtml(r) {
+    var name = r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener noreferrer">' + esc(r.product) + '</a>' : esc(r.product);
+    return '<tr data-id="' + esc(r.id) + '"' + (r.status === 'Cancelled' ? ' class="is-cancelled"' : '') + '>' +
+      '<td data-label="Product"><strong>' + name + '</strong></td><td data-label="Qty">' + r.qty + '</td><td data-label="Unit price">' + (r.price == null ? '\u2014' : money(r.price)) + '</td><td data-label="Total">' + (r.price == null ? '\u2014' : money(r.qty * r.price)) + '</td>' +
+      '<td data-label="Note">' + (r.note ? '<span class="st-clamp" title="' + esc(r.note) + '">' + esc(r.note) + '</span>' : '\u2014') + '</td><td data-label="Submitted">' + fmtDate(r.submitted) + '</td>' +
+      '<td data-label="Status"><select class="st-status s-' + r.status + '" data-act="status" aria-label="Status of ' + esc(r.product) + '">' + STATUSES.map(function (s) { return '<option' + (s === r.status ? ' selected' : '') + '>' + s + '</option>'; }).join('') + '</select></td>' +
+      '<td data-label="Send"><span class="st-badge' + (r.sent ? ' is-sent' : '') + '">' + (r.sent ? 'Sent' : 'Pending to send') + '</span><button class="st-link" type="button" data-act="sent">' + (r.sent ? 'Mark unsent' : 'Mark sent') + '</button></td>' +
+      '<td data-label=""><button class="st-link st-danger" type="button" data-act="delete">Delete</button></td></tr>';
+  }
+  function invHtml(r) {
+    var left = r.qty - r.used;
+    var stock = r.kind === 'stock';
+    return '<tr data-id="' + esc(r.id) + '"><td data-label="Item"><strong>' + (r.link ? '<a href="' + esc(r.link) + '" target="_blank" rel="noopener noreferrer">' + esc(r.product) + '</a>' : esc(r.product)) + '</strong>' + (r.note ? '<br><span class="st-sub">' + esc(r.note) + '</span>' : '') + '</td><td data-label="Quantity">' + r.qty + '</td><td data-label="In use">' + r.used + '</td><td data-label="Available"><strong>' + left + '</strong></td>' +
+      '<td data-label="Source">' + (stock ? 'Existing item' : 'Purchase') + '</td><td data-label="Added on">' + fmtDate(r.received || r.submitted) + '</td>' +
+      '<td data-label="Take out"><span class="st-step"><button type="button" data-act="use-" aria-label="Put one back: ' + esc(r.product) + '"' + (r.used < 1 ? ' disabled' : '') + '>\u2212</button><button type="button" data-act="use+" aria-label="Take one out: ' + esc(r.product) + '"' + (left < 1 ? ' disabled' : '') + '>+</button></span>' + (stock ? '<button class="st-link st-danger" type="button" data-act="delete">Delete</button>' : '') + '</td></tr>';
+  }
+  function backupUi() {
+    var box = $q('[data-st-backup]'); if (box.dataset.mode === (cfg.sync ? 's' : 'l')) return; box.dataset.mode = cfg.sync ? 's' : 'l';
+    box.innerHTML = '<button class="btn btn-line" type="button" data-st-backup-dl>Download backup</button>' + (cfg.sync ? '' : '<button class="btn btn-line" type="button" data-st-backup-up>Restore backup</button><input class="visually-hidden-file" type="file" accept="application/json,.json" data-st-backup-file tabindex="-1" aria-hidden="true">');
+  }
+  function note(text) { var n = $q('[data-st-note]'); n.textContent = text; clearTimeout(note.t); note.t = setTimeout(function () { n.textContent = ''; }, 9000); }
+
+  /* ---------------- CSV ---------------- */
+  function cell(v) { v = v == null ? '' : String(v); if (/^[=+\-@\t\r]/.test(v)) v = "'" + v; return '"' + v.replace(/"/g, '""') + '"'; }   /* stops "=..." running as a formula when the file is opened in Excel or Sheets */
+  function toCsv(list) {
+    var head = ['Submitted', 'Product', 'Buy link', 'Quantity', 'Unit price (USD)', 'Total (USD)', 'Note', 'Status', 'Send status'];
+    return [head.map(cell).join(',')].concat(list.map(function (r) { return [ymd(new Date(r.submitted)), r.product, r.link, r.qty, r.price == null ? '' : r.price.toFixed(2), r.price == null ? '' : (r.qty * r.price).toFixed(2), r.note, r.status, r.sent ? 'Sent' : 'Pending to send'].map(cell).join(','); })).join('\r\n');
+  }
+  function download(name, text, type) {
+    var url = URL.createObjectURL(new Blob([type === 'json' ? text : '\ufeff' + text], { type: type === 'json' ? 'application/json' : 'text/csv;charset=utf-8' })), a = document.createElement('a');
+    a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(function () { URL.revokeObjectURL(url); }, 1500);
+  }
+
+  /* ---------------- CSV in: the old tracker's files, and this page's own exports ---------------- */
+  function parseCsv(text) {                                   /* handles quotes, commas and line breaks inside quotes, and a leading byte-order mark */
+    text = String(text).replace(/^\ufeff/, ''); var rows = [], row = [], cur = '', q = false, i, ch;
+    for (i = 0; i < text.length; i++) {
+      ch = text[i];
+      if (q) { if (ch === '"') { if (text[i + 1] === '"') { cur += '"'; i++; } else q = false; } else cur += ch; }
+      else if (ch === '"') q = true;
+      else if (ch === ',') { row.push(cur); cur = ''; }
+      else if (ch === '\n' || ch === '\r') { if (ch === '\r' && text[i + 1] === '\n') i++; row.push(cur); cur = ''; if (row.length > 1 || row[0] !== '') rows.push(row); row = []; }
+      else cur += ch;
+    }
+    if (cur !== '' || row.length) { row.push(cur); rows.push(row); }
+    return rows;
+  }
+  function hash(str) { var h1 = 0x811c9dc5, h2 = 0x1b873593, i; for (i = 0; i < str.length; i++) { var c = str.charCodeAt(i); h1 = Math.imul(h1 ^ c, 16777619) >>> 0; h2 = Math.imul(h2 ^ c, 2246822519) >>> 0; } return (h1.toString(16) + h2.toString(16)).slice(0, 14); }
+  function norm(t) { return String(t == null ? '' : t).trim().toLowerCase().replace(/\s+/g, ' '); }
+  function sameKey(r) { return (r.kind === 'stock' ? 's|' : 'p|') + norm(r.product) + '|' + r.qty + '|' + ymd(new Date(r.submitted)); }   /* same name, quantity and day = the same item, in any of the files */
+  function looseKey(r) { return (r.kind === 'stock' ? 's|' : 'p|') + norm(r.product) + '|' + r.qty; }
+  function unguard(v) { return String(v == null ? '' : v).trim().replace(/^'(?=[=+\-@\t\r])/, ''); }
+  function readCsvFile(text) {                                /* turns one file into records; says what it was and what it skipped */
+    var rows = parseCsv(text), out = { kind: '', records: [], skipped: 0, total: 0 }; if (rows.length < 2) return out;
+    var head = rows[0].map(function (h) { return h.trim().toLowerCase(); }), col = function (name) { return head.indexOf(name); };
+    function get(r, name) { var k = col(name); return k > -1 && k < r.length ? unguard(r[k]) : ''; }
+    var isInv = col('source') > -1 && col('in use') > -1 && col('available') > -1, isOwn = col('send status') > -1 && col('submitted') > -1 && col('status') > -1, isList = col('product') > -1 && col('quantity') > -1;
+    out.kind = isInv ? 'inventory' : isOwn ? 'purchases' : isList ? 'pending' : ''; if (!out.kind) return out;
+    rows.slice(1).forEach(function (r) {
+      var product = get(r, 'product'), qty = Math.floor(Number(get(r, 'quantity')));
+      if (!product || /^grand total$/i.test(product) || !(qty >= 1)) { out.skipped++; return; }
+      out.total++; var rec = { product: product, link: get(r, 'buy link'), qty: qty, note: get(r, 'notes') || get(r, 'note'), price: get(r, 'unit price (usd)') === '' ? null : Number(get(r, 'unit price (usd)')) };
+      if (out.kind === 'inventory') {
+        var stock = /existing|on hand/i.test(get(r, 'source') + ' ' + get(r, 'status')), sub = get(r, 'submitted (utc)'), rcv = get(r, 'received (utc)'); rec.submitted = isNaN(Date.parse(sub)) ? new Date().toISOString() : new Date(sub).toISOString();
+        rec.used = Math.max(0, Math.floor(Number(get(r, 'in use'))) || 0); rec.kind = stock ? 'stock' : 'purchase'; rec.status = 'Received'; rec.sent = !stock; rec.sentAt = stock ? '' : rec.submitted; rec.received = isNaN(Date.parse(rcv)) ? rec.submitted : new Date(rcv).toISOString(); rec.price = null;
+        rec.id = 'imp-' + hash(sameKey(rec));
+      } else if (out.kind === 'purchases') {
+        var d = get(r, 'submitted'), st = get(r, 'status'); rec.submitted = /^\d{4}-\d{2}-\d{2}$/.test(d) ? new Date(d + 'T12:00:00').toISOString() : (isNaN(Date.parse(d)) ? new Date().toISOString() : new Date(d).toISOString());
+        rec.status = STATUSES.indexOf(st) > -1 ? st : 'Pending'; rec.sent = /^sent$/i.test(get(r, 'send status')); rec.sentAt = rec.sent ? rec.submitted : ''; rec.received = rec.status === 'Received' ? rec.submitted : ''; rec.used = 0; rec.kind = 'purchase';
+        rec.id = 'imp-' + hash(sameKey(rec));
+      } else {
+        rec.submitted = new Date().toISOString(); rec.status = 'Pending'; rec.sent = false; rec.sentAt = ''; rec.received = ''; rec.used = 0; rec.kind = 'purchase';
+        rec.id = 'imp-' + hash('list|' + looseKey(rec) + '|' + rec.price + '|' + rec.link);
+      }
+      var c = clean(rec); if (c) { if (out.kind === 'pending') c.__undated = true; out.records.push(c); } else { out.total--; out.skipped++; }
+    });
+    return out;
+  }
+  function importFiles(files) {
+    var list = Array.prototype.slice.call(files || []).slice(0, 10), toast = $q('[data-st-toast]'); if (!list.length) return;
+    function say(t) { toast.textContent = t; }
+    Promise.all(list.map(function (f) { if (f.size > 3000000) return Promise.resolve({ name: f.name, big: true }); return f.text().then(function (t) { var r = readCsvFile(t); r.name = f.name; return r; }); })).then(function (parts) {
+      var have = {}, openLoose = {}, adds = [], seen = {}, dup = 0, skipped = 0, unknown = [], bits = { purchase: 0, stock: 0 };
+      records.forEach(function (r) { have[r.id] = true; have[sameKey(r)] = true; if (r.kind !== 'stock' && (r.status === 'Pending' || r.status === 'Ordered')) openLoose[looseKey(r)] = true; });
+      parts.forEach(function (p) {
+        if (p.big || !p.kind) { unknown.push(p.name); return; } skipped += p.skipped;
+        p.records.forEach(function (r) {
+          var k = sameKey(r); if (have[r.id] || have[k] || seen[k] || (r.__undated && openLoose[looseKey(r)])) { dup++; return; }
+          seen[k] = true; if (r.__undated) openLoose[looseKey(r)] = true; adds.push(clean(r)); bits[r.kind === 'stock' ? 'stock' : 'purchase']++;
+        });
+      });
+      if (unknown.length && !adds.length && !dup) { say('Could not read ' + unknown.join(', ') + '. Please choose CSV files exported from the Stockroom.'); return; }
+      if (!adds.length) { say('Nothing new to import: ' + dup + ' row' + (dup === 1 ? ' is' : 's are') + ' already here.'); return; }
+      var ask = 'Import ' + bits.purchase + ' purchase' + (bits.purchase === 1 ? '' : 's') + (bits.stock ? ' and ' + bits.stock + ' item' + (bits.stock === 1 ? '' : 's') + ' already in the stockroom' : '') + '?' + (dup ? ' (' + dup + ' already here will be skipped.)' : '') + (unknown.length ? ' (Could not read: ' + unknown.join(', ') + '.)' : '');
+      if (!confirm(ask)) { say('Import cancelled. Nothing was changed.'); return; }
+      commitMany(adds.map(function (r) { return { op: 'upsert', record: r }; }));
+      say('Imported ' + bits.purchase + ' purchase' + (bits.purchase === 1 ? '' : 's') + (bits.stock ? ' and ' + bits.stock + ' stockroom item' + (bits.stock === 1 ? '' : 's') : '') + (dup ? '; ' + dup + ' were already here' : '') + (skipped ? '; ' + skipped + ' empty or total row' + (skipped === 1 ? '' : 's') + ' skipped' : '') + '.');
+    }).catch(function () { say('Something went wrong reading the file. Nothing was changed.'); });
+  }
+  function chicagoWeek(iso) {                                 /* the Monday of that week, on Chicago time, like the old tracker's "Week of (Chicago)" */
+    var p = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Chicago', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(iso)).split('-').map(Number), d = new Date(Date.UTC(p[0], p[1] - 1, p[2]));
+    d.setUTCDate(d.getUTCDate() - ((d.getUTCDay() + 6) % 7)); return d.toISOString().slice(0, 10);
+  }
+  function exportInventory() {
+    var rows = lines().sort(function (a, b) { return Date.parse(b.received || b.submitted) - Date.parse(a.received || a.submitted); }); if (!rows.length) { $q('[data-st-toast]').textContent = 'The inventory is empty, so there is nothing to export.'; return; }
+    var head = ['Product', 'Buy link', 'Quantity', 'Status', 'Notes', 'Week of (Chicago)', 'Submitted (UTC)', 'Received (UTC)', 'Source', 'Available', 'In use'];
+    var csv = [head.map(cell).join(',')].concat(rows.map(function (r) { var st = r.kind === 'stock'; return [r.product, r.link, r.qty, st ? 'On hand' : r.status, r.note, st ? '' : chicagoWeek(r.submitted), r.submitted, st ? '' : r.received, st ? 'Existing hardware' : 'Purchase', r.qty - r.used, r.used].map(cell).join(','); })).join('\r\n');
+    download('stockroom-inventory-' + ymd(new Date()) + '.csv', csv); $q('[data-st-toast]').textContent = rows.length + ' inventory rows exported.';
+  }
+
+  /* ---------------- what people do ---------------- */
+  page.addEventListener('change', function (e) {
+    var f = e.target.getAttribute && e.target.getAttribute('data-st-f');
+    if (f) { filters[f] = e.target.value; render(); return; }
+    if (e.target.getAttribute('data-act') === 'status') {
+      var tr = e.target.closest('tr'), r = records.find(function (x) { return x.id === tr.dataset.id; }); if (!r) return;
+      var c = Object.assign({}, r, { status: e.target.value }); if (c.status === 'Received' && !c.received) c.received = new Date().toISOString(); commit({ op: 'upsert', record: c });
+    }
+    if (e.target.hasAttribute('data-st-backup-file')) restore(e.target);
+    if (e.target.hasAttribute('data-st-importfile')) { var fl = Array.prototype.slice.call(e.target.files || []); e.target.value = ''; importFiles(fl); }
+  });
+  page.addEventListener('click', function (e) {
+    var t = e.target.closest('button'); if (!t) return;
+    if (t.hasAttribute('data-st-tab')) { setTab(t.getAttribute('data-st-tab')); return; }
+    var act = t.getAttribute('data-act'), tr = t.closest('tr'), r = tr && records.find(function (x) { return x.id === tr.dataset.id; });
+    if (act && r) {
+      if (act === 'sent') commit({ op: 'upsert', record: Object.assign({}, r, { sent: !r.sent, sentAt: r.sent ? '' : new Date().toISOString() }) });
+      else if (act === 'delete') { if (confirm('Delete \u201c' + r.product + '\u201d? This cannot be undone.')) commit({ op: 'delete', id: r.id }); }
+      else if (act === 'use+') commit({ op: 'upsert', record: Object.assign({}, r, { used: Math.min(r.qty, r.used + 1) }) });
+      else if (act === 'use-') commit({ op: 'upsert', record: Object.assign({}, r, { used: Math.max(0, r.used - 1) }) });
+    }
+    if (t.hasAttribute('data-st-send')) sendPending();
+    if (t.hasAttribute('data-st-export')) exportView();
+    if (t.hasAttribute('data-st-export-inv')) exportInventory();
+    if (t.hasAttribute('data-st-import')) page.querySelector('[data-st-importfile]').click();
+    if (t.hasAttribute('data-st-syncnow')) sync();
+    if (t.hasAttribute('data-st-backup-dl')) download('stockroom-backup-' + ymd(new Date()) + '.json', JSON.stringify({ app: 'cool-stockroom', saved: new Date().toISOString(), records: records }, null, 1), 'json');
+    if (t.hasAttribute('data-st-backup-up')) page.querySelector('[data-st-backup-file]').click();
+  });
+  page.addEventListener('keydown', function (e) {
+    var t = e.target.closest && e.target.closest('[data-st-tab]'); if (!t || (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight')) return;
+    var next = t.getAttribute('data-st-tab') === 'purchases' ? 'inventory' : 'purchases'; setTab(next); page.querySelector('[data-st-tab="' + next + '"]').focus(); e.preventDefault();
+  });
+  function setTab(name) {
+    tab = name; page.querySelectorAll('[data-st-tab]').forEach(function (b) { var on = b.getAttribute('data-st-tab') === name; b.setAttribute('aria-selected', String(on)); b.tabIndex = on ? 0 : -1; });
+    page.querySelectorAll('[data-st-panel]').forEach(function (p) { p.hidden = p.getAttribute('data-st-panel') !== name; });
+  }
+  function sendPending() {
+    var list = purchases().filter(inPeriod).filter(pendingSend).sort(byNewest); if (!list.length) { note('Nothing is waiting to be sent in this period.'); return; }
+    download('purchases-pending-' + ymd(new Date()) + '.csv', toCsv(list));
+    if (confirm('The file was downloaded (' + list.length + ' request' + (list.length > 1 ? 's' : '') + '). Mark them as sent now?')) { var now = new Date().toISOString(); list.forEach(function (r) { commit({ op: 'upsert', record: Object.assign({}, r, { sent: true, sentAt: now }) }); }); note(list.length + ' marked as sent.'); }
+    else note('Downloaded. They are still marked as pending to send.');
+  }
+  function exportView() {
+    var rows = purchases().filter(inPeriod).filter(function (r) { return (filters.send === 'all' || (filters.send === 'sent' ? r.sent : pendingSend(r))) && (filters.status === 'all' || r.status === filters.status); }).sort(byNewest);
+    if (!rows.length) { note('There is nothing to export with these filters.'); return; }
+    download('purchases-' + ymd(new Date()) + '.csv', toCsv(rows)); note(rows.length + ' rows exported.');
+  }
+  function restore(input) {
+    var file = input.files && input.files[0]; input.value = ''; if (!file) return;
+    file.text().then(function (txt) {
+      var data = JSON.parse(txt), list = cleanList(data && data.records); if (!list.length) throw new Error('empty');
+      if (confirm('Replace the records in this browser with the ' + list.length + ' in this backup?')) { records = list; save(); render(); note('Backup restored.'); }
+    }).catch(function () { note('That file is not a Stockroom backup.'); });
+  }
+  var addForm = $q('[data-st-form]'), addMsg = $q('[data-st-msg]');
+  addForm.addEventListener('submit', function (e) {
+    e.preventDefault(); var f = addForm.elements; addMsg.style.color = ''; addMsg.textContent = '';
+    var product = f.product.value.trim(), qty = Number(f.qty.value), priceText = f.price.value.trim(), link = f.link.value.trim();
+    function bad(text, el) { addMsg.style.color = 'var(--berry)'; addMsg.textContent = text; if (el) el.focus(); }
+    if (!product) return bad('Please enter the product name.', f.product);
+    if (!(qty >= 1) || Math.floor(qty) !== qty) return bad('Quantity must be a whole number, 1 or more.', f.qty);
+    var price = null; if (priceText !== '') { price = Number(priceText); if (!isFinite(price) || price < 0) return bad('Unit price must be a number, 0 or more.', f.price); }
+    if (link) { if (!/^[a-z][a-z0-9+.-]*:/i.test(link)) link = 'https://' + link; try { var u = new URL(link); if (u.protocol !== 'http:' && u.protocol !== 'https:') throw 0; link = u.href; } catch (err) { return bad('That buy link does not look right. Please check it.', f.link); } }
+    commit({ op: 'upsert', record: { id: uid(), product: product, link: link, qty: qty, price: price, note: f.note.value.trim(), status: 'Pending', sent: false, sentAt: '', submitted: new Date().toISOString(), received: '', used: 0 } });
+    addForm.reset(); f.qty.value = 1; addMsg.style.color = 'var(--plum)'; addMsg.textContent = '\u201c' + product + '\u201d added as Pending.'; f.product.focus();
+  });
+
+  var stockForm = $q('[data-st-stockform]'), stockMsg = $q('[data-st-stockmsg]');
+  stockForm.addEventListener('submit', function (e) {
+    e.preventDefault(); var f = stockForm.elements; stockMsg.style.color = ''; stockMsg.textContent = ''; var name = f.product.value.trim(), qty = Number(f.qty.value);
+    function bad(t, el) { stockMsg.style.color = 'var(--berry)'; stockMsg.textContent = t; if (el) el.focus(); }
+    if (!name) return bad('Please enter the item name.', f.product);
+    if (!(qty >= 1) || Math.floor(qty) !== qty) return bad('Quantity must be a whole number, 1 or more.', f.qty);
+    var now = new Date().toISOString(); commit({ op: 'upsert', record: { id: uid(), kind: 'stock', product: name, link: '', qty: qty, price: null, note: f.note.value.trim(), status: 'Received', sent: false, sentAt: '', submitted: now, received: now, used: 0 } });
+    stockForm.reset(); f.qty.value = 1; stockMsg.style.color = 'var(--plum)'; stockMsg.textContent = '\u201c' + name + '\u201d added to the inventory.'; f.product.focus();
+  });
+
+  /* ---------------- sign in / out ---------------- */
+  function showApp(c) {
+    cfg = c; records = cleanList(recall(dbKey(), [])); queue = cfg.sync ? recall(KEYS.queue, []).filter(function (o) { return o && o.op; }) : []; syncOk = true;
+    gate.hidden = true; pwCard.hidden = true; app.hidden = false; setTab(tab); render(); clearInterval(pollTimer);
+    if (cfg.sync) { sync(); pollTimer = setInterval(function () { if (!document.hidden && !app.hidden) sync(); }, 45000); }
+  }
+  function showGate() { clearInterval(pollTimer); app.hidden = true; pwCard.hidden = true; gate.hidden = false; form.reset(); msg.textContent = ''; records = []; queue = []; cfg = { sync: '', token: '' }; $q('[data-st-backup]').dataset.mode = ''; }
+  page.querySelector('[data-int-out]').addEventListener('click', function () { remember(null); showGate(); window.scrollTo(0, 0); });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && !app.hidden && cfg.sync) sync(); });
+  form.addEventListener('submit', function (e) {
+    e.preventDefault(); msg.textContent = '';
+    if (!(window.crypto && crypto.subtle)) { msg.textContent = 'This page needs a secure (https) connection.'; return; }
+    var wait = Math.ceil((lockedUntil - Date.now()) / 1000); if (wait > 0) { msg.textContent = 'Too many tries. Please wait ' + wait + ' seconds.'; return; }
+    var user = form.elements.username.value, pass = form.elements.password.value; if (!user || !pass) { msg.textContent = 'Please enter both the username and the password.'; return; }
+    submit.disabled = true; submit.textContent = 'Checking\u2026';
+    unlock(user, pass).then(function (c) { failures = 0; remember(c); form.reset(); showApp(c); })
+      .catch(function () { failures++; if (failures >= 5) { lockedUntil = Date.now() + 30000; failures = 0; } return sleep(900).then(function () { msg.textContent = 'That username or password is not right.'; form.elements.password.value = ''; form.elements.password.focus(); }); })
+      .then(function () { submit.disabled = false; submit.textContent = 'Enter'; });
+  });
+  function refresh() { var c = remembered(); if (c && app.hidden) showApp(c); else if (!c && !app.hidden) showGate(); }
+  window.addEventListener('hashchange', function () { if (/^#\/internal/.test(location.hash)) { document.title = 'Internal page | COOL Autonomy Lab'; refresh(); } });   /* runs after the site's own router */
+
+  /* ---------------- the red button at the bottom left of the "Say hello" box ---------------- */
+  var contact = home.querySelector('.contact');
+  if (contact && !contact.querySelector('.contact-internal')) { var row = document.createElement('div'); row.className = 'actions contact-internal'; row.innerHTML = '<a class="btn" href="#/internal">Internal page</a>'; contact.appendChild(row); }
+
+  /* if the page was opened straight at #/internal, let the router run again now that the page exists */
+  if (/^#\/internal/.test(location.hash)) window.dispatchEvent(new HashChangeEvent('hashchange'));
+})();
+</script>
 </body>
 </html>
