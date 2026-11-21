@@ -2066,7 +2066,7 @@ ${p.slug === 'tag' ? `
           <section class="pf-card"><h2>Demos</h2>
             <div class="pf-two">
               <figure><video class="video" controls playsinline preload="none" src="videos/TAG/tag_real.mp4"></video><figcaption class="media-cap">TAG hardware demo</figcaption></figure>
-              <figure><img class="video" src="videos/Tag/tag_sim_full_success.gif" alt="Animated TAG simulation demonstration" loading="lazy"><figcaption class="media-cap">Isaac Sim demo</figcaption></figure>
+              <figure><img class="video" src="videos/TAG/tag_sim_full_success.gif" alt="Animated TAG simulation demonstration" loading="lazy"><figcaption class="media-cap">Isaac Sim demo</figcaption></figure>
             </div>
           </section>
           <section class="pf-card"><h2>Contact</h2><div class="pf-prose"><p>Trung Bao Truong · <a href="mailto:tbt589@eid.utexas.edu">tbt589@eid.utexas.edu</a></p><p>Thanh Dat Nguyen · <a href="mailto:tn22833@eid.utexas.edu">tn22833@eid.utexas.edu</a></p><p>Dr. Thinh Doan · <a href="mailto:thinhdoan@utexas.edu">thinhdoan@utexas.edu</a></p></div></section>
@@ -3106,5 +3106,12 @@ ${p.slug === 'tag' ? '' : `
   if (/^#\/internal/.test(location.hash)) window.dispatchEvent(new HashChangeEvent('hashchange'));
 })();
 </script>
+<!-- ===== Platforms menu: "TAG: Testbed for Autonomous Games" on one line, same size; TAG in red (self-contained: styles only; paste right before the closing body tag, after the other blocks) ===== -->
+<style>
+  .dd-list a[href="#/platforms/tag"] strong { display: inline; margin-right: .4em; color: var(--berry); }   /* TAG, in red, sits on the same line as the words after it */
+  .dd-list a[href="#/platforms/tag"] strong::after { content: ":"; }   /* TAG: Testbed for Autonomous Games (the colon is red like TAG) */
+  .dd-list a[href="#/platforms/tag"] span { font-size: inherit; font-weight: 700; line-height: 1.25; color: var(--plum); }   /* same size and weight as TAG; the red T, A, G stay red */
+  .dd-list a[href="#/platforms/tag"] span b { font-weight: inherit; }   /* the red initials are no heavier than the words around them */
+</style>
 </body>
 </html>
