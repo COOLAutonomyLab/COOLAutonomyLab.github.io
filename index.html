@@ -1326,12 +1326,12 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
           short: '',
           blurb: 'Small-scale race cars for planning and control at speed.',
           image: null, video: null },
-        { slug: 'omni', name: 'Omnidirectional Ground Vehicles', chip: 'Omni Vehicles', kind: 'Ground', group: 'Ground Vehicles',
-          short: 'Drive in any direction',
+        { slug: 'omni', name: 'Omnidirectional Vehicles', chip: 'Omni Vehicles', kind: 'Ground', group: 'Ground Vehicles',
+          short: '',
           blurb: 'Ground robots that can move in any direction without turning first.',
           image: null, video: null },
-        { slug: 'tag', name: 'TAG', chip: 'TAG', kind: 'Game', group: 'Game Testbed',
-          short: 'Testbed for Autonomous Games',
+        { slug: 'tag', name: 'TAG', chip: 'TAG: Testbed for Autonomous Games', kind: 'Game', group: 'Game Testbed',
+          short: '',
           blurb: 'Testbed for Autonomous Games: a tilting labyrinth board, a marble, and a rotary pendulum riding on top.',
           image: 'images/research/TAG/tag_physical_hardware.png', video: 'videos/TAG/tag_real.mp4' },
         { slug: 'exodia', name: 'Exodia', chip: 'Exodia', kind: 'Simulation', flagship: true,
@@ -3115,85 +3115,48 @@ ${p.slug === 'tag' ? '' : `
   .dd-list a[href="#/platforms/tag"] span { font-size: inherit; font-weight: 700; line-height: 1.25; color: var(--plum); }   /* same size and weight as TAG; the red T, A, G stay red */
   .dd-list a[href="#/platforms/tag"] span b { font-weight: inherit; }   /* the red initials are no heavier than the words around them */
 </style>
-<!-- ===== Racing RC Cars: looping video in the pink card on the Research Platforms page =====
-     Paste this whole block into index.html just before the last </body>.
-     Needs two files in the repo:  videos/robots/ground/rc_cars_arena.mp4  and  videos/robots/ground/rc_cars_arena.jpg
-     If the video cannot load, the card keeps its drawing. Honors the "Pause motion" button and the visitor's reduced-motion setting. -->
-<style id="rc-loop-video-style">
+<!-- ===== Looping videos in the Research Platforms cards: Racing RC Cars, Omnidirectional Ground Vehicles, TAG =====
+     ONE block for all three cards. It REPLACES the earlier separate blocks: delete the old "Racing RC Cars" video block, the
+     "Racing RC Cars card: fill the pink box" style and the "Omnidirectional" block (everything from the first of those comments down to
+     the end of the Omnidirectional </script>), then paste this just before the last </body>.
+     Files it uses:  videos/robots/ground/rc_cars_arena.mp4 / .jpg,  videos/robots/ground/omni_car.mp4 / .jpg,  videos/TAG/tag_card.mp4 / .jpg
+     Each card shows a muted, looping, auto-playing video that fills the card box with a small gap. A video that cannot load is given up on
+     once (no retries) and its card keeps its picture. Honors the "Pause motion" button and the visitor's reduced-motion setting. -->
+<style id="platform-loop-videos">
+  /* ---- video look: same size and corners as a photo in a card (3:2, rounded) ---- */
   /* same size and corners as a photo in a card (img.media: 3:2, rounded), so the pink card keeps its shape */
   #families .tile .art video.loopvid { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--r-md); background: rgba(255, 255, 255, .35); }
-</style>
-<script id="rc-loop-video">
-(function () {
-  'use strict';
-  var SRC = 'videos/robots/ground/rc_cars_arena.mp4', POSTER = 'videos/robots/ground/rc_cars_arena.jpg', SLUG = 'rc-cars';
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)'), vids = [];
 
-  /* plays only when motion is allowed, the card is on screen (page open) and the tab is visible */
-  function allowed() { return !reduce.matches && !document.body.classList.contains('motion-paused'); }
-  function sync(v) {
-    if (allowed() && v._seen && !document.hidden) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
-    else if (!v.paused) v.pause();
-  }
-  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
-    es.forEach(function (e) { e.target._seen = e.isIntersecting; sync(e.target); });
-  }, { threshold: 0.2 }) : null;
-
-  function build() {
-    var art = document.querySelector('#families .tile.tone-' + SLUG + ' .art');
-    if (!art || art.querySelector('video.loopvid')) return;
-    var old = art.querySelector('.media'), v = document.createElement('video');
-    v.className = 'media loopvid'; v.src = SRC; v.poster = POSTER;
-    v.muted = true; v.defaultMuted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.preload = 'auto';
-    v.setAttribute('muted', ''); v.setAttribute('loop', ''); v.setAttribute('autoplay', ''); v.setAttribute('playsinline', '');
-    v.setAttribute('aria-hidden', 'true'); v.tabIndex = -1; v.disablePictureInPicture = true; v.setAttribute('disableremoteplayback', '');
-    v.addEventListener('error', function () { if (old && v.parentNode) v.parentNode.replaceChild(old, v); });   /* file missing or unsupported: keep the drawing */
-    v.addEventListener('canplay', function () { sync(v); });
-    if (old) old.parentNode.replaceChild(v, old); else art.appendChild(v);
-    vids.push(v); v._seen = !io;
-    if (io) io.observe(v); else sync(v);
-  }
-
-  var queued = false;
-  function queue() { if (queued) return; queued = true; requestAnimationFrame(function () { queued = false; build(); }); }
-  build();
-  document.addEventListener('DOMContentLoaded', build);
-  window.addEventListener('load', build);
-  var fam = document.getElementById('families');
-  if (fam && 'MutationObserver' in window) new MutationObserver(queue).observe(fam, { childList: true, subtree: true });
-  /* the page's "Pause motion" button toggles a class on <body>; follow it, and the OS setting, and tab visibility */
-  if ('MutationObserver' in window) new MutationObserver(function () { vids.forEach(sync); }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
-  if (reduce.addEventListener) reduce.addEventListener('change', function () { vids.forEach(sync); });
-  document.addEventListener('visibilitychange', function () { vids.forEach(sync); });
-})();
-</script>
-
-<!-- ===== Racing RC Cars card: make the video fill the pink box, with a small gap all round =====
-     Paste this just after the earlier "Racing RC Cars" video block (anywhere before the last </body> works).
-     It only applies while the video is on the card; if the video cannot load, the card looks exactly as before. -->
-<style id="rc-loop-video-fit">
+  /* ---- fill the card with a small gap all round (racing cars) ---- */
   #families .tile:has(video.loopvid) { --g: clamp(8px, 1vw, 12px); --p: clamp(16px, 2vw, 24px); padding: var(--g); }          /* gap between the video and the card's edge */
   #families .tile:has(video.loopvid) .tile-text { padding: 0 calc(var(--p) - var(--g)) calc(var(--p) - var(--g)); }            /* text keeps its usual indent */
   #families .tile:has(video.loopvid) .art { padding: 0; margin-bottom: 8px; }
   #families .tile:has(video.loopvid) .art video.loopvid { aspect-ratio: 1.35 / 1; border-radius: max(8px, calc(var(--r-lg) - var(--g))); }  /* corners follow the card's curve */
   @media (min-width: 900px) and (max-width: 1100px) { #families .tile:has(video.loopvid) .art video.loopvid { aspect-ratio: 1.5 / 1; } }   /* narrow cards: a little wider shape so the row does not grow */
-</style>
-<!-- ===== Omnidirectional Ground Vehicles: looping video in its card on the Research Platforms page =====
-     Paste this whole block into index.html just before the last </body>, after the Racing RC Cars blocks.
-     Needs two files in the repo:  videos/robots/ground/omni_car.mp4  and  videos/robots/ground/omni_car.jpg
-     Uses the same video look and gaps as the Racing RC Cars card (needs the racing-car fit style already on the page). If the video cannot load, the card keeps its drawing.
-     Honors the "Pause motion" button and the visitor's reduced-motion setting. -->
-<style id="omni-loop-video-fit">
+
+  /* ---- Omnidirectional card: fills the space left above its two-line title, so the row never grows ---- */
   /* This card's title is two lines, so it has less room for the picture than the racing-car card. Instead of a fixed shape,
      the video fills the space left above the text (same small gap as the racing-car card), so the row never grows. */
   #families .tile.tone-omni:has(video.loopvid) .art { flex: 1 1 0; min-height: 90px; display: flex; }
   #families .tile.tone-omni:has(video.loopvid) .art video.loopvid { flex: 1 1 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: auto; object-fit: cover; object-position: 50% 45%; }
+
+  /* ---- TAG card: show the whole board (the marble travels to every edge), black margins if the box is wider. On wide screens it fills
+         the space above its two-line subtitle, like the Omnidirectional card; below 1000px the card is side by side and keeps a fixed shape ---- */
+  #families .tile.tone-tag:has(video.loopvid) .art video.loopvid { object-fit: contain; background: #000; }
+  @media (min-width: 1001px) {
+    #families .tile.tone-tag:has(video.loopvid) .art { flex: 1 1 0; min-height: 90px; display: flex; }
+    #families .tile.tone-tag:has(video.loopvid) .art video.loopvid { flex: 1 1 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: auto; }
+  }
 </style>
-<script id="omni-loop-video">
+<script id="platform-loop-videos-js">
 (function () {
   'use strict';
-  var SRC = 'videos/robots/ground/omni_car.mp4', POSTER = 'videos/robots/ground/omni_car.jpg', SLUG = 'omni';
-  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)'), vids = [];
+  var CARDS = [
+    { slug: 'rc-cars', src: 'videos/robots/ground/rc_cars_arena.mp4', poster: 'videos/robots/ground/rc_cars_arena.jpg' },
+    { slug: 'omni',    src: 'videos/robots/ground/omni_car.mp4',      poster: 'videos/robots/ground/omni_car.jpg' },
+    { slug: 'tag',     src: 'videos/TAG/tag_card.mp4',                poster: 'videos/TAG/tag_card.jpg' }
+  ];
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)'), vids = [], failed = {};
 
   /* plays only when motion is allowed, the card is on screen (page open) and the tab is visible */
   function allowed() { return !reduce.matches && !document.body.classList.contains('motion-paused'); }
@@ -3205,26 +3168,37 @@ ${p.slug === 'tag' ? '' : `
     es.forEach(function (e) { e.target._seen = e.isIntersecting; sync(e.target); });
   }, { threshold: 0.2 }) : null;
 
-  function build() {
-    var art = document.querySelector('#families .tile.tone-' + SLUG + ' .art');
+  /* a video that cannot load: put the original picture back and never try that card again (otherwise putting the picture back would trigger another try) */
+  function giveUp(card, v, old) {
+    failed[card.slug] = true;
+    var i = vids.indexOf(v); if (i >= 0) vids.splice(i, 1);
+    if (io) io.unobserve(v);
+    v.removeAttribute('src'); v.load();
+    if (old && v.parentNode) v.parentNode.replaceChild(old, v);
+  }
+
+  function build(card) {
+    if (failed[card.slug]) return;
+    var art = document.querySelector('#families .tile.tone-' + card.slug + ' .art');
     if (!art || art.querySelector('video.loopvid')) return;
     var old = art.querySelector('.media'), v = document.createElement('video');
-    v.className = 'media loopvid'; v.src = SRC; v.poster = POSTER;
+    v.className = 'media loopvid'; v.src = card.src; v.poster = card.poster;
     v.muted = true; v.defaultMuted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.preload = 'auto';
     v.setAttribute('muted', ''); v.setAttribute('loop', ''); v.setAttribute('autoplay', ''); v.setAttribute('playsinline', '');
     v.setAttribute('aria-hidden', 'true'); v.tabIndex = -1; v.disablePictureInPicture = true; v.setAttribute('disableremoteplayback', '');
-    v.addEventListener('error', function () { if (old && v.parentNode) v.parentNode.replaceChild(old, v); });   /* file missing or unsupported: keep the drawing */
+    v.addEventListener('error', function () { giveUp(card, v, old); });
     v.addEventListener('canplay', function () { sync(v); });
     if (old) old.parentNode.replaceChild(v, old); else art.appendChild(v);
     vids.push(v); v._seen = !io;
     if (io) io.observe(v); else sync(v);
   }
+  function buildAll() { CARDS.forEach(build); }
 
   var queued = false;
-  function queue() { if (queued) return; queued = true; requestAnimationFrame(function () { queued = false; build(); }); }
-  build();
-  document.addEventListener('DOMContentLoaded', build);
-  window.addEventListener('load', build);
+  function queue() { if (queued) return; queued = true; requestAnimationFrame(function () { queued = false; buildAll(); }); }
+  buildAll();
+  document.addEventListener('DOMContentLoaded', buildAll);
+  window.addEventListener('load', buildAll);
   var fam = document.getElementById('families');
   if (fam && 'MutationObserver' in window) new MutationObserver(queue).observe(fam, { childList: true, subtree: true });
   /* the page's "Pause motion" button toggles a class on <body>; follow it, and the OS setting, and tab visibility */
@@ -3233,6 +3207,7 @@ ${p.slug === 'tag' ? '' : `
   document.addEventListener('visibilitychange', function () { vids.forEach(sync); });
 })();
 </script>
+
 
 </body>
 </html>
