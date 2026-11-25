@@ -3117,7 +3117,7 @@ ${p.slug === 'tag' ? '' : `
 </style>
 <!-- ===== Racing RC Cars: looping video in the pink card on the Research Platforms page =====
      Paste this whole block into index.html just before the last </body>.
-     Needs two files in the repo:  videos/robots/ground/rc_cars_arena.mp4  and  videos/RC-Cars/rc_cars_arena.jpg
+     Needs two files in the repo:  videos/robots/ground/rc_cars_arena.mp4  and  videos/robots/ground/rc_cars_arena.jpg
      If the video cannot load, the card keeps its drawing. Honors the "Pause motion" button and the visitor's reduced-motion setting. -->
 <style id="rc-loop-video-style">
   /* same size and corners as a photo in a card (img.media: 3:2, rounded), so the pink card keeps its shape */
@@ -3126,7 +3126,7 @@ ${p.slug === 'tag' ? '' : `
 <script id="rc-loop-video">
 (function () {
   'use strict';
-  var SRC = 'videos/RC-Cars/rc_cars_arena.mp4', POSTER = 'videos/RC-Cars/rc_cars_arena.jpg', SLUG = 'rc-cars';
+  var SRC = 'videos/robots/ground/rc_cars_arena.mp4', POSTER = 'videos/robots/ground/rc_cars_arena.jpg', SLUG = 'rc-cars';
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)'), vids = [];
 
   /* plays only when motion is allowed, the card is on screen (page open) and the tab is visible */
