@@ -1330,7 +1330,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
           short: '',
           blurb: 'Ground robots that can move in any direction without turning first.',
           image: null, video: null },
-        { slug: 'tag', name: 'TAG', chip: 'TAG: Testbed for Autonomous Games', kind: 'Game', group: 'Game Testbed',
+        { slug: 'tag', name: 'TAG: Testbed for Autonomous Games', chip: 'TAG', kind: 'Game', group: 'Game Testbed',
           short: '',
           blurb: 'Testbed for Autonomous Games: a tilting labyrinth board, a marble, and a rotary pendulum riding on top.',
           image: 'images/research/TAG/tag_physical_hardware.png', video: 'videos/TAG/tag_real.mp4' },
@@ -3115,14 +3115,14 @@ ${p.slug === 'tag' ? '' : `
   .dd-list a[href="#/platforms/tag"] span { font-size: inherit; font-weight: 700; line-height: 1.25; color: var(--plum); }   /* same size and weight as TAG; the red T, A, G stay red */
   .dd-list a[href="#/platforms/tag"] span b { font-weight: inherit; }   /* the red initials are no heavier than the words around them */
 </style>
-<!-- ===== Looping videos in the Research Platforms cards: Racing RC Cars, Omnidirectional Ground Vehicles, TAG, Custom Resizable Drone =====
+<!-- ===== Looping videos in the Research Platforms cards: Racing RC Cars, Omnidirectional Ground Vehicles, TAG, Custom UAVs, Crazyflie =====
      ONE block for all three cards. It REPLACES the earlier separate blocks: delete the old "Racing RC Cars" video block, the
      "Racing RC Cars card: fill the pink box" style and the "Omnidirectional" block (everything from the first of those comments down to
      the end of the Omnidirectional </script>), then paste this just before the last </body>.
      Files it uses:  videos/robots/ground/rc_cars_arena.mp4 / .jpg,  videos/robots/ground/omni_car.mp4 / .jpg,  videos/TAG/tag_card.mp4 / .jpg,
-                     videos/robots/aerial/resizable_drone.mp4 / .jpg
-     Each card shows a muted, looping, auto-playing video that fills the card box with a small gap. A video that cannot load is given up on
-     once (no retries) and its card keeps its picture. Honors the "Pause motion" button and the visitor's reduced-motion setting. -->
+                     videos/robots/aerial/resizable_drone.mp4 / .jpg,  videos/robots/aerial/crazyflie.mp4 / .jpg
+     Each card shows a muted, looping, auto-playing video that fills the card box with a small gap. A video is only downloaded when its
+     card is near the screen. A video that cannot load is given up on once (no retries) and its card keeps its picture. Honors the "Pause motion" button and the visitor's reduced-motion setting. -->
 <style id="platform-loop-videos">
   /* ---- video look: same size and corners as a photo in a card (3:2, rounded) ---- */
   /* same size and corners as a photo in a card (img.media: 3:2, rounded), so the pink card keeps its shape */
@@ -3148,10 +3148,18 @@ ${p.slug === 'tag' ? '' : `
     #families .tile.tone-tag:has(video.loopvid) .art { flex: 1 1 0; min-height: 90px; display: flex; }
     #families .tile.tone-tag:has(video.loopvid) .art video.loopvid { flex: 1 1 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: auto; }
   }
-  /* ---- Custom Resizable Drone card: the video is a square cut from the portrait original, centred on the drone's flight path. This card's title is the
-         longest of the Aerial cards, so it sets the row height: the video keeps a fixed 3:2 shape (only the top and bottom edges of the square are trimmed,
-         well clear of the drone) and the row grows by just a few pixels ---- */
-  #families .tile.tone-resizable-drone:has(video.loopvid) .art video.loopvid { aspect-ratio: 1.5 / 1; object-fit: cover; object-position: 50% 50%; }
+  /* ---- Aerial cards with a video (Custom UAVs, Crazyflie): the video keeps at least a 3:2 shape and grows to fill any space the row has left above
+         the text, so the gap to the title stays as small as on the other cards. Only the top and bottom edges of the picture are ever trimmed. ---- */
+  #families .tile.tone-resizable-drone:has(video.loopvid) .art,
+  #families .tile.tone-crazyflie:has(video.loopvid) .art { flex: 1 1 auto; display: flex; }
+  #families .tile.tone-resizable-drone:has(video.loopvid) .art video.loopvid,
+  #families .tile.tone-crazyflie:has(video.loopvid) .art video.loopvid { flex: 1 1 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: 1.5 / 1; object-fit: cover; object-position: 50% 50%; }
+  #families .tile.tone-crazyflie:has(video.loopvid) .art video.loopvid { object-position: 50% 100%; }   /* these drones fly low over the floor: trim the ceiling, keep the floor */
+  /* On narrow phone cards the leftover space is tall: never let the box get taller than the picture's own shape (square for the UAV, 4:3 for the Crazyflie),
+     so the sides are never trimmed and no drone is cut off. */
+  #families .tile.tone-resizable-drone:has(video.loopvid) .art, #families .tile.tone-crazyflie:has(video.loopvid) .art { container-type: inline-size; }
+  #families .tile.tone-resizable-drone:has(video.loopvid) .art video.loopvid { max-height: 100cqw; }
+  #families .tile.tone-crazyflie:has(video.loopvid) .art video.loopvid { max-height: 75cqw; }
 </style>
 <script id="platform-loop-videos-js">
 (function () {
@@ -3160,7 +3168,8 @@ ${p.slug === 'tag' ? '' : `
     { slug: 'rc-cars', src: 'videos/robots/ground/rc_cars_arena.mp4', poster: 'videos/robots/ground/rc_cars_arena.jpg' },
     { slug: 'omni',    src: 'videos/robots/ground/omni_car.mp4',      poster: 'videos/robots/ground/omni_car.jpg' },
     { slug: 'tag',     src: 'videos/TAG/tag_card.mp4',                poster: 'videos/TAG/tag_card.jpg' },
-    { slug: 'resizable-drone', src: 'videos/robots/aerial/resizable_drone.mp4', poster: 'videos/robots/aerial/resizable_drone.jpg' }
+    { slug: 'resizable-drone', src: 'videos/robots/aerial/resizable_drone.mp4', poster: 'videos/robots/aerial/resizable_drone.jpg' },
+    { slug: 'crazyflie', src: 'videos/robots/aerial/crazyflie.mp4', poster: 'videos/robots/aerial/crazyflie.jpg' }
   ];
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)'), vids = [], failed = {};
 
@@ -3174,11 +3183,21 @@ ${p.slug === 'tag' ? '' : `
     es.forEach(function (e) { e.target._seen = e.isIntersecting; sync(e.target); });
   }, { threshold: 0.2 }) : null;
 
+  /* nothing is downloaded until a card is within about 400px of the screen (so visitors who never open the Platforms page download no video at all) */
+  var loadIo = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      var v = e.target; loadIo.unobserve(v);
+      if (!v.getAttribute('src')) { v.preload = 'auto'; v.src = v._src; }
+    });
+  }, { rootMargin: '400px 0px' }) : null;
+
   /* a video that cannot load: put the original picture back and never try that card again (otherwise putting the picture back would trigger another try) */
   function giveUp(card, v, old) {
     failed[card.slug] = true;
     var i = vids.indexOf(v); if (i >= 0) vids.splice(i, 1);
     if (io) io.unobserve(v);
+    if (loadIo) loadIo.unobserve(v);
     v.removeAttribute('src'); v.load();
     if (old && v.parentNode) v.parentNode.replaceChild(old, v);
   }
@@ -3188,14 +3207,15 @@ ${p.slug === 'tag' ? '' : `
     var art = document.querySelector('#families .tile.tone-' + card.slug + ' .art');
     if (!art || art.querySelector('video.loopvid')) return;
     var old = art.querySelector('.media'), v = document.createElement('video');
-    v.className = 'media loopvid'; v.src = card.src; v.poster = card.poster;
-    v.muted = true; v.defaultMuted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.preload = 'auto';
+    v.className = 'media loopvid'; v.poster = card.poster; v._src = card.src;
+    v.muted = true; v.defaultMuted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.preload = 'none';
     v.setAttribute('muted', ''); v.setAttribute('loop', ''); v.setAttribute('autoplay', ''); v.setAttribute('playsinline', '');
     v.setAttribute('aria-hidden', 'true'); v.tabIndex = -1; v.disablePictureInPicture = true; v.setAttribute('disableremoteplayback', '');
     v.addEventListener('error', function () { giveUp(card, v, old); });
     v.addEventListener('canplay', function () { sync(v); });
     if (old) old.parentNode.replaceChild(v, old); else art.appendChild(v);
     vids.push(v); v._seen = !io;
+    if (loadIo) loadIo.observe(v); else { v.preload = 'auto'; v.src = card.src; }
     if (io) io.observe(v); else sync(v);
   }
   function buildAll() { CARDS.forEach(build); }
