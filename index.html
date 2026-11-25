@@ -3115,5 +3115,58 @@ ${p.slug === 'tag' ? '' : `
   .dd-list a[href="#/platforms/tag"] span { font-size: inherit; font-weight: 700; line-height: 1.25; color: var(--plum); }   /* same size and weight as TAG; the red T, A, G stay red */
   .dd-list a[href="#/platforms/tag"] span b { font-weight: inherit; }   /* the red initials are no heavier than the words around them */
 </style>
+<!-- ===== Racing RC Cars: looping video in the pink card on the Research Platforms page =====
+     Paste this whole block into index.html just before the last </body>.
+     Needs two files in the repo:  videos/robots/ground/rc_cars_arena.mp4  and  videos/RC-Cars/rc_cars_arena.jpg
+     If the video cannot load, the card keeps its drawing. Honors the "Pause motion" button and the visitor's reduced-motion setting. -->
+<style id="rc-loop-video-style">
+  /* same size and corners as a photo in a card (img.media: 3:2, rounded), so the pink card keeps its shape */
+  #families .tile .art video.loopvid { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--r-md); background: rgba(255, 255, 255, .35); }
+</style>
+<script id="rc-loop-video">
+(function () {
+  'use strict';
+  var SRC = 'videos/RC-Cars/rc_cars_arena.mp4', POSTER = 'videos/RC-Cars/rc_cars_arena.jpg', SLUG = 'rc-cars';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)'), vids = [];
+
+  /* plays only when motion is allowed, the card is on screen (page open) and the tab is visible */
+  function allowed() { return !reduce.matches && !document.body.classList.contains('motion-paused'); }
+  function sync(v) {
+    if (allowed() && v._seen && !document.hidden) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    else if (!v.paused) v.pause();
+  }
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) { e.target._seen = e.isIntersecting; sync(e.target); });
+  }, { threshold: 0.2 }) : null;
+
+  function build() {
+    var art = document.querySelector('#families .tile.tone-' + SLUG + ' .art');
+    if (!art || art.querySelector('video.loopvid')) return;
+    var old = art.querySelector('.media'), v = document.createElement('video');
+    v.className = 'media loopvid'; v.src = SRC; v.poster = POSTER;
+    v.muted = true; v.defaultMuted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.preload = 'auto';
+    v.setAttribute('muted', ''); v.setAttribute('loop', ''); v.setAttribute('autoplay', ''); v.setAttribute('playsinline', '');
+    v.setAttribute('aria-hidden', 'true'); v.tabIndex = -1; v.disablePictureInPicture = true; v.setAttribute('disableremoteplayback', '');
+    v.addEventListener('error', function () { if (old && v.parentNode) v.parentNode.replaceChild(old, v); });   /* file missing or unsupported: keep the drawing */
+    v.addEventListener('canplay', function () { sync(v); });
+    if (old) old.parentNode.replaceChild(v, old); else art.appendChild(v);
+    vids.push(v); v._seen = !io;
+    if (io) io.observe(v); else sync(v);
+  }
+
+  var queued = false;
+  function queue() { if (queued) return; queued = true; requestAnimationFrame(function () { queued = false; build(); }); }
+  build();
+  document.addEventListener('DOMContentLoaded', build);
+  window.addEventListener('load', build);
+  var fam = document.getElementById('families');
+  if (fam && 'MutationObserver' in window) new MutationObserver(queue).observe(fam, { childList: true, subtree: true });
+  /* the page's "Pause motion" button toggles a class on <body>; follow it, and the OS setting, and tab visibility */
+  if ('MutationObserver' in window) new MutationObserver(function () { vids.forEach(sync); }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  if (reduce.addEventListener) reduce.addEventListener('change', function () { vids.forEach(sync); });
+  document.addEventListener('visibilitychange', function () { vids.forEach(sync); });
+})();
+</script>
+
 </body>
 </html>
