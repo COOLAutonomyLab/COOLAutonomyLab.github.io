@@ -1316,8 +1316,8 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
           short: 'Nano quadrotors',
           blurb: 'Palm-sized quadrotors for multi-robot flight experiments indoors.',
           image: null, video: null},
-        { slug: 'resizable-drone', name: 'Custom Resizable Drone', chip: 'Resizable Drone', kind: 'Aerial', group: 'Aerial Vehicles',
-          short: 'Lab-built quadrotor',
+        { slug: 'resizable-drone', name: 'Custom UAVs', chip: 'Resizable Drone', kind: 'Aerial', group: 'Aerial Vehicles',
+          short: '',
           blurb: 'A quadrotor designed and built in the lab, with a frame that can be resized.',
           image: null, video: null },
         { slug: 'evtol', name: 'VTOL vehicles', chip: 'VTOL', kind: 'Aerial', group: 'Aerial Vehicles',
@@ -3115,11 +3115,12 @@ ${p.slug === 'tag' ? '' : `
   .dd-list a[href="#/platforms/tag"] span { font-size: inherit; font-weight: 700; line-height: 1.25; color: var(--plum); }   /* same size and weight as TAG; the red T, A, G stay red */
   .dd-list a[href="#/platforms/tag"] span b { font-weight: inherit; }   /* the red initials are no heavier than the words around them */
 </style>
-<!-- ===== Looping videos in the Research Platforms cards: Racing RC Cars, Omnidirectional Ground Vehicles, TAG =====
+<!-- ===== Looping videos in the Research Platforms cards: Racing RC Cars, Omnidirectional Ground Vehicles, TAG, Custom Resizable Drone =====
      ONE block for all three cards. It REPLACES the earlier separate blocks: delete the old "Racing RC Cars" video block, the
      "Racing RC Cars card: fill the pink box" style and the "Omnidirectional" block (everything from the first of those comments down to
      the end of the Omnidirectional </script>), then paste this just before the last </body>.
-     Files it uses:  videos/robots/ground/rc_cars_arena.mp4 / .jpg,  videos/robots/ground/omni_car.mp4 / .jpg,  videos/TAG/tag_card.mp4 / .jpg
+     Files it uses:  videos/robots/ground/rc_cars_arena.mp4 / .jpg,  videos/robots/ground/omni_car.mp4 / .jpg,  videos/TAG/tag_card.mp4 / .jpg,
+                     videos/robots/aerial/resizable_drone.mp4 / .jpg
      Each card shows a muted, looping, auto-playing video that fills the card box with a small gap. A video that cannot load is given up on
      once (no retries) and its card keeps its picture. Honors the "Pause motion" button and the visitor's reduced-motion setting. -->
 <style id="platform-loop-videos">
@@ -3147,6 +3148,10 @@ ${p.slug === 'tag' ? '' : `
     #families .tile.tone-tag:has(video.loopvid) .art { flex: 1 1 0; min-height: 90px; display: flex; }
     #families .tile.tone-tag:has(video.loopvid) .art video.loopvid { flex: 1 1 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: auto; }
   }
+  /* ---- Custom Resizable Drone card: the video is a square cut from the portrait original, centred on the drone's flight path. This card's title is the
+         longest of the Aerial cards, so it sets the row height: the video keeps a fixed 3:2 shape (only the top and bottom edges of the square are trimmed,
+         well clear of the drone) and the row grows by just a few pixels ---- */
+  #families .tile.tone-resizable-drone:has(video.loopvid) .art video.loopvid { aspect-ratio: 1.5 / 1; object-fit: cover; object-position: 50% 50%; }
 </style>
 <script id="platform-loop-videos-js">
 (function () {
@@ -3154,7 +3159,8 @@ ${p.slug === 'tag' ? '' : `
   var CARDS = [
     { slug: 'rc-cars', src: 'videos/robots/ground/rc_cars_arena.mp4', poster: 'videos/robots/ground/rc_cars_arena.jpg' },
     { slug: 'omni',    src: 'videos/robots/ground/omni_car.mp4',      poster: 'videos/robots/ground/omni_car.jpg' },
-    { slug: 'tag',     src: 'videos/TAG/tag_card.mp4',                poster: 'videos/TAG/tag_card.jpg' }
+    { slug: 'tag',     src: 'videos/TAG/tag_card.mp4',                poster: 'videos/TAG/tag_card.jpg' },
+    { slug: 'resizable-drone', src: 'videos/robots/aerial/resizable_drone.mp4', poster: 'videos/robots/aerial/resizable_drone.jpg' }
   ];
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)'), vids = [], failed = {};
 
