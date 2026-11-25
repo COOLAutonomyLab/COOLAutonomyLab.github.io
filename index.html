@@ -3168,5 +3168,15 @@ ${p.slug === 'tag' ? '' : `
 })();
 </script>
 
+<!-- ===== Racing RC Cars card: make the video fill the pink box, with a small gap all round =====
+     Paste this just after the earlier "Racing RC Cars" video block (anywhere before the last </body> works).
+     It only applies while the video is on the card; if the video cannot load, the card looks exactly as before. -->
+<style id="rc-loop-video-fit">
+  #families .tile:has(video.loopvid) { --g: clamp(8px, 1vw, 12px); --p: clamp(16px, 2vw, 24px); padding: var(--g); }          /* gap between the video and the card's edge */
+  #families .tile:has(video.loopvid) .tile-text { padding: 0 calc(var(--p) - var(--g)) calc(var(--p) - var(--g)); }            /* text keeps its usual indent */
+  #families .tile:has(video.loopvid) .art { padding: 0; margin-bottom: 8px; }
+  #families .tile:has(video.loopvid) .art video.loopvid { aspect-ratio: 1.35 / 1; border-radius: max(8px, calc(var(--r-lg) - var(--g))); }  /* corners follow the card's curve */
+  @media (min-width: 900px) and (max-width: 1100px) { #families .tile:has(video.loopvid) .art video.loopvid { aspect-ratio: 1.5 / 1; } }   /* narrow cards: a little wider shape so the row does not grow */
+</style>
 </body>
 </html>
