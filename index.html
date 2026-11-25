@@ -39,11 +39,11 @@
     }
     /* One colour per platform, reused everywhere that platform appears. Each tone also fixes the
        text colour and the illustration colours that sit on it, so tones can nest safely. */
-    :root, .tone-crazyflie, .tone-resizable-drone, .tone-evtol, .tone-rc-cars, .tone-omni, .tone-tag {
+    :root, .tone-crazyflie, .tone-custom-UAV, .tone-evtol, .tone-rc-cars, .tone-omni, .tone-tag {
       --on-tone: var(--plum); --il: var(--plum); --ib: #fff; --is: rgba(255, 255, 255, .6); --ia: var(--berry); --ias: var(--berry);
     }
     .tone-crazyflie, .tag-crazyflie, .chip-crazyflie { --tone: var(--sky); }
-    .tone-resizable-drone, .tag-resizable-drone, .chip-resizable-drone { --tone: var(--lilac); }
+    .tone-custom-UAV, .tag-custom-UAV, .chip-custom-UAV { --tone: var(--lilac); }
     .tone-rc-cars, .tag-rc-cars, .chip-rc-cars { --tone: var(--rose); }
     .tone-omni, .tag-omni, .chip-omni { --tone: var(--mint); }
     .tone-tag, .tag-tag, .chip-tag { --tone: var(--lemon); }
@@ -472,7 +472,7 @@ window.addEventListener('message', event => {
       <path class="il-a" d="M120 45l6.5 12h-13z"/>
     </symbol>
 
-    <symbol id="ill-resizable-drone" viewBox="0 0 240 160">
+    <symbol id="ill-custom-UAV" viewBox="0 0 240 160">
       <g class="il-dim"><path class="il-s il-thin" d="M59 4v6M181 4v6M59 7h122"/></g>
       <path class="il-s il-dsh il-thin" d="M120 80 59 27M120 80 181 27M120 80 59 133M120 80 181 133"/>
       <circle class="il-s il-dsh" cx="59" cy="27" r="16"/><circle class="il-s il-dsh" cx="181" cy="27" r="16"/>
@@ -1316,7 +1316,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
           short: '',
           blurb: 'Palm-sized quadrotors for multi-robot flight experiments indoors.',
           image: null, video: null},
-        { slug: 'custom-UAV', name: 'Custom UAVs', chip: 'Custom UAV', kind: 'Aerial', group: 'Aerial Vehicles',
+        { slug: 'custom-UAV', name: 'Custom UAVs', chip: 'Custom UAVs', kind: 'Aerial', group: 'Aerial Vehicles',
           short: '',
           blurb: 'A quadrotor designed and built in the lab, with a frame that can be resized.',
           image: null, video: null },
@@ -3151,12 +3151,12 @@ ${p.slug === 'tag' ? '' : `
     #families .tile.tone-omni:has(video.loopvid) .art video.loopvid { flex: 1 1 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: auto; object-fit: cover; object-position: 50% 45%; }
 
     /* Aerial row: Crazyflie and Custom UAVs videos keep at least a 3:2 shape and grow to fill any space left above the text (only top and bottom edges are trimmed) */
-    #families .tile.tone-resizable-drone:has(video.loopvid) .art,
+    #families .tile.tone-custom-UAV:has(video.loopvid) .art,
     #families .tile.tone-crazyflie:has(video.loopvid) .art { flex: 1 1 auto; display: flex; container-type: inline-size; }
-    #families .tile.tone-resizable-drone:has(video.loopvid) .art video.loopvid,
+    #families .tile.tone-custom-UAV:has(video.loopvid) .art video.loopvid,
     #families .tile.tone-crazyflie:has(video.loopvid) .art video.loopvid { flex: 1 1 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: 1.5 / 1; object-fit: cover; object-position: 50% 50%; }
     #families .tile.tone-crazyflie:has(video.loopvid) .art video.loopvid { object-position: 50% 100%; max-height: 75cqw; }   /* these drones fly low over the floor: keep the floor; never taller than the picture's own 4:3 shape */
-    #families .tile.tone-resizable-drone:has(video.loopvid) .art video.loopvid { max-height: 100cqw; }                         /* the UAV video is square: never taller than wide, so the drone is never cut off at the sides */
+    #families .tile.tone-custom-UAV:has(video.loopvid) .art video.loopvid { max-height: 100cqw; }                         /* the UAV video is square: never taller than wide, so the drone is never cut off at the sides */
 
     /* Game Testbed: the box is only as wide as its one-line title needs (video above, title and "Twin in Exodia" below) */
     #families .tile.tone-tag { width: max-content; max-width: 100%; }
@@ -3194,7 +3194,7 @@ ${p.slug === 'tag' ? '' : `
     { slug: 'rc-cars', src: 'videos/robots/ground/rc_cars_arena.mp4', poster: 'videos/robots/ground/rc_cars_arena.jpg' },
     { slug: 'omni',    src: 'videos/robots/ground/omni_car.mp4',      poster: 'videos/robots/ground/omni_car.jpg' },
     { slug: 'tag',     src: 'videos/TAG/tag_card.mp4',                poster: 'videos/TAG/tag_card.jpg' },
-    { slug: 'resizable-drone', src: 'videos/robots/aerial/resizable_drone.mp4', poster: 'videos/robots/aerial/resizable_drone.jpg' },
+    { slug: 'custom-UAV', src: 'videos/robots/aerial/resizable_drone.mp4', poster: 'videos/robots/aerial/resizable_drone.jpg' },
     { slug: 'crazyflie', src: 'videos/robots/aerial/crazyflie.mp4', poster: 'videos/robots/aerial/crazyflie.jpg' }
   ];
   var reduce = window.matchMedia('(prefers-reduced-motion: reduce)'), vids = [], failed = {};
