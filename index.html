@@ -1330,7 +1330,7 @@ window.addEventListener(&#x27;load&#x27;, reportHeight);
           short: '',
           blurb: 'Ground robots that can move in any direction without turning first.',
           image: null, video: null },
-        { slug: 'tag', name: 'TAG: Testbed for Autonomous Games', chip: 'TAG', kind: 'Game', group: 'Game Testbed',
+        { slug: 'tag', name: 'TAG', chip: 'TAG', kind: 'Game', group: 'Game Testbed',
           short: '',
           blurb: 'Testbed for Autonomous Games: a tilting labyrinth board, a marble, and a rotary pendulum riding on top.',
           image: 'images/research/TAG/tag_physical_hardware.png', video: 'videos/TAG/tag_real.mp4' },
@@ -3115,7 +3115,7 @@ ${p.slug === 'tag' ? '' : `
   .dd-list a[href="#/platforms/tag"] span { font-size: inherit; font-weight: 700; line-height: 1.25; color: var(--plum); }   /* same size and weight as TAG; the red T, A, G stay red */
   .dd-list a[href="#/platforms/tag"] span b { font-weight: inherit; }   /* the red initials are no heavier than the words around them */
 </style>
-<!-- ===== Looping videos in the Research Platforms cards: Racing RC Cars, Omnidirectional Ground Vehicles, TAG, Custom UAVs, Crazyflie =====
+<!-- ===== Looping videos in the Research Platforms cards: Racing RC Cars, Omnidirectional Vehicles, TAG, Custom UAVs, Crazyflie, plus the card layout =====
      ONE block for all three cards. It REPLACES the earlier separate blocks: delete the old "Racing RC Cars" video block, the
      "Racing RC Cars card: fill the pink box" style and the "Omnidirectional" block (everything from the first of those comments down to
      the end of the Omnidirectional </script>), then paste this just before the last </body>.
@@ -3124,42 +3124,68 @@ ${p.slug === 'tag' ? '' : `
      Each card shows a muted, looping, auto-playing video that fills the card box with a small gap. A video is only downloaded when its
      card is near the screen. A video that cannot load is given up on once (no retries) and its card keeps its picture. Honors the "Pause motion" button and the visitor's reduced-motion setting. -->
 <style id="platform-loop-videos">
-  /* ---- video look: same size and corners as a photo in a card (3:2, rounded) ---- */
-  /* same size and corners as a photo in a card (img.media: 3:2, rounded), so the pink card keeps its shape */
-  #families .tile .art video.loopvid { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: var(--r-md); background: rgba(255, 255, 255, .35); }
+  /* ============ 1. SPACING: videos and text sit closer to the border of every box (and the Exodia box) ============ */
+  #families .tile { --g: clamp(6px, .65vw, 8px); --p: clamp(10px, 1.1vw, 14px); padding: var(--g); }       /* --g: gap from the border to the video; --p: gap from the border to the text */
+  #families .tile .tile-text { padding: 0 calc(var(--p) - var(--g)) calc(var(--p) - var(--g)); }
+  #hub .tile-hub { padding: clamp(12px, 1.6vw, 22px) clamp(14px, 1.8vw, 26px); }
 
-  /* ---- fill the card with a small gap all round (racing cars) ---- */
-  #families .tile:has(video.loopvid) { --g: clamp(8px, 1vw, 12px); --p: clamp(16px, 2vw, 24px); padding: var(--g); }          /* gap between the video and the card's edge */
-  #families .tile:has(video.loopvid) .tile-text { padding: 0 calc(var(--p) - var(--g)) calc(var(--p) - var(--g)); }            /* text keeps its usual indent */
+  /* ============ 2. VIDEO LOOK: rounded like the box, small gap above the title ============ */
+  #families .tile .art video.loopvid { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: max(8px, calc(var(--r-lg) - var(--g))); background: rgba(255, 255, 255, .35); }
   #families .tile:has(video.loopvid) .art { padding: 0; margin-bottom: 8px; }
-  #families .tile:has(video.loopvid) .art video.loopvid { aspect-ratio: 1.35 / 1; border-radius: max(8px, calc(var(--r-lg) - var(--g))); }  /* corners follow the card's curve */
-  @media (min-width: 900px) and (max-width: 1100px) { #families .tile:has(video.loopvid) .art video.loopvid { aspect-ratio: 1.5 / 1; } }   /* narrow cards: a little wider shape so the row does not grow */
+  #families .tile:has(video.loopvid) .art video.loopvid { aspect-ratio: 1.35 / 1; }
 
-  /* ---- Omnidirectional card: fills the space left above its two-line title, so the row never grows ---- */
-  /* This card's title is two lines, so it has less room for the picture than the racing-car card. Instead of a fixed shape,
-     the video fills the space left above the text (same small gap as the racing-car card), so the row never grows. */
-  #families .tile.tone-omni:has(video.loopvid) .art { flex: 1 1 0; min-height: 90px; display: flex; }
-  #families .tile.tone-omni:has(video.loopvid) .art video.loopvid { flex: 1 1 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: auto; object-fit: cover; object-position: 50% 45%; }
+  /* ============ 3. TAG card: title "TAG: Testbed for Autonomous Games" with red initials; the duplicate line under it is hidden, "Twin in Exodia" stays ============ */
+  #families .tile.tone-tag .tile-name b { color: var(--berry); }
+  #families .tile.tone-tag .tile-short { display: none; }
+  #families .tile.tone-tag:has(video.loopvid) .art video.loopvid { object-fit: contain; background: #000; }   /* the marble travels to every edge: never crop the board */
 
-  /* ---- TAG card: show the whole board (the marble travels to every edge), black margins if the box is wider. On wide screens it fills
-         the space above its two-line subtitle, like the Omnidirectional card; below 1000px the card is side by side and keeps a fixed shape ---- */
-  #families .tile.tone-tag:has(video.loopvid) .art video.loopvid { object-fit: contain; background: #000; }
+  /* ============ 4. DESKTOP (wider than 1000px): Aerial is one full row of three, Ground keeps its usual size, Game Testbed has its own row ============ */
   @media (min-width: 1001px) {
-    #families .tile.tone-tag:has(video.loopvid) .art { flex: 1 1 0; min-height: 90px; display: flex; }
-    #families .tile.tone-tag:has(video.loopvid) .art video.loopvid { flex: 1 1 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: auto; }
+    #families .family:has(.tile.tone-crazyflie), #families .family:has(.tile.tone-tag) { grid-column: 1 / -1; }    /* Ground keeps its usual width: two of the three columns */
+
+    /* narrow desktop windows: a slightly wider video shape so the boxes do not grow taller */
+    @media (max-width: 1100px) { #families .tile:has(video.loopvid) .art video.loopvid { aspect-ratio: 1.5 / 1; } }
+
+    /* Omnidirectional card: fills the space left above its title, so it matches the racing-car box */
+    #families .tile.tone-omni:has(video.loopvid) .art { flex: 1 1 0; min-height: 90px; display: flex; }
+    #families .tile.tone-omni:has(video.loopvid) .art video.loopvid { flex: 1 1 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: auto; object-fit: cover; object-position: 50% 45%; }
+
+    /* Aerial row: Crazyflie and Custom UAVs videos keep at least a 3:2 shape and grow to fill any space left above the text (only top and bottom edges are trimmed) */
+    #families .tile.tone-resizable-drone:has(video.loopvid) .art,
+    #families .tile.tone-crazyflie:has(video.loopvid) .art { flex: 1 1 auto; display: flex; container-type: inline-size; }
+    #families .tile.tone-resizable-drone:has(video.loopvid) .art video.loopvid,
+    #families .tile.tone-crazyflie:has(video.loopvid) .art video.loopvid { flex: 1 1 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: 1.5 / 1; object-fit: cover; object-position: 50% 50%; }
+    #families .tile.tone-crazyflie:has(video.loopvid) .art video.loopvid { object-position: 50% 100%; max-height: 75cqw; }   /* these drones fly low over the floor: keep the floor; never taller than the picture's own 4:3 shape */
+    #families .tile.tone-resizable-drone:has(video.loopvid) .art video.loopvid { max-height: 100cqw; }                         /* the UAV video is square: never taller than wide, so the drone is never cut off at the sides */
+
+    /* Game Testbed: the box is only as wide as its one-line title needs (video above, title and "Twin in Exodia" below) */
+    #families .tile.tone-tag { width: max-content; max-width: 100%; }
+    #families .tile.tone-tag .art { contain: inline-size; }                    /* the picture follows the box width; it does not widen the box */
+    #families .tile.tone-tag .tile-name { white-space: nowrap; }
   }
-  /* ---- Aerial cards with a video (Custom UAVs, Crazyflie): the video keeps at least a 3:2 shape and grows to fill any space the row has left above
-         the text, so the gap to the title stays as small as on the other cards. Only the top and bottom edges of the picture are ever trimmed. ---- */
-  #families .tile.tone-resizable-drone:has(video.loopvid) .art,
-  #families .tile.tone-crazyflie:has(video.loopvid) .art { flex: 1 1 auto; display: flex; }
-  #families .tile.tone-resizable-drone:has(video.loopvid) .art video.loopvid,
-  #families .tile.tone-crazyflie:has(video.loopvid) .art video.loopvid { flex: 1 1 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: 1.5 / 1; object-fit: cover; object-position: 50% 50%; }
-  #families .tile.tone-crazyflie:has(video.loopvid) .art video.loopvid { object-position: 50% 100%; }   /* these drones fly low over the floor: trim the ceiling, keep the floor */
-  /* On narrow phone cards the leftover space is tall: never let the box get taller than the picture's own shape (square for the UAV, 4:3 for the Crazyflie),
-     so the sides are never trimmed and no drone is cut off. */
-  #families .tile.tone-resizable-drone:has(video.loopvid) .art, #families .tile.tone-crazyflie:has(video.loopvid) .art { container-type: inline-size; }
-  #families .tile.tone-resizable-drone:has(video.loopvid) .art video.loopvid { max-height: 100cqw; }
-  #families .tile.tone-crazyflie:has(video.loopvid) .art video.loopvid { max-height: 75cqw; }
+
+  /* narrow desktop windows (1001-1099px): two Ground boxes at their usual width would be too narrow for the racing-car title, so the Ground row uses the full width there */
+  @media (min-width: 1001px) and (max-width: 1099px) {
+    #families .family:has(.tile.tone-rc-cars) { grid-column: 1 / -1; }
+  }
+
+  /* ============ 5. TABLET (up to 1000px): one box per row, picture on the left, title on the right ============ */
+  @media (max-width: 1000px) {
+    #families .family-tiles { grid-auto-flow: row; grid-template-columns: minmax(0, 1fr); }
+    #families .tile { flex-direction: row; align-items: center; gap: 14px; }
+    #families .tile .art { flex: 0 0 min(40%, 240px); padding: 0; margin-bottom: 0; display: block; }
+    #families .tile .tile-text { margin-top: 0; padding: 0 calc(var(--p) - var(--g)); }
+    #families .tile:has(video.loopvid) .art video.loopvid { aspect-ratio: 1.5 / 1; height: auto; }
+  }
+
+  /* ============ 6. PHONE (up to 760px): one box per row, picture on top, title below it (font fitted so even the longest title stays on one line) ============ */
+  @media (max-width: 760px) {
+    #families .tile { flex-direction: column; align-items: stretch; gap: 4px; }
+    #families .tile .art { flex: none; width: 100%; margin-bottom: 8px; }
+    #families .tile .tile-text { margin-top: auto; padding: 0 calc(var(--p) - var(--g)) calc(var(--p) - var(--g)); }
+    #families .tile .tile-name { font-size: min(1.375rem, calc((100vw - 76px) / 17.5)); }
+    #families .tile.tone-tag .tile-text { padding: 0 calc(var(--p) - var(--g)) calc(var(--p) - var(--g)); }
+  }
 </style>
 <script id="platform-loop-videos-js">
 (function () {
@@ -3218,7 +3244,15 @@ ${p.slug === 'tag' ? '' : `
     if (loadIo) loadIo.observe(v); else { v.preload = 'auto'; v.src = card.src; }
     if (io) io.observe(v); else sync(v);
   }
-  function buildAll() { CARDS.forEach(build); }
+  /* TAG card title on the Platforms page: "TAG: Testbed for Autonomous Games" with the first letters T, A, G in red.
+     Only this page's card is changed; the platform's name ("TAG") stays as it is everywhere else on the site. */
+  function fixTagTitle() {
+    var n = document.querySelector('#families .tile.tone-tag .tile-name');
+    if (!n || n.getAttribute('data-initials')) return;
+    n.setAttribute('data-initials', '1');
+    n.innerHTML = 'TAG: <b>T</b>estbed for <b>A</b>utonomous <b>G</b>ames';
+  }
+  function buildAll() { fixTagTitle(); CARDS.forEach(build); }
 
   var queued = false;
   function queue() { if (queued) return; queued = true; requestAnimationFrame(function () { queued = false; buildAll(); }); }
