@@ -3178,5 +3178,61 @@ ${p.slug === 'tag' ? '' : `
   #families .tile:has(video.loopvid) .art video.loopvid { aspect-ratio: 1.35 / 1; border-radius: max(8px, calc(var(--r-lg) - var(--g))); }  /* corners follow the card's curve */
   @media (min-width: 900px) and (max-width: 1100px) { #families .tile:has(video.loopvid) .art video.loopvid { aspect-ratio: 1.5 / 1; } }   /* narrow cards: a little wider shape so the row does not grow */
 </style>
+<!-- ===== Omnidirectional Ground Vehicles: looping video in its card on the Research Platforms page =====
+     Paste this whole block into index.html just before the last </body>, after the Racing RC Cars blocks.
+     Needs two files in the repo:  videos/robots/ground/omni_car.mp4  and  videos/robots/ground/omni_car.jpg
+     Uses the same video look and gaps as the Racing RC Cars card (needs the racing-car fit style already on the page). If the video cannot load, the card keeps its drawing.
+     Honors the "Pause motion" button and the visitor's reduced-motion setting. -->
+<style id="omni-loop-video-fit">
+  /* This card's title is two lines, so it has less room for the picture than the racing-car card. Instead of a fixed shape,
+     the video fills the space left above the text (same small gap as the racing-car card), so the row never grows. */
+  #families .tile.tone-omni:has(video.loopvid) .art { flex: 1 1 0; min-height: 90px; display: flex; }
+  #families .tile.tone-omni:has(video.loopvid) .art video.loopvid { flex: 1 1 auto; width: 100%; height: auto; min-height: 0; aspect-ratio: auto; object-fit: cover; object-position: 50% 45%; }
+</style>
+<script id="omni-loop-video">
+(function () {
+  'use strict';
+  var SRC = 'videos/robots/ground/omni_car.mp4', POSTER = 'videos/robots/ground/omni_car.jpg', SLUG = 'omni';
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)'), vids = [];
+
+  /* plays only when motion is allowed, the card is on screen (page open) and the tab is visible */
+  function allowed() { return !reduce.matches && !document.body.classList.contains('motion-paused'); }
+  function sync(v) {
+    if (allowed() && v._seen && !document.hidden) { var p = v.play(); if (p && p.catch) p.catch(function () {}); }
+    else if (!v.paused) v.pause();
+  }
+  var io = 'IntersectionObserver' in window ? new IntersectionObserver(function (es) {
+    es.forEach(function (e) { e.target._seen = e.isIntersecting; sync(e.target); });
+  }, { threshold: 0.2 }) : null;
+
+  function build() {
+    var art = document.querySelector('#families .tile.tone-' + SLUG + ' .art');
+    if (!art || art.querySelector('video.loopvid')) return;
+    var old = art.querySelector('.media'), v = document.createElement('video');
+    v.className = 'media loopvid'; v.src = SRC; v.poster = POSTER;
+    v.muted = true; v.defaultMuted = true; v.loop = true; v.autoplay = true; v.playsInline = true; v.preload = 'auto';
+    v.setAttribute('muted', ''); v.setAttribute('loop', ''); v.setAttribute('autoplay', ''); v.setAttribute('playsinline', '');
+    v.setAttribute('aria-hidden', 'true'); v.tabIndex = -1; v.disablePictureInPicture = true; v.setAttribute('disableremoteplayback', '');
+    v.addEventListener('error', function () { if (old && v.parentNode) v.parentNode.replaceChild(old, v); });   /* file missing or unsupported: keep the drawing */
+    v.addEventListener('canplay', function () { sync(v); });
+    if (old) old.parentNode.replaceChild(v, old); else art.appendChild(v);
+    vids.push(v); v._seen = !io;
+    if (io) io.observe(v); else sync(v);
+  }
+
+  var queued = false;
+  function queue() { if (queued) return; queued = true; requestAnimationFrame(function () { queued = false; build(); }); }
+  build();
+  document.addEventListener('DOMContentLoaded', build);
+  window.addEventListener('load', build);
+  var fam = document.getElementById('families');
+  if (fam && 'MutationObserver' in window) new MutationObserver(queue).observe(fam, { childList: true, subtree: true });
+  /* the page's "Pause motion" button toggles a class on <body>; follow it, and the OS setting, and tab visibility */
+  if ('MutationObserver' in window) new MutationObserver(function () { vids.forEach(sync); }).observe(document.body, { attributes: true, attributeFilter: ['class'] });
+  if (reduce.addEventListener) reduce.addEventListener('change', function () { vids.forEach(sync); });
+  document.addEventListener('visibilitychange', function () { vids.forEach(sync); });
+})();
+</script>
+
 </body>
 </html>
