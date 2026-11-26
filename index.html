@@ -165,10 +165,11 @@
     .theme-pills li { display: inline-flex; align-items: center; gap: 7px; font-weight: 500; font-size: .9375rem; line-height: 1.3; padding: 8px 13px 8px 10px; border-radius: 99px; background: var(--tone); white-space: nowrap; }
 
     /* ---------- Home: hiring ---------- */
-    .hiring { display: grid; grid-template-columns: minmax(0, 1fr) clamp(140px, 22vw, 260px); gap: clamp(20px, 4vw, 56px); align-items: center; background: var(--lilac); border-radius: var(--r-lg); padding: clamp(26px, 4.4vw, 60px); }
+    .hiring { display: grid; grid-template-columns: minmax(0, 1fr) clamp(260px, 28vw, 360px); gap: clamp(14px, 2.4vw, 32px); align-items: center; background: var(--lilac); border-radius: var(--r-lg); padding: clamp(12px, 1.6vw, 22px) clamp(14px, 1.8vw, 26px); }
     .hiring p { font-size: clamp(1.0625rem, 1.5vw, 1.1875rem); max-width: 60ch; margin-top: 14px; }
-    .hiring-art { background: #fff; border-radius: 50%; aspect-ratio: 1; display: grid; place-items: center; transform: rotate(-6deg); }
-    .hiring-art .ill { width: 74%; }
+    /* the picture is the Exodia board from the Research Platforms page, on a plum plate (same look as the Exodia box) */
+    .hiring-art { background: var(--tone); border-radius: max(10px, calc(var(--r-lg) - clamp(12px, 1.6vw, 22px))); padding: clamp(8px, 1vw, 14px); }
+    @media (max-width: 700px) { .hiring { grid-template-columns: minmax(0, 1fr); } .hiring-art { display: none; } }   /* too narrow for the text and the board side by side: text only, as on phones */
     /* ---------- Project pages: "problem and results" + video demonstration box (same look as the hiring box) ---------- */
     .demo-box { display: grid; grid-template-columns: minmax(0, 1.28fr) minmax(0, 1fr); gap: clamp(18px, 2.6vw, 36px); align-items: stretch; background: var(--lilac); border-radius: var(--r-lg); padding: clamp(18px, 2.6vw, 34px); margin: 44px 0; }
     .demo-text { display: flex; flex-direction: column; justify-content: space-between; min-width: 0; }   /* left column: extra height is spread between its items, so its last item ends level with the right column */
@@ -648,7 +649,7 @@ window.addEventListener('message', event => {
               <a class="btn btn-line" href="#/join">How to apply</a>
             </div>
           </div>
-          <div class="hiring-art" aria-hidden="true"><svg class="ill" viewBox="0 0 240 160"><use href="#ill-crazyflie"/></svg></div>
+          <div class="hiring-art tone-exodia" id="hiringArt" aria-hidden="true"></div>
         </div>
       </div>
 
@@ -2102,6 +2103,7 @@ ${p.slug === 'tag' ? '' : `
             <span><span class="kicker">Our flagship simulator</span><strong class="tile-name" style="display:block">${esc(FLAGSHIP.name)}</strong><span class="d">${esc(FLAGSHIP.blurb)}</span></span>
             ${board()}
           </div>`;
+        $('#hiringArt').innerHTML = board();   /* the home page "We're hiring" box shows the same board */
         const families = [];
         HARDWARE.forEach(p => { const last = families[families.length - 1]; if (last && last.name === p.group) last.items.push(p); else families.push({ name: p.group, items: [p] }); });
         $('#families').innerHTML = families.map(f => `<section class="family${f.items.length > 1 ? ' two' : ''}"><h3>${esc(f.name)}</h3><div class="family-tiles">${f.items.map(tile).join('')}</div></section>`).join('');
